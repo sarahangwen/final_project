@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Director's Dashboard</title>
+  <link rel="stylesheet" href="/public/css/director-dashboard.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#total-sales">Total Sales</a></li>
+        <li><a href="#credit-sales">Credit Sales</a></li>
+        <li><a href="#branch-sales">Branch-wise Sales</a></li>
+        <li><a href="#logout" id="logout-button">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section id="total-sales">
+      <h2>Total Sales</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Sales in UGX</td>
+            <td><span id="total-sales-amount">₣ 0</span></td>
+          </tr>
+          <tr>
+            <td>Total Tonnes Sold</td>
+            <td><span id="total-tonnes-sold">0</span> kg</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="credit-sales">
+      <h2>Credit Sales</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Credit Sales Amount</td>
+            <td><span id="credit-sales-amount">₣ 0</span></td>
+          </tr>
+          <tr>
+            <td>Total Credit Sales Tonnes</td>
+            <td><span id="credit-tonnes-sold">0</span> kg</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="branch-sales">
+      <h2>Branch-wise Sales</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>Sales Amount</th>
+            <th>Tonnage Sold</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Maganjo Branch</td>
+            <td><span id="magranjo-sales-amount">₣ 0</span></td>
+            <td><span id="magranjo-tonnage-sold">0</span> kg</td>
+          </tr>
+          <tr>
+            <td>Matugga Branch</td>
+            <td><span id="matugga-sales-amount">₣ 0</span></td>
+            <td><span id="matugga-tonnage-sold">0</span> kg</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Karibu Groceries LTD. All rights reserved.</p>
+  </footer>
+
+  <script src="/public/js/director-dashboard.js"></script>
+</body>
+</html>
+
+

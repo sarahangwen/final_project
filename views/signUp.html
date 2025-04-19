@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../css/signUp.css">  -->
+    <link rel="stylesheet" href="../public/css/signUp.css"> 
+</head>
+<body>
+    <br>
+    <div class="container">
+        <form id="signUpForm" action="signUp/addUser" method="POST">
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="detail">First Name</span>
+                    <input type="text" name="fname" id="firstName" placeholder="" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Last Name</span>
+                    <input type="text" name="lname" id="lastName" placeholder="" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Phone Number</span>
+                    <input type="text" name="pname" id="phoneNumber" placeholder="" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Email</span>
+                    <input type="email"  name="email" id="email" placeholder="" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Password</span>
+                    <input type="password" id="password" name="password" placeholder="" required>
+                </div>
+                <div class="input-box">
+                    <span class="detail">Confirm Password</span>
+                    <input type="password" id="confirmPassword" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select Role</option>
+                        <option value="director">Director</option>
+                        <option value="manager">Manager</option>
+                        <option value="sales">Sales Agent</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="branch">Branch</label>
+                    <select id="branch" name="branch" required>
+                        <option value="">Select Branch</option>
+                        <option value="matugga">Matugga</option>
+                        <option value="maganjo">Maganjo</option>
+                    </select>
+                </div>
+                <div class="button">
+                    <button type="submit">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+    crossorigin="anonymous"></script>
+    <script src="/js/signUp.js"></script>  
+</body>

@@ -1,0 +1,23 @@
+
+body {
+    background-color: #4d565f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+.login-container {
+    background: #5f666d;
+    padding: 30px;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(192, 187, 187, 0.2);
+}
+.input-group-text {
+    cursor: pointer;
+}
+
+
+ 

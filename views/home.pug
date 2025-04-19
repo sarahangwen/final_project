@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Karibu Groceries Ltd - Dashboard
+    link(rel='stylesheet' href='/css/home.css')
+  body
+    header
+      h1 Karibu Groceries Ltd (KGL)
+      nav
+        ul
+          li: a(href='#home') Home
+          li: a(href='#operations') Operations
+          li: a(href='#rules') Business Rules
+          li: a(href='/login') Login     
+    main
+      section#home.intro
+        h2 Welcome to KGL Management System
+        p
+          | Karibu Groceries Ltd (KGL) is a trusted wholesale distributor of high-quality cereals—Beans, Grain Maize, Cow Peas, Groundnuts, and Soybeans. We source from reputable dealers, companies, and our farms in Maganjo and Matugga across two major branches.
+      section#operations
+        h2 System Operations
+        .grid
+          .card
+            h3 Procurement
+            p
+              | Managers record new stock entries, including produce type, dealer details, quantity, cost price, and selling price for each branch.
+          .card
+            h3 Sales
+            p
+              | Sales Agents record sales transactions. Only available stock can be sold; stock levels update automatically after every sale.
+          .card
+            h3 Credit Sales
+            p
+              | Selected buyers can purchase on credit. Full records of buyer details, produce sold, credit terms, and due dates are maintained.
+          .card
+            h3 Branch Management
+            p
+              | Each branch is overseen by a Manager and two Sales Agents to ensure efficient procurement, stock management, and sales recording.
+      section#rules
+        h2 Business Rules
+        ul
+          li Sales can only occur if stock is available; managers receive out-of-stock alerts.
+          li Stock tonnage is automatically reduced after each sale.
+          li Sales Agents are restricted from creating or modifying produce entries.
+          li Pricing can only be set and adjusted by Managers.
+    footer
+      p &copy; 2025 Karibu Groceries Ltd | Catalyst Program
+    script(src='')

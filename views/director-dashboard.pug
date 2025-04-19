@@ -1,0 +1,110 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Director&apos;s Dashboard
+    link(rel='stylesheet' href='/css/director-dashboard.css')
+
+  // Navbar
+  header
+    nav
+      ul
+        li
+          a(href='#total-sales') Total Sales
+        li
+          a(href='#credit-sales') Credit Sales
+        li
+          a(href='#branch-sales') Branch-wise Sales
+        li
+          a(href='#product-sales') Product Sales
+        li
+          a#logout-button(href='#logout') Logout
+
+  // Main Content
+  main
+    section#total-sales
+      h2 Total Sales
+      table
+        thead
+          tr
+            th Description
+            th Amount
+        tbody
+          tr
+            td Total Sales in UGX
+            td
+              span#total-sales-amount &#x20A3; #{totalRevenue.totalsale}
+          tr
+            td Total Tonnes Sold
+            td
+              span#total-tonnes-sold #{totalRevenue.totalquantitysold} 
+              |  kg
+
+    section#credit-sales
+      h2 Credit Sales
+      table
+        thead
+          tr
+            th Description
+            th Amount
+        tbody
+          tr
+            td Total Credit Sales Amount
+            td
+              span#credit-sales-amount &#x20A3; 0
+          tr
+            td Total Credit Sales Tonnes
+            td
+              span#credit-tonnes-sold 0
+              |  kg
+
+    section#branch-sales
+      h2 Branch-wise Sales
+      table
+        thead
+          tr
+            th Branch
+            th Sales Amount
+            th Tonnage Sold
+        tbody
+          tr
+            td Maganjo Branch
+            td
+              span#magranjo-sales-amount &#x20A3; 0
+            td
+              span#magranjo-tonnage-sold 0
+              |  kg
+          tr
+            td Matugga Branch
+            td
+              span#matugga-sales-amount &#x20A3; 0
+            td
+              span#matugga-tonnage-sold 0
+              |  kg
+
+    section#product-sales
+      h2 Total Sales per Product (All Branches)
+      table
+        thead
+          tr
+            th Product
+            th Total Quantity Sold (kg)
+            th Total Sales Amount (UGX)
+        tbody
+          // Check if productSales is defined and has length
+          if productSales && productSales.length
+            each productSale in productSales
+              tr
+                td= productSale.produceName
+                td
+                  span.product-qty= productSale.totalQuantity
+                td
+                  span.product-sales &#x20A3; #{productSale.totalSales}
+          else
+            tr
+              td(colspan="3") No product sales data available.
+  footer
+    p &copy; 2025 Karibu Groceries LTD. All rights reserved.
+
+  script(src='/js/director-dashboard.js')

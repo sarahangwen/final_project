@@ -1,0 +1,44 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Procured Items
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/css/salesLiist.css')
+  body
+    .container
+      h3.mt-5 Credit List
+      table#procuredTable.table.table-bordered.mt-3
+        thead.table-dark
+              tr
+                  th(scope='col') Buyer 
+                  th(scope='col') NIN
+                  th(scope='col') Location
+                  th(scope='col') Contact
+                  th(scope='col') Amount  Due
+                  th(scope='col') Due Date 
+                  th(scope='col') Produce Name
+                  th(scope='col') Tonnage
+                  th(scope='col') Branch 
+                  th(scope='col') Type 
+                  th(scope='col') Date of Dispatch 
+                  th(scope='col') Seller 
+        tbody
+          if credits.length 
+           each credit in credits
+              tr
+                  td #{credit.creditBuyerName}
+                  td #{credit.nationalId}
+                  td #{credit.location}
+                  td #{credit.contact}
+                  td #{credit.amountDue}
+                  td #{moment(credit.dueDate).format("DD-MM-YYYY")}
+                  td #{credit.creditProduceName}
+                  td #{credit.creditTonnage}
+                  td #{credit.creditBranchName}
+                  td #{credit.typeOfProduce}
+                  td #{moment(credit.dateOfDispatch).format("DD-MM-YYYY")}
+                  td #{credit.creditSalesAgentName}
+              script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
+              script(src='')

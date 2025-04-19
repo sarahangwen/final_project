@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register Sale - KGL Grocery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+  rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/sale.css">
+</head>
+<body>
+
+<form id="registerSaleForm">
+  <h2>Register Sale</h2>
+
+  <div class="form-group">
+    <label for="produceName">Produce Name</label>
+    <select id="produceName" name="produceName" required>
+      <option value="">Select Produce</option>
+      <option value="Maize grains">Maize grains</option>
+      <option value="Soya beans">Soya beans</option>
+      <option value="Cow peas">Cow peas</option>
+      <option value="G-nuts">G-nuts</option>
+      <option value="Maize">Maize</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="produceType">Produce Type</label>
+    <select id="produceType" name="produceType" required>
+      <option value="">Select Type</option>
+      <option value="Legume">Legume</option>
+      <option value="Cereals">Cereals</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="saleDate">Date of Sale</label>
+    <input type="date" id="saleDate" name="saleDate" required>
+  </div>
+
+  <div class="form-group">
+    <label for="saleTime">Time of Sale</label>
+    <input type="time" id="saleTime" name="saleTime" required>
+  </div>
+
+  <div class="form-group">
+    <label for="quantitySold">Quantity Sold (kgs)</label>
+    <input type="number" id="quantitySold" name="quantitySold" required min="1">
+  </div>
+
+  <div class="form-group">
+    <label for="pricePerKg">Price per Kg (UgX)</label>
+    <input type="number" id="pricePerKg" name="pricePerKg" required min="1000">
+  </div>
+
+  <div class="form-group">
+    <label for="buyerName">Buyer Name</label>
+    <input type="text" id="buyerName" name="buyerName" required pattern="[A-Za-z\s]{2,}" title="Alphabetic, minimum 2 characters">
+  </div>
+
+  <div class="form-group">
+    <label for="buyerContact">Buyer Contact</label>
+    <input type="tel" id="buyerContact" name="buyerContact" required pattern="^(\+256|0)[0-9]{9}$" title="Enter a valid Ugandan phone number">
+  </div>
+
+  <div class="form-group">
+    <label for="branchName">Branch Name</label>
+    <select id="branchName" name="branchName" required>
+      <option value="">Select Branch</option>
+      <option value="Maganjo">Maganjo</option>
+      <option value="Matugga">Matugga</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="paymentMode">Payment Mode</label>
+    <select id="paymentMode" name="paymentMode" required>
+      <option value="">Select Payment Mode</option>
+      <option value="Cash">Cash</option>
+      <option value="Credit">Credit</option>
+    </select>
+  </div>
+
+  <button type="submit">Register Sale</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+crossorigin="anonymous"></script>
+<script src=""></script>
+</body>
+</html>

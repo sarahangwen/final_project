@@ -1,0 +1,115 @@
+body {
+    font-family: Arial, sans-serif;
+    background: rgb(163, 162, 162);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 800px; /* Set max width for the form */
+    padding: 20px;
+    margin: auto; /* Center the container horizontally */
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Form layout */
+form {
+    background: whitesmoke;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-width: 400px; /* Ensure a minimum width */
+}
+
+/* Grid for form fields */
+.user-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    align-items: center;
+}
+
+.input-box,
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels and Inputs */
+.detail, label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input,
+select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Gender Section */
+.gender-details {
+    grid-column: span 2; /* Full-width */
+    margin-top: 10px;
+}
+
+.category {
+    display: flex;
+    gap: 20px;
+    grid-column: span 2; /* Full-width */
+}
+
+.category label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: #007bff;
+    margin-right: 8px;
+}
+
+/* Button */
+.button {
+    grid-column: span 2; /* Center button */
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #0056b3;
+}

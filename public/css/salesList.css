@@ -1,0 +1,72 @@
+/* salesLiist.css */
+
+/* Container */
+.container {
+  margin-top: 30px;
+}
+
+/* Table general */
+#procuredTable {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Head */
+#procuredTable thead {
+  background-color: #004d40;
+  color: #ffffff;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* Table rows */
+#procuredTable tbody tr {
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Table row hover */
+#procuredTable tbody tr:hover {
+  background-color: #e0f2f1;
+  transform: scale(1.01);
+}
+
+/* Table cells */
+#procuredTable td, 
+#procuredTable th {
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+
+/* Search input */
+#searchInput {
+  width: 300px;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: #004d40;
+  box-shadow: 0 0 5px rgba(0, 77, 64, 0.5);
+}
+
+/* Search button */
+form button[type="submit"] {
+  background-color: #004d40;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  margin-left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button[type="submit"]:hover {
+  background-color: #00695c;
+}

@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Procured Items
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/css/salesLiist.css')
+  body
+    .container
+      h3.mt-5 Procured Items
+        input#searchInput(type='text' name='search' placeholder='Search...')
+        button(type='submit') Search
+      table#procuredTable.table.table-bordered.mt-3
+        thead.table-dark
+              tr
+                  th(scope='col') Produce Name
+                  th(scope='col') Type
+                  th(scope='col') Date
+                  th(scope='col') Time
+                  th(scope='col') quantity (kg)
+                  th(scope='col') Cost (UGX)
+                  th(scope='col') Buyer Name
+                  th(scope='col') Contact
+                  th(scope='col') Branch Name
+                  th(scope='col') Update 
+        tbody
+          if sales.length 
+           each sale in sales 
+              tr
+                  td #{sale.produceName}
+                  td #{sale.produceType}
+                  td #{moment(sale.saleDate).format("DD-MM-YYYY")}
+                  td #{sale.saleTime}
+                  td #{sale.quantitySold}
+                  td #{sale.pricePerKg}
+                  td #{sale.buyerName}
+                  td #{sale.buyerContact}
+                  td #{sale.branchName}
+                  td
+                    a.btn.btn-primary.btn-block(href="/updateSale/"+sale._id) Update
+              script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
+              script(src='')

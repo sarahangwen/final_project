@@ -1,0 +1,163 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    background-color: #2c3e50;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
+
+.navbar ul li {
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.dashboard-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #34495e;
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.summary-cards {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.card {
+    background: #3498db;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    flex: 1;
+    text-align: center;
+    margin: 10px;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.chart {
+    width: 30%;
+    background: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    margin: 10px;
+    height: auto; /* Allow chart containers to grow based on content */
+}
+
+.chart canvas {
+    width: 75% !important; /* Ensure the canvas takes the full width of its container */
+    max-width: 100%; /* Prevent it from overflowing */
+    height: auto !important; /* Maintain aspect ratio */
+}
+
+.reports, .credit-sales, .procurement {
+    margin: 20px 0;
+}
+
+h2 {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #34495e;
+    color: white;
+}
+
+button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c0392b;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+form label {
+    width: 100%;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input, form select {
+    width: 48%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .summary-cards, .charts {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart, .card, form input, form select {
+        width: 100%;
+    }
+
+    .chart {
+        margin-bottom: 15px; /* Add spacing between charts on small screens */
+    }
+}

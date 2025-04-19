@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Agent Dashboard</title>
+    <link rel="stylesheet" href="/public/css/credit.css">
+</head>
+<body>
+            <h2>Credit Sales</h2>
+            <form id="credit-sales-form">
+                <label for="credit-buyer-name">Buyer Name:</label>
+                <input type="text" id="credit-buyer-name" required>
+
+                <label for="national-id">National ID:</label>
+                <input type="text" id="national-id" required>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" required>
+
+                <label for="contact">Contact:</label>
+                <input type="text" id="contact" required>
+
+                <label for="amount-due">Amount Due (UGX):</label>
+                <input type="number" id="amount-due" required>
+
+                <label for="due-date">Due Date:</label>
+                <input type="date" id="due-date" required>
+
+                <label for="credit-produce-name">Produce Name:</label>
+                <input type="text" id="credit-produce-name" required>
+
+                <label for="credit-tonnage">Tonnage (kg):</label>
+                <input type="number" id="credit-tonnage" required>
+
+                <label for="credit-branch-name">Branch Name:</label>
+                <select id="credit-branch-name" required>
+                    <option value="">Select Branch</option>
+                    <option value="Maganjo">Maganjo</option>
+                    <option value="Matugga">Matugga</option>
+                </select>
+
+                <label for="type-of-produce">Type of Produce:</label>
+                <input type="text" id="type-of-produce" required>
+
+                <label for="date-of-dispatch">Date of Dispatch:</label>
+                <input type="date" id="date-of-dispatch" required>
+
+                <label for="credit-sales-agent-name">Sales Agent Name:</label>
+                <input type="text" id="credit-sales-agent-name" required>
+
+                <button type="submit">Record Credit Sale</button>
+            </form>
+    </main>
+    <footer>
+        <p>&copy; 2025 Karibu Groceries LTD. All rights reserved.</p>
+    </footer>
+    <script src="/public/js/credit-sales.js"></script>
+</body>
+</html>
