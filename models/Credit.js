@@ -56,7 +56,12 @@ const creditSaleSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true
-  }
+  },
+  status: {
+    type: String,
+    enum: ["Pending", "Paid", "Overdue"],
+    default: "Pending",
+  },
 }, {
   timestamps: true // adds createdAt and updatedAt fields
 });

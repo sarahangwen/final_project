@@ -3,48 +3,120 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title Karibu Groceries Ltd - Dashboard
+    title Karibu Groceries Ltd - Home
     link(rel='stylesheet' href='/css/home.css')
+
   body
     header
-      h1 Karibu Groceries Ltd (KGL)
-      nav
-        ul
-          li: a(href='#home') Home
-          li: a(href='#operations') Operations
-          li: a(href='#rules') Business Rules
-          li: a(href='/login') Login     
+      .navbar
+        .logo
+          img(src='/images/logo.png', alt='KGL Logo') 
+          span.brand-name Karibu Groceries Ltd
+        nav
+          ul
+            li: a(href='#home') Home
+            li: a(href='#about') About Us
+            li: a(href='#contact') Contact
+            li: a(href='/login') Login
+
     main
-      section#home.intro
+      section#home.intro.fade-in
         h2 Welcome to KGL Management System
         p
-          | Karibu Groceries Ltd (KGL) is a trusted wholesale distributor of high-quality cereals—Beans, Grain Maize, Cow Peas, Groundnuts, and Soybeans. We source from reputable dealers, companies, and our farms in Maganjo and Matugga across two major branches.
-      section#operations
+          | Karibu Groceries Ltd (KGL) is a wholesale distributor of cereals—Beans, Grain Maize, Cow Peas, Groundnuts, and Soybeans. We source from trusted suppliers and our farms in Maganjo and Matugga to serve customers across two major branches.
+        a.btn(href='/login') Get Started
+
+      section#about.fade-in
+        h2 About Us
+        p
+          | Founded to streamline produce distribution, KGL embraces technology to enhance stock management, sales tracking, and operational transparency.
+        ul
+          li 2 operational branches
+          li Dedicated Managers and Sales Agents
+          li Reliable sourcing from farms and bulk dealers
+
+      section#operations.fade-in
         h2 System Operations
         .grid
           .card
             h3 Procurement
             p
-              | Managers record new stock entries, including produce type, dealer details, quantity, cost price, and selling price for each branch.
+              | Managers input new stock with details like produce type, dealer, quantity, branch allocation, and cost/sale prices.
           .card
             h3 Sales
             p
-              | Sales Agents record sales transactions. Only available stock can be sold; stock levels update automatically after every sale.
+              | Sales Agents record transactions at the branch level. Only available stock can be sold, and tonnage is automatically updated.
           .card
             h3 Credit Sales
             p
-              | Selected buyers can purchase on credit. Full records of buyer details, produce sold, credit terms, and due dates are maintained.
+              | Trusted buyers may buy on credit with full details logged—National ID, location, contacts, due dates, and amounts.
           .card
-            h3 Branch Management
+            h3 Branch Structure
             p
-              | Each branch is overseen by a Manager and two Sales Agents to ensure efficient procurement, stock management, and sales recording.
-      section#rules
-        h2 Business Rules
+              | Each branch is managed by 1 Manager and 2 Sales Agents to ensure accurate records for procurement and sales.
+
+      section#rules.fade-in
+        h2 Key Business Rules
         ul
-          li Sales can only occur if stock is available; managers receive out-of-stock alerts.
-          li Stock tonnage is automatically reduced after each sale.
-          li Sales Agents are restricted from creating or modifying produce entries.
-          li Pricing can only be set and adjusted by Managers.
+          li Produce must exist in stock before it can be sold.
+          li Tonnage is deducted upon each sale automatically.
+          li Sales Agents cannot enter or modify stock records.
+          li Managers are responsible for setting product prices.
+          li The Director can view total sales summaries across branches.
+
+      section#contact.fade-in
+        h2 Contact Us
+        p
+          | Have questions or need help? Reach out to our team anytime.
+        ul
+          li Email: info@karibugroceries.com
+          li Phone: +256-700-000000
+          li Address: Kampala, Uganda
+
+    // Scroll-to-top button
+    a#scrollTopBtn(href='#') ↑
+
     footer
-      p &copy; 2025 Karibu Groceries Ltd | Catalyst Program
-    script(src='')
+      p &copy; 2025 Karibu Groceries Ltd 
+
+    // JavaScript Enhancements
+    script.
+      // Smooth scroll for anchor links
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        });
+
+        // Scroll-to-top button behavior
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 300) {
+            scrollBtn.style.display = 'block';
+          } else {
+            scrollBtn.style.display = 'none';
+          }
+        });
+
+        scrollBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Fade-in animations on scroll
+        const faders = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('show');
+            }
+          });
+        }, { threshold: 0.1 });
+
+        faders.forEach(fader => observer.observe(fader));
+      });

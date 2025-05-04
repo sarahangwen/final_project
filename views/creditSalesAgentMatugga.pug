@@ -1,0 +1,105 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Credit Sales
+    link(rel='stylesheet' href='/css/credit.css')
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
+    style.
+      .navbar-center {
+        justify-content: center;
+      }
+  body
+    // Navbar
+    nav.navbar.navbar-light.bg-light.d-flex.navbar-center
+      a.nav-link.text-decoration-none(href='/managerMatuggaDash') Back to Dashboard
+
+    h2 Credit Sales
+    form#credit-sales-form(action="/addingCredit" method="POST" novalidate)
+      label(for='credit-buyer-name') Buyer Name:
+      input#credit-buyer-name(type='text' name='creditBuyerName' required)
+
+      label(for='national-id') National ID:
+      input#national-id(type='text' name='nationalId' required)
+
+      label(for='location') Location:
+      input#location(type='text' name='location' required)
+
+      label(for='contact') Contact:
+      input#contact(type='text' name='contact' required)
+
+      label(for='amount-due') Amount Due (UGX):
+      input#amount-due(type='number' name='amountDue' required min='0' step='0.01')
+
+      label(for='due-date') Due Date:
+      input#due-date(type='date' name='dueDate' required)
+
+      label(for='credit-produce-name') Produce Name:
+      input#credit-produce-name(type='text' name='creditProduceName' required)
+
+      label(for='credit-tonnage') Tonnage (kg):
+      input#credit-tonnage(type='number' name='creditTonnage' required min='1' step='0.01')
+
+      label(for='credit-branch-name') Branch Name:
+      select#credit-branch-name(name='creditBranchName' required)
+        option(value='') Select Branch
+        option(value='Maganjo') Maganjo
+        option(value='Matugga') Matugga
+
+      label(for='type-of-produce') Type of Produce:
+      input#type-of-produce(type='text' name='typeOfProduce' required)
+
+      label(for='date-of-dispatch') Date of Dispatch:
+      input#date-of-dispatch(type='date' name='dateOfDispatch' required)
+
+      label(for='credit-sales-agent-name') Sales Agent Name:
+      input#credit-sales-agent-name(type='text' name='creditSalesAgentName' required)
+
+      label(for='status') Credit Status:
+      select#status(name='status' required)
+        option(value='Pending') Pending
+        option(value='Partially Paid') Partially Paid
+        option(value='Paid') Paid
+        option(value='Overdue') Overdue
+
+      button(type='submit') Record Credit Sale
+
+    footer
+      p &copy; 2025 Karibu Groceries LTD. All rights reserved.
+
+    // JavaScript Form Validation
+    script.
+      document.getElementById('credit-sales-form').addEventListener('submit', function (e) {
+        const amountDue = document.getElementById('amount-due');
+        const tonnage = document.getElementById('credit-tonnage');
+        const branch = document.getElementById('credit-branch-name');
+
+        // Clear previous validation styles
+        [amountDue, tonnage, branch].forEach(input => input.classList.remove('is-invalid'));
+
+        let valid = true;
+
+        // Amount Due validation
+        if (isNaN(amountDue.value) || Number(amountDue.value) <= 0) {
+          amountDue.classList.add('is-invalid');
+          valid = false;
+        }
+
+        // Tonnage validation
+        if (isNaN(tonnage.value) || Number(tonnage.value) <= 0) {
+          tonnage.classList.add('is-invalid');
+          valid = false;
+        }
+
+        // Branch selection
+        if (branch.value === '') {
+          branch.classList.add('is-invalid');
+          valid = false;
+        }
+
+        if (!valid) {
+          e.preventDefault(); // Stop form submission
+          alert('Please correct the highlighted fields before submitting the form.');
+        }
+      });

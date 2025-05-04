@@ -6,6 +6,8 @@ const passport = require('passport');
 const moment =require('moment');
 const expressSession = require('express-session');
 
+
+
 // Load environment variables
 require('dotenv').config();
 
@@ -21,10 +23,15 @@ const saleRoutes= require('./routes/saleRoutes');
 const productRoutes= require('./routes/productRoutes')
 const creditRoutes = require('./routes/creditRoutes');
 const authRoutes = require('./routes/authRoutes');
-const managerRoutes = require('./routes/managerRoutes');
+const managerMatuggaRoutes = require('./routes/managerMatuggaRoutes');
 const directorRoutes = require('./routes/directorRoutes');
-const salesAgentRoutes = require('./routes/salesAgentRoutes');
+const salesAgentMatuggaRoutes = require('./routes/salesAgentMatuggaRoutes');
 const homeRoutes = require('./routes/homeRoutes');
+const salesHistoryRoutes=require('./routes/salesHistoryRoutes');
+const creditRecordRoutes=require('./routes/creditRecordRoutes');
+const salesPerProductRoutes=require('./routes/salesPerProductRoutes');
+const managerMaganjoRoutes=require('./routes/managerMaganjoRoutes');
+const salesAgentMaganjoRoutes=require('./routes/salesAgentMaganjoRoutes');
 // //const stockRoutes = require('./routes/stockRoutes');
 
 // 3. Mongoose Configuration
@@ -69,12 +76,17 @@ passport.deserializeUser(Signup.deserializeUser());
 // 6. Routes
 app.use('/', saleRoutes);
 app.use('/',productRoutes);
-app.use('/credit', creditRoutes);
+app.use('/', creditRoutes);
 app.use('/', authRoutes);
 app.use('/', directorRoutes);
-app.use('/', managerRoutes);
-app.use('/', salesAgentRoutes);
+app.use('/', managerMatuggaRoutes);
+app.use('/', salesAgentMatuggaRoutes);
 app.use('/',homeRoutes);
+app.use('/',salesHistoryRoutes),
+app.use('/',creditRecordRoutes);
+app.use('/',salesPerProductRoutes);
+app.use('/',managerMaganjoRoutes);
+app.use('/',salesAgentMaganjoRoutes);
 //pp.use('/stock', stockRoutes);
 
 // 7. Error handling for routes

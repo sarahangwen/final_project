@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
   produceName: {
-    type: String,
-    enum: ['Maize grains', 'Soya beans', 'Cow peas', 'G-nuts', 'Maize'],
+    type: String,  
     required: true
   },
   produceType: {
@@ -51,4 +50,5 @@ const productSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Product', productSchema);
+// ✅ Fix OverwriteModelError issue
+module.exports = mongoose.models.Product || mongoose.model('Product', productSchema);

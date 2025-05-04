@@ -1,0 +1,151 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Credit Sales
+    link(rel='stylesheet' href='/css/credit.css')
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
+    style.
+      .navbar-center {
+        justify-content: center;
+      }
+      .error-msg {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
+  body
+    // Navbar
+    nav.navbar.navbar-light.bg-light.d-flex.navbar-center
+      a.nav-link.text-decoration-none(href='/salesAgentMaganjoDash') Back to Dashboard
+
+    h2.text-center.my-3 Credit Sales
+
+    form#credit-sales-form(action="/creditsalesAgentMaganjoDash" method="POST" onsubmit="return validateCreditForm(event)")
+      .container
+        label(for='credit-buyer-name') Buyer Name:
+        input#credit-buyer-name.form-control(type='text' name='creditBuyerName' required)
+
+        label(for='national-id') National ID:
+        input#national-id.form-control(type='text' name='nationalId' required)
+
+        label(for='location') Location:
+        input#location.form-control(type='text' name='location' required)
+
+        label(for='contact') Contact:
+        input#contact.form-control(type='text' name='contact' required)
+
+        label(for='amount-due') Amount Due (UGX):
+        input#amount-due.form-control(type='number' name='amountDue' required)
+
+        label(for='due-date') Due Date:
+        input#due-date.form-control(type='date' name='dueDate' required)
+
+        label(for='credit-produce-name') Produce Name:
+        input#credit-produce-name.form-control(type='text' name='creditProduceName' required)
+
+        label(for='credit-tonnage') Tonnage (kg):
+        input#credit-tonnage.form-control(type='number' name='creditTonnage' required)
+
+        label(for='credit-branch-name') Branch Name:
+        select#credit-branch-name.form-select(name='creditBranchName' required)
+          option(value='') Select Branch
+          option(value='Maganjo') Maganjo
+          option(value='Matugga') Matugga
+
+        label(for='type-of-produce') Type of Produce:
+        input#type-of-produce.form-control(type='text' name='typeOfProduce' required)
+
+        label(for='date-of-dispatch') Date of Dispatch:
+        input#date-of-dispatch.form-control(type='date' name='dateOfDispatch' required)
+
+        label(for='credit-sales-agent-name') Sales Agent Name:
+        input#credit-sales-agent-name.form-control(type='text' name='creditSalesAgentName' required)
+
+        label(for='status') Credit Status:
+        select#status.form-select(name='status' required)
+          option(value='Pending') Pending
+          option(value='Partially Paid') Partially Paid
+          option(value='Paid') Paid
+          option(value='Overdue') Overdue
+
+        p#error-msg.error-msg
+
+        button.btn.btn-primary.mt-3(type='submit') Record Credit Sale
+
+    footer.text-center.mt-4
+      p &copy; 2025 Karibu Groceries LTD. All rights reserved.
+
+    script.
+      function validateCreditForm(event) {
+        event.preventDefault();
+        const get = id => document.getElementById(id).value.trim();
+        const errorMsg = document.getElementById('error-msg');
+        const alphaNumRegex = /^[a-zA-Z0-9 ]+$/;
+        const ninRegex = /^C[A-Z]{2}[0-9A-Z]{12}$/; // example NIN format
+        const phoneRegex = /^(?:\+256|0)(7\d{8})$/;
+
+        const fields = {
+          buyer: get('credit-buyer-name'),
+          nationalId: get('national-id'),
+          location: get('location'),
+          contact: get('contact'),
+          amount: get('amount-due'),
+          dueDate: get('due-date'),
+          produceName: get('credit-produce-name'),
+          tonnage: get('credit-tonnage'),
+          branch: get('credit-branch-name'),
+          type: get('type-of-produce'),
+          dispatch: get('date-of-dispatch'),
+          agent: get('credit-sales-agent-name'),
+        };
+
+        if (!alphaNumRegex.test(fields.buyer) || fields.buyer.length < 2) {
+          return showError("Buyer name must be at least 2 alphanumeric characters.");
+        }
+
+        if (!ninRegex.test(fields.nationalId)) {
+          return showError("National ID must be in valid NIN format.");
+        }
+
+        if (!alphaNumRegex.test(fields.location) || fields.location.length < 2) {
+          return showError("Location must be at least 2 alphanumeric characters.");
+        }
+
+        if (!phoneRegex.test(fields.contact)) {
+          return showError("Enter a valid Ugandan phone number.");
+        }
+
+        if (isNaN(fields.amount) || fields.amount.length < 5) {
+          return showError("Amount due must be at least 5 digits.");
+        }
+
+        if (fields.branch === '') {
+          return showError("Please select a branch.");
+        }
+
+        if (!alphaNumRegex.test(fields.produceName) || fields.produceName.length < 2) {
+          return showError("Produce name must be at least 2 alphanumeric characters.");
+        }
+
+        if (isNaN(fields.tonnage) || fields.tonnage < 1) {
+          return showError("Tonnage must be a number greater than or equal to 1.");
+        }
+
+        if (!/^[a-zA-Z]{2,}$/.test(fields.type)) {
+          return showError("Type of produce must contain only letters and be at least 2 characters.");
+        }
+
+        if (!alphaNumRegex.test(fields.agent) || fields.agent.length < 2) {
+          return showError("Sales agent name must be at least 2 alphanumeric characters.");
+        }
+
+        errorMsg.textContent = "";
+        document.getElementById("credit-sales-form").submit();
+      }
+
+      function showError(message) {
+        document.getElementById('error-msg').textContent = message;
+        return false;
+      }

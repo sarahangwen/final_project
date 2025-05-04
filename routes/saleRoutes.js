@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const Sale = require("../models/Sale");
+const Sale = require('../models/sale');
+
 
 router.get("/addSale", (req, res) => {
     res.render("sale"); // Assumes a file like sale.pug exists in your views folder
@@ -16,7 +17,7 @@ router.post('/addSale', async (req, res) => {
         // Save the sale to the database
         await sale.save();
         // Redirect back to the sale form (or another route if desired)
-        res.redirect("/sale/addSale");
+        res.redirect("/addSale");
     } catch (error) {
         console.error('Error saving sale:', error);
         // Render the sale form with an error message if saving fails
@@ -30,8 +31,7 @@ router.get("/salesList", async (req, res) => {
         const items = await Sale.find();
         res.render("saleslist", { sales: items });
     } catch (error) {
-        console.error('Error fetching sales:', error);
-        res.status(400).send("Unable to find items in the database");
+        
     }
 });
 

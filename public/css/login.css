@@ -1,6 +1,6 @@
 
 body {
-    background-color: #4d565f;
+    background-color: #4c647c;
     color: white;
     display: flex;
     justify-content: center;
@@ -9,11 +9,11 @@ body {
     flex-direction: column;
 }
 .login-container {
-    background: #5f666d;
+    background: #4c647c;
     padding: 30px;
     border-radius: 8px;
     width: 350px;
-    box-shadow: 0 4px 8px rgba(192, 187, 187, 0.2);
+    box-shadow: #4c647c;
 }
 .input-group-text {
     cursor: pointer;

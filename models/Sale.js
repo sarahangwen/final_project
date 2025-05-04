@@ -28,6 +28,10 @@ const saleSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 1000
+  // },
+  // total: {
+  //   type: Number,
+  //   required: true
   },
   buyerName: {
     type: String,
@@ -51,4 +55,10 @@ const saleSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Sale', saleSchema);
+// Before saving, calculate total automatically
+saleSchema.pre('save', function (next) {
+  this.total = this.quantitySold * this.pricePerKg;
+  next();
+});
+
+module.exports = mongoose.models.Sale || mongoose.model('Sale', saleSchema);

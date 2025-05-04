@@ -1,0 +1,116 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title KGL Manager Dashboard - Matugga
+    link(rel='stylesheet' href='/css/manager.css')
+    script(src='https://cdn.jsdelivr.net/npm/chart.js')  
+
+  body
+    nav.navbar
+      ul
+        li
+          a(href='/') Home 
+        li
+          a(href='/addProduct') Add Product  
+        li
+          a(href='/productList') Product List
+        li
+          a(href='/salesPerProductList') Sales Per Product
+        li
+          a(href='/addingCredit') Credit Sales
+        li
+          a(href='/creditSalesList') Credit Sales Management 
+        li
+          a#logout-button(href='/logout') Logout
+
+    .dashboard-container
+      header
+        h1 Manager's Dashboard - KGL Matugga
+
+      section#summary.summary-cards
+        .card
+          | Total Sales (Today): 
+          span UGX #{totalSalesToday.toLocaleString()}
+        .card
+          | Total Revenue (Monthly): 
+          span UGX #{totalRevenue.toLocaleString()}
+        .card
+          | Outstanding Credit Payments: 
+          span UGX #{outstandingCredits.toLocaleString()}
+        .card
+          | Low Stock Alerts: 
+          span #{lowStockCount} Items
+
+      section.charts
+        canvas#managerPieChart(style='width: 300px; height: 300px;')  // Adjust the width and height
+
+      //- section#reports.reports
+      //-   h2 Branch Performance
+      //-   table
+      //-     thead
+      //-       tr
+      //-         th Produce Name
+      //-         th Initial Stock
+      //-         th Total Sold
+      //-         th Remaining Stock
+      //-     tbody
+      //-       if products.length
+      //-         each product in products
+      //-           tr
+      //-             td #{product.name}
+      //-             td #{product.stock}
+      //-             td #{product.totalSold}
+      //-             td 
+      //-               if product.remainingStock < 10
+      //-                 span(style="color: red;") #{product.remainingStock}
+      //-               else
+      //-                 | #{product.remainingStock}
+      //-       else
+      //-         tr
+      //-           td(colspan="4") No products found.
+
+    //- Scripts should come after all HTML
+    script.
+      const productLabels = !{JSON.stringify(topSellingData.map(p => p.label))};
+      const productSales = !{JSON.stringify(topSellingData.map(p => p.value))};
+
+      const data = {
+        labels: productLabels,
+        datasets: [{
+          label: 'Top Selling Products',
+          data: productSales,
+          backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#FF9F40',
+            '#9966FF',
+            '#00A36C'
+          ],
+          borderColor: '#fff',
+          borderWidth: 1
+        }]
+      };
+
+      const config = {
+        type: 'pie',
+        data: data,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Top Selling Products - Performance'
+            }
+          }
+        }
+      };
+
+      const ctx = document.getElementById('managerPieChart').getContext('2d');
+      new Chart(ctx, config);

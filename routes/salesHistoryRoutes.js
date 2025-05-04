@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const Sale = require("../models/sale");
-const Credit = require("../models/Credit");
 
-router.get("/directorDash", async (req, res) => {
+router.get("/salesHistory", async (req, res) => {
   try {
     // 1. Total revenue and quantity sold
     const totalRevenueAgg = await Sale.aggregate([
@@ -35,13 +34,33 @@ router.get("/directorDash", async (req, res) => {
         }
       }
     ]);
+
     const productSales = productSalesAgg.map((sale) => ({
       produceName: sale._id,
       totalQuantity: sale.totalQuantity,
       totalSales: sale.totalSales
     }));
 
-    // 3. Branch-wise sales
+    // 3. Total credit sales
+    const creditSalesAgg = await Sale.aggregate([
+      { $match: { isCredit: true } },
+      {
+        $group: {
+          _id: null,
+          creditQuantitySold: { $sum: "$quantitySold" },
+          creditSalesAmount: {
+            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+          }
+        }
+      }
+    ]);
+
+    const creditSales = creditSalesAgg[0] || {
+      creditQuantitySold: 0,
+      creditSalesAmount: 0
+    };
+
+    // 4. Branch-wise sales
     const branchSalesAgg = await Sale.aggregate([
       {
         $group: {
@@ -53,36 +72,20 @@ router.get("/directorDash", async (req, res) => {
         }
       }
     ]);
+
     const branchSales = branchSalesAgg.map((branch) => ({
       branchName: branch._id,
       salesAmount: branch.salesAmount,
       tonnageSold: branch.tonnageSold
     }));
 
-    // 4. Fetch outstanding credit sales (based on creditTonnage and amountDue)
-    const creditSalesAgg = await Credit.aggregate([
-      { $match: { status: { $ne: "Paid" } } },
-      {
-        $group: {
-          _id: null,
-          totalCreditAmount: { $sum: "$amountDue" },
-          totalCreditTonnage: { $sum: "$creditTonnage" }
-        }
-      }
-    ]);
-
-    const totalCreditAmount = creditSalesAgg[0]?.totalCreditAmount || 0;
-    const totalCreditTonnage = creditSalesAgg[0]?.totalCreditTonnage || 0;
-
     // 5. Render the dashboard
-    res.render("director-dashboard", {
-      totalRevenue,
+    res.render("salesAgentHistory", {
+      totalRevenue, // << Corrected here
       productSales,
-      branchSales,
-      totalCreditAmount,
-      totalCreditTonnage
+      creditSales,
+      branchSales
     });
-
   } catch (error) {
     console.error("Dashboard Error:", error.message);
     res.status(500).send("Error loading dashboard data.");

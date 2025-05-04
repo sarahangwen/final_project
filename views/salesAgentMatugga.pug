@@ -1,0 +1,65 @@
+doctype html
+html
+  head
+    title Sales Agent Dashboard
+    link(rel='stylesheet' href='/css/sales-agent-dashboard.css')
+  body
+    header
+      h1 Welcome #{agentName}
+      nav
+        ul
+          li: a(href='/addSale') Record Cash Sale
+          li: a(href='/addingCredit') Record Credit Sale
+          li: a(href='/salesHistory') My Sales History
+          li: a(href='/logout') Logout
+
+    main
+      section
+        h2 My Sales Summary
+        p Total Cash Sales: UGX #{totalAmount}
+        p Total Credit Sales: UGX #{totalCredit}
+
+      section
+        h3 Recent Cash Sales
+        table
+          thead
+            tr
+              th Produce
+              th Tonnage (kg)
+              th Amount Paid
+              th Date
+          tbody
+            if cashSales && cashSales.length
+              each sale in cashSales
+                tr
+                  td= sale.produceName
+                  td= sale.tonnage
+                  td UGX #{sale.amountPaid}
+                  td= sale.date.toDateString()
+            else
+              tr
+                td(colspan="4") No cash sales available.
+
+      section
+        h3 Outstanding Credit Sales
+        table
+          thead
+            tr
+              th Buyer
+              th Produce
+              th Amount Due
+              th Due Date
+          tbody
+            if creditSales && creditSales.length
+              each credit in creditSales
+                tr
+                  td= credit.buyerName
+                  td= credit.produceName
+                  td UGX #{credit.amountDue}
+                  td= credit.dueDate.toDateString()
+            else
+              tr
+                td(colspan="4") No outstanding credit sales.
+
+    //- footer
+    //-   p &copy; 2025 Karibu Groceries LTD.

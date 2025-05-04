@@ -1,0 +1,58 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Credit Sales Management - KGL
+    link(rel='stylesheet', href='/css/manager-dashboard.css') 
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
+  body
+    nav.navbar
+      ul
+        li
+          a(href='/managerMatuggaDash') Back to Dashboard
+        //- li
+        //-   a(href='/addingCredit') Add New Credit Sale
+        //- li
+        //-   a(href='/logout') Logout
+
+    main.credit-sales-container
+      header
+        h1 Credit Sales Management
+
+      section.credit-sales-table
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Buyer
+              th NIN
+              th Produce Name
+              th Tonnage Sold
+              th Amount Due (UGX)
+              th Due Date
+              th Sales Agent
+              th Status
+              th Actions
+          tbody
+            if credits && credits.length
+              each credit in credits
+                tr
+                  td #{credit.creditBuyerName.toLocaleString()}
+                  td #{credit.nationalId}
+                  td #{credit.creditProduceName}
+                  td #{credit.creditTonnage}
+                  td #{credit.amountDue.toLocaleString()}
+                  td #{credit.dueDate.toLocaleDateString()}
+                  td #{credit.creditSalesAgentName}
+                  td #{credit.status}
+                  td
+                    a(href='/editCredit/#{credit._id}') Edit
+                    | |
+                    a(href='/markAsPaid/#{credit._id}') Mark as Paid
+            else
+              tr
+                td(colspan='9') No credit sales found.
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
+    script(src='')
+
+

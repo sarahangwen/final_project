@@ -3,8 +3,24 @@ const router = express.Router();
 
 const Credit = require("../models/Credit"); 
 
+router.get("/creditsalesAgentMaganjoDash", (req, res) => {
+    res.render("creditsalesAgentMaganjo");
+});
+
+router.post("/creditsalesAgentMaganjoDash", async (req, res) => {
+    try {
+        const credit = new Credit(req.body); 
+        await credit.save(); // Await saving because save() is async
+        console.log(credit);
+        res.redirect("/creditsalesAgentMaganjoDash");
+    } catch (error) {
+        console.error('Error saving credit:', error);
+        res.status(400).render("salesAgentMaganjo", { errors: error.errors });
+    }
+});
+
 router.get("/addingCredit", (req, res) => {
-    res.render("credit");
+    res.render("creditMatugga");
 });
 
 router.post("/addingCredit", async (req, res) => {
@@ -12,7 +28,7 @@ router.post("/addingCredit", async (req, res) => {
         const credit = new Credit(req.body); 
         await credit.save(); // Await saving because save() is async
         console.log(credit);
-        res.redirect("/credit/addingCredit");
+        res.redirect("/addingCredit");
     } catch (error) {
         console.error('Error saving credit:', error);
         res.status(400).render("credit", { errors: error.errors });
@@ -31,6 +47,8 @@ router.get("/creditList", async (req, res) => {
         res.status(400).send("Unable to find items in the database");
     }
 });
+
+
 
 module.exports = router;
 
