@@ -150,3 +150,26 @@ body {
     }
   }
   
+  .logout-button {
+    background-color: rgb(93, 93, 160);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
+  .logout-button {
+    background-color: rgb(40, 40, 107);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .logout-button:hover{
+    background-color:#2980b9 ;
+  }
+  /* .logout-button:hover {
+    background-color: darkblue;
+  } */
+  

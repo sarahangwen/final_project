@@ -26,11 +26,11 @@
   transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Table row hover */
+/* Table row hover
 #procuredTable tbody tr:hover {
   background-color: #e0f2f1;
   transform: scale(1.01);
-}
+} */
 
 /* Table cells */
 #procuredTable td, 

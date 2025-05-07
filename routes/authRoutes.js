@@ -30,7 +30,7 @@ router.post("/signingup", async (req, res) => {
 
     } catch (error) {
         console.error("Signup Error:", error);
-        res.status(400).render("signUp", { error: "Failed to register. Please try again." });
+        res.status(400).render("SignUp", { error: "Failed to register. Please try again." });
     }
 });
 
@@ -39,34 +39,60 @@ router.get("/login", (req, res) => {
     res.render("login");
 });
 
+// Handle login
 router.post("/login", passport.authenticate("local", { failureRedirect: "/login" }), (req, res) => {
-    console.log("Login details:", req.body); 
+    console.log("Login details:", req.body);
     req.session.user = req.user;
 
-    const { role, branch } = req.user;
-
-    if (role === "manager") {
-        if (branch === "Maganjo") {
-            return res.redirect("/managerMaganjoDash");
-        } else if (branch === "Matugga") {
-            return res.redirect("/managerMatuggaDash");
-        } else {
-            return res.status(400).send("Unknown branch for manager");
-        }
-    } else if (role === "salesAgent") {
-        if (branch === "Maganjo") {
-            return res.redirect("/salesAgentMaganjoDash");
-        } else if (branch === "Matugga") {
-            return res.redirect("/salesAgentMatuggaDash");
-        } else {
-            return res.status(400).send("Unknown branch for sales agent");
-        }
-    } else if (role === "director") {
-        return res.redirect("/directorDash");
+    if (req.user.role === "managerMaganjo") {
+        res.redirect("/managerMaganjoDash");
+    } else if (req.user.role === "managerMatugga") {
+        res.redirect("/managerMatuggaDash");
+    } else if (req.user.role === "salesAgentMaganjo") {
+        res.redirect("/salesAgentMaganjoDash");
+    } else if (req.user.role === "salesAgentMatugga") {
+        res.redirect("/salesAgentMatuggaDash");
+    } else if (req.user.role === "director") {
+        res.redirect("/directorDash");
     } else {
-        return res.status(403).send("Unauthorized: Role not recognized");
+        res.send("You do not have any role in the system");
     }
 });
+
+    
+// Render login form
+// router.get("/login", (req, res) => {
+//     res.render("login");
+// });
+
+// router.post("/login", passport.authenticate("local", { failureRedirect: "/login" }), (req, res) => {
+//     console.log("Login details:", req.body); 
+//     req.session.user = req.user;
+
+//     const { role, branch } = req.user;
+
+//     if (role === "manager") {
+//         if (branch === "Maganjo") {
+//             return res.redirect("/managerMaganjoDash");
+//         } else if (branch === "Matugga") {
+//             return res.redirect("/managerMatuggaDash");
+//         } else {
+//             return res.status(400).send("Unknown branch for manager");
+//         }
+//     } else if (role === "salesAgent") {
+//         if (branch === "Maganjo") {
+//             return res.redirect("/salesAgentMaganjoDash");
+//         } else if (branch === "Matugga") {
+//             return res.redirect("/salesAgentMatuggaDash");
+//         } else {
+//             return res.status(400).send("Unknown branch for sales agent");
+//         } 
+//     } else if (role === "director") {
+//         return res.redirect("/directorDash");
+//     } else {
+//         return res.status(403).send("Unauthorized: Role not recognized");
+//     }
+// });
 
 // Logout route
 router.get("/logout", (req, res) => {  

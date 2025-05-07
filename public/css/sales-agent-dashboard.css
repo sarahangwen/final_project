@@ -30,9 +30,9 @@ nav ul li a {
     font-size: 1.2em;
 }
 
-nav ul li a:hover {
+/* nav ul li a:hover {
     text-decoration: underline;
-}
+} */
 
 /* Main Content Styling */
 main {
@@ -127,14 +127,14 @@ footer {
 
 /* Logout Button Styling */
 nav ul li a[href='/logout'] {
-    background-color: #e74c3c;
+    background-color: rgb(63, 63, 172);
     color: white;
     padding: 8px 14px;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
-nav ul li a:hover {
+/* nav ul li a:hover {
     background-color: #1b2c3d;
     color:rgb(214, 214, 226);
-}
+} */

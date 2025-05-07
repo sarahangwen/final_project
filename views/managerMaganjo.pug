@@ -5,25 +5,43 @@ html
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     title KGL Manager Dashboard - Maganjo Branch 
     link(rel='stylesheet' href='/css/manager.css')
-    script(src='https://cdn.jsdelivr.net/npm/chart.js')  
+    script(src='https://cdn.jsdelivr.net/npm/chart.js')   
+
+    style.
+      .logout-button {
+        background-color: rgb(91, 91, 182);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .logout-button:hover {
+        background-color: darkblue;
+      }
 
   body
     nav.navbar
       ul
-        li
-          a(href='/') Home 
+        //- li
+        //-   a(href='/') Home 
         li
           a(href='/productMaganjo') Add Product  
         li
           a(href='/productListMaganjo') Product List
         li
-          a(href='/salesPerProductListMaganjo') Sales Per Product
+          a(href='/addingSales') Record Sale
         li
-          a(href='/creditsalesAgentMaganjoDash') Credit Sales
+          a(href='/salesListMag') View Sales List
         li
-          a(href='/') Credit Sales Management 
+          a(href='/salesPerProductListMaganjo') sales Per Product
         li
-          a#logout-button(href='/logout') Logout
+          a(href='/creditSaleMaganjo') Record Credit Sales
+        li
+          a(href='/creditSalesListMaganjo') Credit Sales Management 
+        li
+          a#logout-button.logout-button(href='/logout') Logout
 
     .dashboard-container
       header
@@ -71,7 +89,6 @@ html
       //-         tr
       //-           td(colspan="4") No products found.
 
-    //- Scripts should come after all HTML
     script.
       const productLabels = !{JSON.stringify(topSellingData.map(p => p.label))};
       const productSales = !{JSON.stringify(topSellingData.map(p => p.value))};

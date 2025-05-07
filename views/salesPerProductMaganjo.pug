@@ -10,15 +10,14 @@ html
   body
     nav.navbar
       ul
-          li
-            a(href='/managerMaganjoDash') Back to Dashboard
+        li
+          a(href='/managerMaganjoDash') Back to Dashboard
         
     .dashboard-container
-      header
-        h1 Manager's Dashboard - KGL Matugga
+      // Removed the header section with h1
 
       section#product-sales
-        h2 Total Sales per Product (All Branches)
+        h2 Total Sales per Product 
         table
           thead
             tr
@@ -26,12 +25,12 @@ html
               th Total Quantity Sold (kg)
               th Total Sales Amount (UGX)
           tbody
-          if products.length
-            each product in products 
-              tr
-                td #{product.produceName}
-                td #{ product.tonnage.toLocaleString()}
-                td #{product.sellPrice * product.tonnage.toLocaleString()}
+            if products.length
+              each product in products 
+                tr
+                  td #{product.produceName}
+                  td #{product.tonnage.toLocaleString()}
+                  td #{(product.sellPrice * product.tonnage).toLocaleString()}
 
     script.
       window.onload = function() {
@@ -41,4 +40,3 @@ html
         // if (productSalesAgg.length) {
         //   console.log(productSalesAgg); 
         // }
-      };

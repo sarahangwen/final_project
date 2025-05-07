@@ -3,22 +3,20 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title KGL Manager Dashboard - Matugga
     link(rel='stylesheet' href='/css/manager-dashboard.css')
     script(src='https://cdn.jsdelivr.net/npm/chart.js')  
 
   body
     nav.navbar
       ul
-          li
-            a(href='/managerMatuggaDash') Back to Dashboard
+        li
+          a(href='/managerMatuggaDash') Back to Dashboard
         
     .dashboard-container
       header
-        h1 Manager's Dashboard - KGL Matugga
 
       section#product-sales
-        h2 Total Sales per Product (All Branches)
+        h2 Total Sales per Product 
         table
           thead
             tr
@@ -26,12 +24,12 @@ html
               th Total Quantity Sold (kg)
               th Total Sales Amount (UGX)
           tbody
-          if products.length
-            each product in products 
-              tr
-                td #{product.produceName}
-                td #{ product.tonnage.toLocaleString()}
-                td #{product.sellPrice * product.tonnage.toLocaleString()}
+            if products.length
+              each product in products 
+                tr
+                  td #{product.produceName}
+                  td #{product.tonnage.toLocaleString()}
+                  td #{product.sellPrice * product.tonnage.toLocaleString()}
 
     script.
       window.onload = function() {
@@ -41,4 +39,3 @@ html
         // if (productSalesAgg.length) {
         //   console.log(productSalesAgg); 
         // }
-      };

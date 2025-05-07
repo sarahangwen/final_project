@@ -1,0 +1,127 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Register Sale - KGL Grocery
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', rel='stylesheet')
+    link(rel='stylesheet', href='/css/product.css')
+  body
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      .container-fluid
+        a.navbar-brand(href='/') KGL Grocery
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        .collapse.navbar-collapse#navbarNav
+          ul.navbar-nav.justify-content-center.w-100
+            li.nav-item
+              a.nav-link(href='/managerMaganjoDash') Back to Dashboard
+
+    .container.mt-5
+      h2.mb-4 Register Sale
+
+      form#registerSaleForm(action="/addingSales" method="POST")
+        .row.mb-3
+          .col-md-6
+            label(for='produceName' class='form-label') Produce Name
+            select#produceName(name='produceName' class='form-select' required)
+              option(value='') Select Produce
+              option(value='Maize grains') Maize grains
+              option(value='Soya beans') Soya beans
+              option(value='Cow peas') Cow peas
+              option(value='G-nuts') G-nuts
+              option(value='Maize') Maize
+          .col-md-6
+            label(for='produceType' class='form-label') Produce Type
+            select#produceType(name='produceType' class='form-select' required)
+              option(value='') Select Type
+              option(value='Legume') Legume
+              option(value='Cereals') Cereals
+
+        .row.mb-3
+          .col-md-6
+            label(for='saleDate' class='form-label') Date of Sale
+            input#saleDate(type='date' name='saleDate' class='form-control' required)
+          .col-md-6
+            label(for='saleTime' class='form-label') Time of Sale
+            input#saleTime(type='time' name='saleTime' class='form-control' required)
+
+        .row.mb-3
+          .col-md-6
+            label(for='quantitySold' class='form-label') Quantity Sold (kgs)
+            input#quantitySold(type='number' name='quantitySold' class='form-control' min='1' required)
+          .col-md-6
+            label(for='pricePerKg' class='form-label') Price per Kg (UGX)
+            input#pricePerKg(type='number' name='pricePerKg' class='form-control' min='1000' required)
+
+        .row.mb-3
+          .col-md-6
+            label(for='buyerName' class='form-label') Buyer Name
+            input#buyerName(type='text' name='buyerName' class='form-control' required)
+          .col-md-6
+            label(for='buyerContact' class='form-label') Buyer Contact
+            input#buyerContact(type='tel' name='buyerContact' class='form-control' required)
+
+        .row.mb-3
+          .col-md-6
+            label(for='branchName' class='form-label') Branch Name
+            select#branchName(name='branchName' class='form-select' required)
+              option(value='') Select Branch
+              option(value='Maganjo') Maganjo
+              option(value='Matugga') Matugga
+          .col-md-6
+            label(for='paymentMode' class='form-label') Payment Mode
+            select#paymentMode(name='paymentMode' class='form-select' required)
+              option(value='') Select Payment Mode
+              option(value='Cash') Cash
+              option(value='mobileMoney') Mobile Money
+
+        button(type='submit' class='btn btn-primary mt-4') Register Sale
+
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
+    script.
+      document.getElementById('registerSaleForm').addEventListener('submit', function(event) {
+        const saleDate = document.getElementById('saleDate').value;
+        const saleTime = document.getElementById('saleTime').value;
+        const buyerName = document.getElementById('buyerName').value.trim();
+        const buyerContact = document.getElementById('buyerContact').value.trim();
+        const quantity = parseFloat(document.getElementById('quantitySold').value);
+        const price = parseFloat(document.getElementById('pricePerKg').value);
+        const today = new Date().toISOString().split('T')[0];
+
+        // Validate future date
+        if (saleDate > today) {
+          alert('Sale date cannot be in the future.');
+          event.preventDefault();
+          return;
+        }
+
+        // Validate buyer name (letters, spaces, hyphens only)
+        const nameRegex = /^[A-Za-z\s\-]+$/;
+        if (!nameRegex.test(buyerName)) {
+          alert('Buyer name must contain only letters, spaces, or hyphens.');
+          event.preventDefault();
+          return;
+        }
+
+        // Validate phone number format (UG: 07XXXXXXXX or 2567XXXXXXXX)
+        const phoneRegex = /^(07\d{8}|2567\d{8})$/;
+        if (!phoneRegex.test(buyerContact)) {
+          alert('Please enter a valid Ugandan phone number (e.g., 07XXXXXXXX or 2567XXXXXXXX).');
+          event.preventDefault();
+          return;
+        }
+
+        // Validate quantity
+        if (isNaN(quantity) || quantity < 1) {
+          alert('Quantity sold must be at least 1 kg.');
+          event.preventDefault();
+          return;
+        }
+
+        // Validate price
+        if (isNaN(price) || price < 1000) {
+          alert('Price per Kg must be at least 1000 UGX.');
+          event.preventDefault();
+        }
+      });

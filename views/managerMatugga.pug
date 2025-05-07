@@ -10,20 +10,24 @@ html
   body
     nav.navbar
       ul
-        li
-          a(href='/') Home 
+        //- li
+        //-   a(href='/') Home 
         li
           a(href='/addProduct') Add Product  
         li
           a(href='/productList') Product List
         li
-          a(href='/salesPerProductList') Sales Per Product
+          a(href='/addSaleMatugga') Record Sale 
+        li
+          a(href='/salesListMat') Sales List
+        //- li
+        //-   a(href='/') Sales List
         li
           a(href='/addingCredit') Credit Sales
         li
-          a(href='/creditSalesList') Credit Sales Management 
+          a(href='/creditSalesListMatugga') Credit Sales Management 
         li
-          a#logout-button(href='/logout') Logout
+          a#logout-button.logout-button(href='/logout') Logout
 
     .dashboard-container
       header
@@ -45,31 +49,6 @@ html
 
       section.charts
         canvas#managerPieChart(style='width: 300px; height: 300px;')  // Adjust the width and height
-
-      //- section#reports.reports
-      //-   h2 Branch Performance
-      //-   table
-      //-     thead
-      //-       tr
-      //-         th Produce Name
-      //-         th Initial Stock
-      //-         th Total Sold
-      //-         th Remaining Stock
-      //-     tbody
-      //-       if products.length
-      //-         each product in products
-      //-           tr
-      //-             td #{product.name}
-      //-             td #{product.stock}
-      //-             td #{product.totalSold}
-      //-             td 
-      //-               if product.remainingStock < 10
-      //-                 span(style="color: red;") #{product.remainingStock}
-      //-               else
-      //-                 | #{product.remainingStock}
-      //-       else
-      //-         tr
-      //-           td(colspan="4") No products found.
 
     //- Scripts should come after all HTML
     script.
@@ -114,3 +93,4 @@ html
 
       const ctx = document.getElementById('managerPieChart').getContext('2d');
       new Chart(ctx, config);
+

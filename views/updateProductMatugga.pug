@@ -8,7 +8,7 @@ html
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
     style.
       .navbar-blue {
-        background-color:rgb(57, 69, 87); /* Bootstrap primary blue */
+        background-color:rgb(57, 69, 87);
       }
       .nav-link {
         color: white !important;
@@ -22,58 +22,58 @@ html
 
     .container.mt-4
       h3.mb-3 Record New Procurement
-      form#procurementForm(method='POST' action='/productMaganjo' onsubmit='return validateForm()')
+      form#procurementForm(method='POST', action=`/updateProductMat/${product._id}`, onsubmit='return validateForm()')
         .row.mb-3
           .col
             label(for='produceName') Produce Name
-            select#produceName.form-select(name='produceName' required)
+            select#produceName.form-select(name='produceName')
               option(value='') -- Select Produce Name --
-              option(value='Beans') Beans
-              option(value='Maize Grains') Maize Grains
-              option(value='G-Nuts') G-Nuts 
-              option(value='Soya Beans') Soya Beans
-              option(value='Cow Peas') Cow Peas 
+              option(value='Beans', selected=product.produceName == 'Beans') Beans
+              option(value='Maize Grains', selected=product.produceName == 'Maize Grains') Maize Grains
+              option(value='G-Nuts', selected=product.produceName == 'G-Nuts') G-Nuts 
+              option(value='Soya Beans', selected=product.produceName == 'Soya Beans') Soya Beans
+              option(value='Cow Peas', selected=product.produceName == 'Cow Peas') Cow Peas 
           .col
             label(for='produceType') Produce Type
-            select#produceType.form-select(name='produceType' required)
+            select#produceType.form-select(name='produceType')
               option(value='') -- Select Produce Type --
-              option(value='Legume') Legume
-              option(value='Cereals') Cereals
+              option(value='Legume', selected=product.produceType == 'Legume') Legume
+              option(value='Cereals', selected=product.produceType == 'Cereals') Cereals
 
         .row.mb-3
           .col
             label(for='procureDate') Date
-            input#procureDate.form-control(type='date' name='procureDate' required)
+            input#procureDate.form-control(type='date', name='procureDate', value=product.procureDate)
           .col
             label(for='procureTime') Time
-            input#procureTime.form-control(type='time' name='procureTime' required)
+            input#procureTime.form-control(type='time', name='procureTime', value=product.procureTime)
 
         .row.mb-3
           .col
             label(for='tonnage') Tonnage (kg)
-            input#tonnage.form-control(type='number' name='tonnage' required)
+            input#tonnage.form-control(type='number', name='tonnage', value=product.tonnage)
           .col
             label(for='cost') Cost (UGX)
-            input#cost.form-control(type='number' name='cost' required)
+            input#cost.form-control(type='number', name='cost', value=product.cost)
 
         .row.mb-3
           .col
             label(for='dealerName') Dealer Name
-            input#dealerName.form-control(type='text' name='dealerName' required)
+            input#dealerName.form-control(type='text', name='dealerName', value=product.dealerName)
           .col
             label(for='branchName') Branch Name
-            select#branchName.form-select(name='branchName' required)
+            select#branchName.form-select(name='branchName')
               option(value='') -- Select Branch --
-              option(value='Maganjo') Maganjo
-              option(value='Matugga') Matugga
+              option(value='Maganjo', selected=product.branchName == 'Maganjo') Maganjo
+              option(value='Matugga', selected=product.branchName == 'Matugga') Matugga
 
         .row.mb-3
           .col
             label(for='contact') Dealer Contact (Phone)
-            input#contact.form-control(type='tel' name='contact' required)
+            input#contact.form-control(type='text', name='contact', value=product.contact)
           .col
             label(for='sellPrice') Selling Price (UGX)
-            input#sellPrice.form-control(type='number' name='sellPrice' required)
+            input#sellPrice.form-control(type='number', name='sellPrice', value=product.sellPrice)
 
         button.btn.btn-success(type='submit') Submit Procurement
 

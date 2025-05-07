@@ -32,7 +32,7 @@ html
               th Due Date
               th Sales Agent
               th Status
-              th Actions
+              th Action
           tbody
             if credits && credits.length
               each credit in credits
@@ -46,9 +46,8 @@ html
                   td #{credit.creditSalesAgentName}
                   td #{credit.status}
                   td
-                    a(href='/editCredit/#{credit._id}') Edit
-                    | |
-                    a(href='/markAsPaid/#{credit._id}') Mark as Paid
+                    .d-flex.gap-2
+                     a.btn.btn-sm.btn-danger.w-100(href="/updateStatusMaganjo/"+credit._id) Update
             else
               tr
                 td(colspan='9') No credit sales found.

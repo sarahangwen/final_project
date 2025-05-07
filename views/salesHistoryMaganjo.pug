@@ -1,0 +1,53 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Sales History
+    link(rel="stylesheet", href="/css/salesHistory.css")
+    style.
+      .center-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 0;
+       
+      }
+      .center-nav a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+  body
+    header
+      .center-nav
+        a(href='/salesAgentMaganjoDash') Back to Dashboard
+
+    main
+      section
+        table
+          thead
+            tr
+              th Date
+              th Product
+              th Quantity (kg)
+              th Price per Kg (UGX)
+              th Total (UGX)
+          tbody
+            if sales && sales.length 
+              each sale in sales
+                tr
+                  td #{moment(sale.saleDate).format("DD-MM-YYYY")}
+                  td #{sale.produceName}
+                  td #{sale.quantitySold}
+                  td #{sale.pricePerKg}
+                  td #{sale.pricePerKg * sale.quantitySold}
+            //- else
+            //-   p No sales history available.
+
+    //- footer
+    //-   p &copy; 2025 Karibu Groceries LTD. All rights reserved.
+
+    //- script(src="/js/sales-history.js")

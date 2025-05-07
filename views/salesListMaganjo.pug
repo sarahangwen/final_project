@@ -1,0 +1,60 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Sales List Maganjo
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/css/salesLiist.css')
+  body
+     style.
+      .navbar-blue {
+        background-color:rgb(57, 69, 87);
+      }
+      .nav-link {
+        color: white !important;
+      }
+  body
+    nav.navbar.navbar-dark.navbar-blue
+      .container.d-flex.justify-content-center
+        ul.nav
+          li.nav-item
+            a.nav-link(href='/managerMaganjoDash') Back to Dashboard
+    .container
+      h3.mt-5 List of Items Maganjo
+        //- input#searchInput(type='text' name='search' placeholder='Search...')
+        //- button(type='submit') Search
+      table#procuredTable.table.table-bordered.mt-3
+        thead.table-dark
+          tr
+            th(scope='col') Produce Name
+            th(scope='col') Type
+            th(scope='col') Date
+            th(scope='col') Time
+            th(scope='col') Quantity (kg)
+            th(scope='col') Cost (UGX)
+            th(scope='col') Buyer Name
+            th(scope='col') Contact
+            th(scope='col') Branch Name
+            th(scope='col') Update
+            th
+        tbody
+          if sales.length 
+            each sale in sales 
+              tr
+                td #{sale.produceName}
+                td #{sale.produceType}
+                td #{moment(sale.saleDate).format("DD-MM-YYYY")}
+                td #{sale.saleTime}
+                td #{sale.quantitySold}
+                td #{sale.pricePerKg}
+                td #{sale.buyerName}
+                td #{sale.buyerContact}
+                td #{sale.branchName}
+                td(colspan="2")
+                  .d-flex.gap-2
+                    a.btn.btn-sm.btn-primary.w-100(href="/updateSale/"+sale._id) Update
+                    form(action="/deleteSaleMaganjo" method='POST' onsubmit="return confirm('Are you sure you want to delete this product?')" class="w-100")
+                      input(type="hidden" name="id" value=sale._id)
+                      button.btn.btn-sm.btn-danger.w-100(type="submit") Delete
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')

@@ -98,8 +98,6 @@ const topSellingData = Object.keys(salesAggregation).map(produceName => ({
       console.log("No top selling products data available.");
     }
 
-    // Log data for debugging
-    console.log('Top Selling Data:', topSellingData);
 
     // Render the dashboard
     res.render("managerMaganjo", {

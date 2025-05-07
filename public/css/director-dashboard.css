@@ -111,9 +111,9 @@ footer {
   
   /* Ensure logout button is styled and spaced */
   #logout-button {
-    background-color: #e72e1a;
+    background-color:rgb(78, 78, 161);
     padding: 10px 20px;
-    color: rgb(70, 70, 85);
+    color: white;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
@@ -131,3 +131,4 @@ footer {
         margin-bottom: 10px;
     }
 }
+

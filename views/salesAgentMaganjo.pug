@@ -1,17 +1,30 @@
 doctype html
 html
   head
-    title Sales Agent Dashboard-Maganjo 
+    title Sales Agent Dashboard - Maganjo 
     link(rel='stylesheet' href='/css/sales-agent-dashboard.css')
+    style.
+      .logout-button {
+        background-color: blue;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .logout-button:hover {
+        background-color: #2980b9;
+      }
+
   body
     header
       h1 Welcome #{agentName}
       nav
         ul
-          li: a(href='/addSale') Record Cash Sale
+          li: a(href='/addSaleMaganjo') Record Cash Sale
           li: a(href='/creditsalesAgentMaganjoDash') Record Credit Sale
           li: a(href='/salesHistory') My Sales History
-          li: a(href='/logout') Logout
+          li: a.logout-button(href='/logout') Logout
 
     main
       section
@@ -65,6 +78,3 @@ html
             else
               tr
                 td(colspan="4") No outstanding credit sales.
-
-    //- footer
-    //-   p &copy; 2025 Karibu Groceries LTD.

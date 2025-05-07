@@ -9,25 +9,28 @@ html(lang="en")
     link(rel="stylesheet", href="/css/login.css")
 
   body
-    h2.text-center Welcome to KGL Grocery Store
-    h6.text-center Please Sign into Your Account
+    h2.text-center.mt-4 Welcome to KGL Grocery Store
+    h6.text-center.mb-4 Please Sign into Your Account
 
-    //- if message && message.length
-    //-   .alert.alert-danger.text-center(role="alert")
-    //-     i.fas.fa-exclamation-circle.me-2
-    //-     = message[0]
+    // Display login error message if any
+    if message && message.length
+      .alert.alert-danger.text-center(role="alert")
+        i.fas.fa-exclamation-circle.me-2
+        = message[0]
 
-    .login-container
-      form(action="/login" method="POST")
+    .login-container.mx-auto.p-4.border.rounded(style="max-width: 400px;")
+      form(action="/login", method="POST")
         .mb-3
           label.form-label(for="email") Email
           input#email.form-control(type="email", name="email", required)
+
         .mb-3
           label.form-label(for="password") Password
           .input-group
             input#password.form-control(type="password", name="password", required)
-            span.input-group-text(onclick="togglePassword()")
+            span.input-group-text(style="cursor: pointer;" onclick="togglePassword()")
               i#toggleIcon.fas.fa-eye
+
         button.btn.btn-primary.w-100(type="submit") Sign in
 
       br
@@ -39,3 +42,17 @@ html(lang="en")
         a.text-primary(href="/signingup") Create an Account
 
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js", crossorigin="anonymous")
+    script.
+      function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          passwordInput.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      }

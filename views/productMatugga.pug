@@ -4,10 +4,17 @@ html
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     title Procure Produce
+    link(rel='stylesheet', href='/css/Product.css') 
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
-    link(rel='stylesheet' href='/css/')
+    style.
+      .navbar-blue {
+        background-color: rgb(57, 69, 87);
+      }
+      .nav-link {
+        color: white !important;
+      }
   body
-    nav.navbar.navbar-light.bg-light
+    nav.navbar.navbar-dark.navbar-blue
       .container.d-flex.justify-content-center
         ul.nav
           li.nav-item
@@ -15,24 +22,23 @@ html
 
     .container.mt-4
       h3.mb-3 Record New Procurement
-      form#procurementForm(method='POST' action='/addingProduct' onsubmit='return validateForm()')
+      form#procurementForm(method='POST' action='/addProduct' onsubmit='return validateForm()')
         .row.mb-3
-        .col
-          label(for='produceName') Produce Name
-          select#produceName.form-select(name='produceName' required)
-            option(value='') -- Select Produce Name --
-            option(value='Beans') Beans
-            option(value='Maize Grains') Maize Grains
-            option(value='G-Nuts') G-Nuts 
-            option(value='Soya Beans') Soya Beans
-            option(value='Cow Peas') Cow Peas
-        .col
-          label(for='produceType') Produce Type
-          select#produceType.form-select(name='produceType' required)
-            option(value='') -- Select Produce Type --
-            option(value='Legume') Legume
-            option(value='Cereals') Cereals
-
+          .col
+            label(for='produceName') Produce Name
+            select#produceName.form-select(name='produceName' required)
+              option(value='') -- Select Produce Name --
+              option(value='Beans') Beans
+              option(value='Maize Grains') Maize Grains
+              option(value='G-Nuts') G-Nuts 
+              option(value='Soya Beans') Soya Beans
+              option(value='Cow Peas') Cow Peas 
+          .col
+            label(for='produceType') Produce Type
+            select#produceType.form-select(name='produceType' required)
+              option(value='') -- Select Produce Type --
+              option(value='Legume') Legume
+              option(value='Cereals') Cereals
 
         .row.mb-3
           .col
@@ -71,45 +77,92 @@ html
 
         button.btn.btn-success(type='submit') Submit Procurement
 
-    //- .container
-    //-   h3.mt-5 Existing Procurements
-    //-   table.table.table-bordered
-    //-     thead.table-dark
-    //-       tr
-    //-         th Produce Name
-    //-         th Type
-    //-         th Date
-    //-         th Time
-    //-         th Tonnage
-    //-         th Cost
-    //-         th Dealer
-    //-         th Branch
-    //-         th Contact
-    //-         th Price (UGX)
-    //-     tbody
-    //-       if product && product.length
-    //-         each product in products
-    //-           tr
-    //-             td #{product.produceName}
-    //-             td #{product.produceType}
-    //-             td #{ moment(product.procureDate).format("DD-MM-YYYY") }
-    //-             td #{product.procureTime}
-    //-             td #{product.tonnage.toLocaleString()}
-    //-             td #{product.cost.toLocaleString()}
-    //-             td #{product.dealerName}
-    //-             td #{product.branchName}
-    //-             td #{product.contact}
-    //-             td #{product.sellPrice.toLocaleString()}
-    //-       else
-    //-         tr
-    //-           td(colspan='10') No procurements found.
+      #formAlert.mt-3
 
-    // Bootstrap Bundle
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
 
-    // JS Auto-fill and Validation
     script.
-      // Auto-set date and time on page load
+      function clearInvalidFields() {
+        const fields = document.querySelectorAll('.is-invalid');
+        fields.forEach(field => field.classList.remove('is-invalid'));
+
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => alert.remove());
+      }
+
+      function showError(message, fieldId) {
+        const field = document.getElementById(fieldId);
+        field.classList.add('is-invalid');
+
+        const alert = document.createElement('div');
+        alert.className = 'alert alert-danger mt-1';
+        alert.textContent = message;
+
+        // Avoid duplicating alerts
+        const existingAlert = field.parentElement.querySelector('.alert');
+        if (!existingAlert) {
+          field.parentElement.appendChild(alert);
+        }
+
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      function validateForm() {
+        clearInvalidFields();
+
+        const name = document.getElementById('produceName');
+        const type = document.getElementById('produceType');
+        const date = document.getElementById('procureDate');
+        const time = document.getElementById('procureTime');
+        const tonnage = document.getElementById('tonnage');
+        const cost = document.getElementById('cost');
+        const dealer = document.getElementById('dealerName');
+        const contact = document.getElementById('contact');
+        const sellPrice = document.getElementById('sellPrice');
+        const branch = document.getElementById('branchName');
+
+        const phoneRegex = /^0\d{9}$/;
+
+        if (!name.value.trim()) {
+          showError('Produce Name is required.', 'produceName');
+          return false;
+        }
+        if (!type.value) {
+          showError('Please select a produce type.', 'produceType');
+          return false;
+        }
+        if (!date.value || !time.value) {
+          showError('Both Date and Time are required.', 'procureDate');
+          return false;
+        }
+        if (!tonnage.value || tonnage.value.length < 3 || Number(tonnage.value) < 100) {
+          showError('Tonnage must be at least 100kg (3 digits).', 'tonnage');
+          return false;
+        }
+        if (!cost.value || cost.value.length < 5 || Number(cost.value) <= 0) {
+          showError('Cost must be a numeric value with at least 5 digits.', 'cost');
+          return false;
+        }
+        if (!dealer.value.trim() || dealer.value.trim().length < 2) {
+          showError('Dealer Name must be at least 2 characters.', 'dealerName');
+          return false;
+        }
+        if (!phoneRegex.test(contact.value.trim())) {
+          showError('Contact must be a valid Ugandan phone number (e.g. 07XXXXXXXX).', 'contact');
+          return false;
+        }
+        if (!branch.value) {
+          showError('Please select a branch.', 'branchName');
+          return false;
+        }
+        if (!sellPrice.value || sellPrice.value.length < 5 || Number(sellPrice.value) <= 0) {
+          showError('Selling Price must be a numeric value with at least 5 digits.', 'sellPrice');
+          return false;
+        }
+
+        return true; // All validation passed
+      }
+
       window.onload = () => {
         const now = new Date();
         const dateField = document.getElementById('procureDate');
@@ -123,66 +176,4 @@ html
 
         dateField.value = `${yyyy}-${mm}-${dd}`;
         timeField.value = `${hh}:${min}`;
-      }
-
-      function validateForm() {
-        const name = document.getElementById('produceName').value.trim();
-        const type = document.getElementById('produceType').value;
-        const date = document.getElementById('procureDate').value;
-        const time = document.getElementById('procureTime').value;
-        const tonnage = document.getElementById('tonnage').value;
-        const cost = document.getElementById('cost').value;
-        const dealer = document.getElementById('dealerName').value.trim();
-        const contact = document.getElementById('contact').value.trim();
-        const sellPrice = document.getElementById('sellPrice').value;
-        const branch = document.getElementById('branchName').value;
-
-        const phoneRegex = /^0\d{9}$/;
-
-        if (!name) {
-          alert('Produce Name is required.');
-          return false;
-        }
-
-        if (!type) {
-          alert('Please select a produce type.');
-          return false;
-        }
-
-        if (!date || !time) {
-          alert('Both Date and Time are required.');
-          return false;
-        }
-
-        if (!tonnage || tonnage.length < 3 || Number(tonnage) < 100) {
-          alert('Tonnage must be at least 3 digits (min 100kg).');
-          return false;
-        }
-
-        if (!cost || cost.length < 5 || Number(cost) <= 0) {
-          alert('Cost must be a numeric value with at least 5 digits.');
-          return false;
-        }
-
-        if (!dealer || dealer.length < 2) {
-          alert('Dealer Name must be at least 2 characters.');
-          return false;
-        }
-
-        if (!phoneRegex.test(contact)) {
-          alert('Contact must be a valid Ugandan phone number (e.g. 07XXXXXXXX).');
-          return false;
-        }
-
-        if (!branch) {
-          alert('Please select a branch.');
-          return false;
-        }
-
-        if (!sellPrice || sellPrice.length < 5 || Number(sellPrice) <= 0) {
-          alert('Selling Price must be a numeric value with at least 5 digits.');
-          return false;
-        }
-
-        return true;
-      }
+      };
