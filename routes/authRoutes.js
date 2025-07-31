@@ -60,39 +60,7 @@ router.post("/login", passport.authenticate("local", { failureRedirect: "/login"
 });
 
     
-// Render login form
-// router.get("/login", (req, res) => {
-//     res.render("login");
-// });
 
-// router.post("/login", passport.authenticate("local", { failureRedirect: "/login" }), (req, res) => {
-//     console.log("Login details:", req.body); 
-//     req.session.user = req.user;
-
-//     const { role, branch } = req.user;
-
-//     if (role === "manager") {
-//         if (branch === "Maganjo") {
-//             return res.redirect("/managerMaganjoDash");
-//         } else if (branch === "Matugga") {
-//             return res.redirect("/managerMatuggaDash");
-//         } else {
-//             return res.status(400).send("Unknown branch for manager");
-//         }
-//     } else if (role === "salesAgent") {
-//         if (branch === "Maganjo") {
-//             return res.redirect("/salesAgentMaganjoDash");
-//         } else if (branch === "Matugga") {
-//             return res.redirect("/salesAgentMatuggaDash");
-//         } else {
-//             return res.status(400).send("Unknown branch for sales agent");
-//         } 
-//     } else if (role === "director") {
-//         return res.redirect("/directorDash");
-//     } else {
-//         return res.status(403).send("Unauthorized: Role not recognized");
-//     }
-// });
 
 // Logout route
 router.get("/logout", (req, res) => {  
