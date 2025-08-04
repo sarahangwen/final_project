@@ -1,10 +1,51 @@
-name: hello sarah
+# name: hello sarah
 
-on: [push]
+# on: [push]
+
+# jobs:
+#   say-hello:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: hello sarah
+#         run: echo "hello, sarah!"
+
+name: Node.js CI
+
+on: [push, pull_request]
 
 jobs:
-  say-hello:
+  lint:
+    name: Lint with ESLint
     runs-on: ubuntu-latest
     steps:
-      - name: hello sarah
-        run: echo "hello, sarah!"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # or any supported version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npx eslint .
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
