@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
 // Import models correctly
-const Sale = require("../models/sale");
-const Credit = require("../models/Credit");
-const Product = require("../models/Product");
+const Sale = require('../models/sale');
+const Credit = require('../models/Credit');
+const Product = require('../models/Product');
 
-router.get("/managerMaganjoDash", async (req, res) => {
+router.get('/managerMaganjoDash', async (req, res) => {
   try {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -17,20 +17,20 @@ router.get("/managerMaganjoDash", async (req, res) => {
     // Fetch sales and revenue
     const totalSalesTodayResult = await Sale.aggregate([
       { $match: { saleDate: { $gte: today, $lt: tomorrow } } },
-      { $group: { _id: null, total: { $sum: { $multiply: ["$quantitySold", "$pricePerKg"] } } } }
+      { $group: { _id: null, total: { $sum: { $multiply: ['$quantitySold', '$pricePerKg'] } } } }
     ]);
     const totalSalesToday = totalSalesTodayResult[0]?.total || 0;
 
     const totalRevenueResult = await Sale.aggregate([
       { $match: { saleDate: { $gte: monthStart, $lt: tomorrow } } },
-      { $group: { _id: null, total: { $sum: { $multiply: ["$quantitySold", "$pricePerKg"] } } } }
+      { $group: { _id: null, total: { $sum: { $multiply: ['$quantitySold', '$pricePerKg'] } } } }
     ]);
     const totalRevenue = totalRevenueResult[0]?.total || 0;
 
     // Fetch outstanding credits
     const outstandingCreditResult = await Credit.aggregate([
-      { $match: { status: { $ne: "Paid" } } },
-      { $group: { _id: null, total: { $sum: { $multiply: ["$quantitySold", "$pricePerKg"] } } } }
+      { $match: { status: { $ne: 'Paid' } } },
+      { $group: { _id: null, total: { $sum: { $multiply: ['$quantitySold', '$pricePerKg'] } } } }
     ]);
     const outstandingCredits = outstandingCreditResult[0]?.total || 0;
 
@@ -51,8 +51,8 @@ router.get("/managerMaganjoDash", async (req, res) => {
     const salesPerProduct = await Sale.aggregate([
       {
         $group: {
-          _id: "$produceName",
-          totalSold: { $sum: "$quantitySold" }
+          _id: '$produceName',
+          totalSold: { $sum: '$quantitySold' }
         }
       }
     ]);
@@ -95,12 +95,12 @@ const topSellingData = Object.keys(salesAggregation).map(produceName => ({
 
     // Check if the pie chart data is valid (i.e., not empty)
     if (topSellingData.length === 0) {
-      console.log("No top selling products data available.");
+      console.log('No top selling products data available.');
     }
 
 
     // Render the dashboard
-    res.render("managerMaganjo", {
+    res.render('managerMaganjo', {
       totalSalesToday,
       totalRevenue,
       outstandingCredits,
@@ -112,8 +112,8 @@ const topSellingData = Object.keys(salesAggregation).map(produceName => ({
       topSellingData
     });
   } catch (error) {
-    console.error("Error loading manager dashboard:", error);
-    res.status(500).send("Server Error");
+    console.error('Error loading manager dashboard:', error);
+    res.status(500).send('Server Error');
   }
 });
 

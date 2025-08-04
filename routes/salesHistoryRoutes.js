@@ -1,18 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const Sale = require("../models/sale");
+const Sale = require('../models/sale');
 // sale History at Maganjo
-router.get("/salesHistory", async (req, res) => {
+router.get('/salesHistory', async (req, res) => {
   try {
     // 1. Total revenue and quantity sold
     const totalRevenueAgg = await Sale.aggregate([
       {
         $group: {
           _id: null,
-          totalquantitysold: { $sum: "$quantitySold" },
+          totalquantitysold: { $sum: '$quantitySold' },
           totalsale: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -26,10 +26,10 @@ router.get("/salesHistory", async (req, res) => {
     const productSalesAgg = await Sale.aggregate([
       {
         $group: {
-          _id: "$produceName",
-          totalQuantity: { $sum: "$quantitySold" },
+          _id: '$produceName',
+          totalQuantity: { $sum: '$quantitySold' },
           totalSales: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -47,9 +47,9 @@ router.get("/salesHistory", async (req, res) => {
       {
         $group: {
           _id: null,
-          creditQuantitySold: { $sum: "$quantitySold" },
+          creditQuantitySold: { $sum: '$quantitySold' },
           creditSalesAmount: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -64,11 +64,11 @@ router.get("/salesHistory", async (req, res) => {
     const branchSalesAgg = await Sale.aggregate([
       {
         $group: {
-          _id: "$branchName",
+          _id: '$branchName',
           salesAmount: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           },
-          tonnageSold: { $sum: "$quantitySold" }
+          tonnageSold: { $sum: '$quantitySold' }
         }
       }
     ]);
@@ -80,29 +80,29 @@ router.get("/salesHistory", async (req, res) => {
     }));
 
     // 5. Render the dashboard
-    res.render("salesHistoryMaganjo", {
+    res.render('salesHistoryMaganjo', {
       totalRevenue, // << Corrected here
       productSales,
       creditSales,
       branchSales
     });
   } catch (error) {
-    console.error("Dashboard Error:", error.message);
-    res.status(500).send("Error loading dashboard data.");
+    console.error('Dashboard Error:', error.message);
+    res.status(500).send('Error loading dashboard data.');
   }
 });
 
 // Sales History at Matugga
-router.get("/salesHistoryMatuggaDash", async (req, res) => {
+router.get('/salesHistoryMatuggaDash', async (req, res) => {
   try {
     // 1. Total revenue and quantity sold
     const totalRevenueAgg = await Sale.aggregate([
       {
         $group: {
           _id: null,
-          totalquantitysold: { $sum: "$quantitySold" },
+          totalquantitysold: { $sum: '$quantitySold' },
           totalsale: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -116,10 +116,10 @@ router.get("/salesHistoryMatuggaDash", async (req, res) => {
     const productSalesAgg = await Sale.aggregate([
       {
         $group: {
-          _id: "$produceName",
-          totalQuantity: { $sum: "$quantitySold" },
+          _id: '$produceName',
+          totalQuantity: { $sum: '$quantitySold' },
           totalSales: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -137,9 +137,9 @@ router.get("/salesHistoryMatuggaDash", async (req, res) => {
       {
         $group: {
           _id: null,
-          creditQuantitySold: { $sum: "$quantitySold" },
+          creditQuantitySold: { $sum: '$quantitySold' },
           creditSalesAmount: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -154,11 +154,11 @@ router.get("/salesHistoryMatuggaDash", async (req, res) => {
     const branchSalesAgg = await Sale.aggregate([
       {
         $group: {
-          _id: "$branchName",
+          _id: '$branchName',
           salesAmount: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           },
-          tonnageSold: { $sum: "$quantitySold" }
+          tonnageSold: { $sum: '$quantitySold' }
         }
       }
     ]);
@@ -170,15 +170,15 @@ router.get("/salesHistoryMatuggaDash", async (req, res) => {
     }));
 
     // 5. Render the dashboard
-    res.render("salesHistoryMatugga", {
+    res.render('salesHistoryMatugga', {
       totalRevenue, // << Corrected here
       productSales,
       creditSales,
       branchSales
     });
   } catch (error) {
-    console.error("Dashboard Error:", error.message);
-    res.status(500).send("Error loading dashboard data.");
+    console.error('Dashboard Error:', error.message);
+    res.status(500).send('Error loading dashboard data.');
   }
 });
 

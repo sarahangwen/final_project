@@ -12,7 +12,7 @@ const expressSession = require('express-session');
 require('dotenv').config();
 
 // Import models
-const Signup = require("./models/Signup");// Ensure this is the correct path
+const Signup = require('./models/Signup');// Ensure this is the correct path
 
 // 2. Instantiations
 const app = express();
@@ -20,7 +20,7 @@ const PORT = 3008;
 
 // Import routes
 const saleRoutes= require('./routes/saleRoutes');
-const productRoutes= require('./routes/productRoutes')
+const productRoutes= require('./routes/productRoutes');
 const creditRoutes = require('./routes/creditRoutes');
 const authRoutes = require('./routes/authRoutes');
 const managerMatuggaRoutes = require('./routes/managerMatuggaRoutes');

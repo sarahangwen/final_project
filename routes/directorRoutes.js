@@ -1,19 +1,19 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const Sale = require("../models/sale");
-const Credit = require("../models/Credit");
+const Sale = require('../models/sale');
+const Credit = require('../models/Credit');
 
-router.get("/directorDash", async (req, res) => {
+router.get('/directorDash', async (req, res) => {
   try {
     // 1. Total revenue and quantity sold
     const totalRevenueAgg = await Sale.aggregate([
       {
         $group: {
           _id: null,
-          totalquantitysold: { $sum: "$quantitySold" },
+          totalquantitysold: { $sum: '$quantitySold' },
           totalsale: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -27,10 +27,10 @@ router.get("/directorDash", async (req, res) => {
     const productSalesAgg = await Sale.aggregate([
       {
         $group: {
-          _id: "$produceName",
-          totalQuantity: { $sum: "$quantitySold" },
+          _id: '$produceName',
+          totalQuantity: { $sum: '$quantitySold' },
           totalSales: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           }
         }
       }
@@ -45,11 +45,11 @@ router.get("/directorDash", async (req, res) => {
     const branchSalesAgg = await Sale.aggregate([
       {
         $group: {
-          _id: "$branchName",
+          _id: '$branchName',
           salesAmount: {
-            $sum: { $multiply: ["$pricePerKg", "$quantitySold"] }
+            $sum: { $multiply: ['$pricePerKg', '$quantitySold'] }
           },
-          tonnageSold: { $sum: "$quantitySold" }
+          tonnageSold: { $sum: '$quantitySold' }
         }
       }
     ]);
@@ -61,12 +61,12 @@ router.get("/directorDash", async (req, res) => {
 
     // 4. Fetch outstanding credit sales (based on creditTonnage and amountDue)
     const creditSalesAgg = await Credit.aggregate([
-      { $match: { status: { $ne: "Paid" } } },
+      { $match: { status: { $ne: 'Paid' } } },
       {
         $group: {
           _id: null,
-          totalCreditAmount: { $sum: "$amountDue" },
-          totalCreditTonnage: { $sum: "$creditTonnage" }
+          totalCreditAmount: { $sum: '$amountDue' },
+          totalCreditTonnage: { $sum: '$creditTonnage' }
         }
       }
     ]);
@@ -75,7 +75,7 @@ router.get("/directorDash", async (req, res) => {
     const totalCreditTonnage = creditSalesAgg[0]?.totalCreditTonnage || 0;
 
     // 5. Render the dashboard
-    res.render("director-dashboard", {
+    res.render('director-dashboard', {
       totalRevenue,
       productSales,
       branchSales,
@@ -84,8 +84,8 @@ router.get("/directorDash", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Dashboard Error:", error.message);
-    res.status(500).send("Error loading dashboard data.");
+    console.error('Dashboard Error:', error.message);
+    res.status(500).send('Error loading dashboard data.');
   }
 });
 

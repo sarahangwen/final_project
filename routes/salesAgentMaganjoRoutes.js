@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const Sale = require("../models/sale");
-const Credit = require("../models/Credit");
+const Sale = require('../models/sale');
+const Credit = require('../models/Credit');
 
 // Route to render the sales agent dashboard for Maganjo
-router.get("/salesAgentMaganjoDash", async (req, res) => {
+router.get('/salesAgentMaganjoDash', async (req, res) => {
     try {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -14,27 +14,27 @@ router.get("/salesAgentMaganjoDash", async (req, res) => {
 
         // Fetch today's total sales
         const totalSalesTodayResult = await Sale.aggregate([
-            { $match: { saleDate: { $gte: today, $lt: tomorrow }, branch: "Maganjo" } }, // Assuming branch field exists
-            { $group: { _id: null, total: { $sum: { $multiply: ["$quantitySold", "$pricePerKg"] } } } }
+            { $match: { saleDate: { $gte: today, $lt: tomorrow }, branch: 'Maganjo' } }, // Assuming branch field exists
+            { $group: { _id: null, total: { $sum: { $multiply: ['$quantitySold', '$pricePerKg'] } } } }
         ]);
         const totalSalesToday = totalSalesTodayResult[0]?.total || 0;
 
         // Fetch outstanding credits
         const outstandingCreditResult = await Credit.aggregate([
-            { $match: { status: { $ne: "Paid" }, branch: "Maganjo" } }, // Filter to Maganjo branch
-            { $group: { _id: null, total: { $sum: { $multiply: ["$quantitySold", "$pricePerKg"] } } } }
+            { $match: { status: { $ne: 'Paid' }, branch: 'Maganjo' } }, // Filter to Maganjo branch
+            { $group: { _id: null, total: { $sum: { $multiply: ['$quantitySold', '$pricePerKg'] } } } }
         ]);
         const outstandingCredits = outstandingCreditResult[0]?.total || 0;
 
         // Render the dashboard view
-        res.render("salesAgentMaganjo", {
+        res.render('salesAgentMaganjo', {
             totalSalesToday,
             outstandingCredits
         });
 
     } catch (error) {
-        console.error("Error loading sales agent dashboard:", error);
-        res.status(500).send("Server Error");
+        console.error('Error loading sales agent dashboard:', error);
+        res.status(500).send('Server Error');
     }
 });
 
