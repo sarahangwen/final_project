@@ -1,80 +1,90 @@
 doctype html
 html
   head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
     title Sales Agent Dashboard - Maganjo 
     link(rel='stylesheet' href='/css/sales-agent-dashboard.css')
-    style.
-      .logout-button {
-        background-color: blue;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-      }
-      .logout-button:hover {
-        background-color: #2980b9;
-      }
 
   body
-    header
-      h1 Welcome #{agentName}
-      nav
+    .dashboard-layout
+      aside.sidebar
+        .sidebar-header
+          h2.sidebar-title Sales Agent
+          p.sidebar-subtitle Maganjo Branch
         ul
-          li: a(href='/addSaleMaganjo') Record Cash Sale
-          li: a(href='/creditsalesAgentMaganjoDash') Record Credit Sale
-          li: a(href='/salesHistory') My Sales History
-          li: a.logout-button(href='/logout') Logout
+          li
+            a(href='/addSaleMaganjo') Record Cash Sale
+          li
+            a(href='/creditsalesAgentMaganjoDash') Record Credit Sale
+          li
+            a(href='/salesHistory') My Sales History
+        .sidebar-footer
+          a.logout-button(href='/logout') Logout
 
-    main
-      section
-        h2 Today's Overview
-        p Total Revenue Today: UGX #{totalSalesToday}
-        p Outstanding Credit Value: UGX #{outstandingCredits}
+      main.main-content
+        .dashboard-container
+          header
+            h1 Welcome #{agentName || 'Sales Agent'}
 
-      section
-        h2 My Sales Summary
-        p Total Cash Sales: UGX #{totalAmount}
-        p Total Credit Sales: UGX #{totalCredit}
+          section.summary-cards
+            .card
+              p.card-label Total Revenue Today
+              p.card-value UGX #{Number(totalSalesToday || 0).toLocaleString()}
+            .card
+              p.card-label Outstanding Credit Value
+              p.card-value UGX #{Number(outstandingCredits || 0).toLocaleString()}
 
-      section
-        h3 Recent Cash Sales
-        table
-          thead
-            tr
-              th Produce
-              th Tonnage (kg)
-              th Amount Paid
-              th Date
-          tbody
-            if sales && sales.length
-              each sale in sales
-                tr
-                  td #{sale.produceName}
-                  td #{sale.quantitySold}
-                  td #{sale.quantitySold * sale.pricePerKg}
-                  td #{moment(sale.saleDate).format("DD-MM-YYYY")}
-            else
-              tr
-                td(colspan="4") No cash sales available.
+          section.panel
+            h3.panel-title Recent Cash Sales
+            .table-wrap
+              table
+                thead
+                  tr
+                    th Produce
+                    th Tonnage (kg)
+                    th Amount Paid
+                    th Date
+                tbody
+                  if sales && sales.length
+                    each sale in sales
+                      tr
+                        td #{sale.produceName}
+                        td #{Number(sale.quantitySold || 0).toLocaleString()}
+                        td UGX #{Number((sale.quantitySold || 0) * (sale.pricePerKg || 0)).toLocaleString()}
+                        td #{moment(sale.saleDate).format("DD-MM-YYYY")}
+                  else
+                    tr
+                      td(colspan="4") No cash sales available.
 
-      section
-        h3 Outstanding Credit Sales
-        table
-          thead
-            tr
-              th Buyer
-              th Produce
-              th Amount Due
-              th Due Date
-          tbody
-            if credits && credits.length
-              each credit in credits
-                tr
-                  td #{credit.creditBuyerName}
-                  td #{credit.creditProduceName}
-                  td #{credit.amountDue}
-                  td #{moment(credit.dueDate).format("DD-MM-YYYY")}
-            else
-              tr
-                td(colspan="4") No outstanding credit sales.
+          section.panel
+            h3.panel-title Outstanding Credit Sales
+            .table-wrap
+              table
+                thead
+                  tr
+                    th Buyer
+                    th Produce
+                    th Amount Due
+                    th Due Date
+                tbody
+                  if credits && credits.length
+                    each credit in credits
+                      tr
+                        td #{credit.creditBuyerName}
+                        td #{credit.creditProduceName}
+                        td UGX #{Number(credit.amountDue || 0).toLocaleString()}
+                        td #{moment(credit.dueDate).format("DD-MM-YYYY")}
+                  else
+                    tr
+                      td(colspan="4") No outstanding credit sales.
+
+    script.
+      const currentPath = window.location.pathname;
+      const sidebarLinks = document.querySelectorAll('.sidebar a');
+      sidebarLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (href && href === currentPath) {
+          link.classList.add('active');
+        }
+      });
