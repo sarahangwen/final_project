@@ -3,55 +3,124 @@ html
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Sign Up - Karibu Groceries LTD
+    title Sign Up - KGL
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css")
-    style.
-      body {
-        background-color: #f8f9fa;
-      }
-      .signup-container {
-        max-width: 500px;
-        margin: 60px auto;
-        padding: 30px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      }
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
+    link(rel='stylesheet', href='/css/signUp.css')
 
   body
-    .signup-container
-      h2.text-center.mb-4 Sign Up
+    - const values = formData || {}
+    .signup-page
+      .signup-shell
+        .brand-panel
+          .brand-badge KGL
+          h1 Create an Account
+          p Register a user account to access role-based dashboards and operations.
+          ul.feature-list
+            li
+              i.fas.fa-check-circle
+              span Role-specific access control
+            li
+              i.fas.fa-check-circle
+              span Branch-aware workflow management
+            li
+              i.fas.fa-check-circle
+              span Secure authentication for staff
 
-      form(action="/signingup", method="POST")
-        .mb-3
-          label.form-label(for="email") Email
-          input#email.form-control(type="email", name="email", required)
+        .form-panel
+          h2 Sign Up
+          p.form-subtitle Fill in the details below to create a new account.
 
-        .mb-3
-          label.form-label(for="phoneNumber") Phone Number
-          input#phoneNumber.form-control(type="text", name="phoneNumber", required)
+          if error
+            .alert.alert-danger(role='alert') #{error}
 
-        .mb-3
-          label.form-label(for="password") Password
-          input#password.form-control(type="password", name="password", required)
+          form#signUpForm.needs-validation(action='/signingup', method='POST', novalidate)
+            .mb-3
+              label.form-label(for='email') Email Address
+              input#email.form-control(type='email', name='email', placeholder='name@example.com', value=values.email || '', required)
+              .invalid-feedback Please enter a valid email address.
 
-        .mb-3
-          label.form-label(for="confirmPassword") Confirm Password
-          input#confirmPassword.form-control(type="password", name="confirmPassword", required)
+            .mb-3
+              label.form-label(for='phoneNumber') Phone Number
+              input#phoneNumber.form-control(type='tel', name='phoneNumber', pattern='^(?:\+256|0)(7\d{8})$', placeholder='07XXXXXXXX or +2567XXXXXXXX', value=values.phoneNumber || '', required)
+              .invalid-feedback Enter a valid Ugandan phone number.
 
-        .mb-3
-          label.form-label(for="role") Select Role
-          select#role.form-select(name="role", required)
-            option(value="") -- Select Role --
-            option(value="managerMaganjo") Manager - Maganjo
-            option(value="managerMatugga") Manager - Matugga
-            option(value="salesAgentMaganjo") Sales Agent - Maganjo
-            option(value="salesAgentMatugga") Sales Agent - Matugga
-            option(value="director") Director
+            .mb-3
+              label.form-label(for='password') Password
+              .input-group
+                input#password.form-control(type='password', name='password', minlength='8', placeholder='Minimum 8 characters', required)
+                button.input-group-text(type='button' onclick='togglePassword()' aria-label='Toggle password visibility')
+                  i#togglePasswordIcon.fas.fa-eye
+              .invalid-feedback Password must be at least 8 characters long.
 
-        button.btn.btn-success.w-100(type="submit") Sign Up
+            .mb-3
+              label.form-label(for='confirmPassword') Confirm Password
+              .input-group
+                input#confirmPassword.form-control(type='password', name='confirmPassword', minlength='8', placeholder='Re-enter password', required)
+                button.input-group-text(type='button' onclick='toggleConfirmPassword()' aria-label='Toggle confirm password visibility')
+                  i#toggleConfirmPasswordIcon.fas.fa-eye
+              .invalid-feedback Please confirm your password.
 
-      if error
-        p.text-danger.text-center.mt-3 #{error}
+            .mb-3
+              label.form-label(for='role') Select Role
+              select#role.form-select(name='role', required)
+                option(value='') -- Select Role --
+                option(value='managerMaganjo', selected=values.role === 'managerMaganjo') Manager - Maganjo
+                option(value='managerMatugga', selected=values.role === 'managerMatugga') Manager - Matugga
+                option(value='salesAgentMaganjo', selected=values.role === 'salesAgentMaganjo') Sales Agent - Maganjo
+                option(value='salesAgentMatugga', selected=values.role === 'salesAgentMatugga') Sales Agent - Matugga
+                option(value='director', selected=values.role === 'director') Director
+              .invalid-feedback Please select a role.
+
+            button.btn.btn-primary.w-100(type='submit') Create Account
+
+          .form-links
+            a(href='/login') Already have an account? Sign in
 
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js')
+    script.
+      const signUpForm = document.getElementById('signUpForm');
+      const password = document.getElementById('password');
+      const confirmPassword = document.getElementById('confirmPassword');
+      const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+      const toggleConfirmPasswordIcon = document.getElementById('toggleConfirmPasswordIcon');
+
+      function togglePassword() {
+        if (password.type === 'password') {
+          password.type = 'text';
+          togglePasswordIcon.classList.remove('fa-eye');
+          togglePasswordIcon.classList.add('fa-eye-slash');
+        } else {
+          password.type = 'password';
+          togglePasswordIcon.classList.remove('fa-eye-slash');
+          togglePasswordIcon.classList.add('fa-eye');
+        }
+      }
+
+      function toggleConfirmPassword() {
+        if (confirmPassword.type === 'password') {
+          confirmPassword.type = 'text';
+          toggleConfirmPasswordIcon.classList.remove('fa-eye');
+          toggleConfirmPasswordIcon.classList.add('fa-eye-slash');
+        } else {
+          confirmPassword.type = 'password';
+          toggleConfirmPasswordIcon.classList.remove('fa-eye-slash');
+          toggleConfirmPasswordIcon.classList.add('fa-eye');
+        }
+      }
+
+      signUpForm.addEventListener('submit', (event) => {
+        if (password.value !== confirmPassword.value) {
+          confirmPassword.setCustomValidity('Passwords do not match.');
+        } else {
+          confirmPassword.setCustomValidity('');
+        }
+
+        if (!signUpForm.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        signUpForm.classList.add('was-validated');
+      });
