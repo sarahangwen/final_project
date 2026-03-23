@@ -1,8 +1,8 @@
 :root {
   --bg: #f3f6fa;
   --surface: #ffffff;
-  --sidebar-bg: #1f2a37;
-  --sidebar-hover: #2b3a4d;
+  --sidebar-bg: #1f3d63;
+  --sidebar-hover: #2a5a91;
   --text-primary: #102033;
   --text-secondary: #5a6b80;
   --border: #e5edf5;
@@ -86,7 +86,7 @@ body {
 }
 
 .sidebar a.active {
-  background: #34495e;
+  background: var(--sidebar-hover);
   border-color: rgba(255, 255, 255, 0.2);
   color: #fff;
 }
