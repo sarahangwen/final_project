@@ -1,73 +1,129 @@
-/* sales.css */
+:root {
+  --page-bg: #f3f6fb;
+  --surface: #ffffff;
+  --text-main: #13253a;
+  --text-muted: #5f7085;
+  --border: #d9e4f0;
+  --primary: #1f4f8f;
+  --danger: #b42318;
+}
 
 body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+  background: var(--page-bg);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-main);
+}
+
+.top-nav {
+  background: linear-gradient(90deg, #1f3d63 0%, #2a5a91 100%);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(19, 37, 58, 0.15);
+}
+
+.top-nav .container {
+  min-height: 72px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.back-btn {
+  border-color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.form-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: 0 14px 28px rgba(19, 37, 58, 0.08);
+}
+
+.form-header {
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-header h3 {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.form-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #1e344f;
+  margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border: 1px solid #cfdbe8;
+  min-height: 44px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #5e8fca;
+  box-shadow: 0 0 0 0.2rem rgba(31, 79, 143, 0.14);
+}
+
+.btn.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.btn.btn-primary:hover {
+  background: #1a4378;
+  border-color: #1a4378;
+}
+
+.needs-validation .form-control:invalid,
+.needs-validation .form-select:invalid {
+  border-color: var(--danger);
+}
+
+.invalid-feedback {
+  font-size: 0.84rem;
+}
+
+.alert ul {
+  padding-left: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .top-nav .container {
+    min-height: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start !important;
   }
-  
-  form#registerSaleForm {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
+
+  .form-wrapper {
+    padding: 18px;
   }
-  
-  form#registerSaleForm h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #007bff;
-    font-weight: bold;
+
+  .btn.btn-primary.btn-lg {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
   }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
-    font-weight: 600;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f1f1f1;
-    transition: border-color 0.3s ease;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus {
-    border-color: #007bff;
-    background-color: #fff;
-    outline: none;
-  }
-  
-  button[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-    cursor: pointer;
-  }
+}
   
