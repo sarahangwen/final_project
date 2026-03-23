@@ -3,177 +3,140 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title Procure Produce
-    link(rel='stylesheet', href='/css/Product.css') 
+    title Add Stock - Matugga
+    link(rel='stylesheet', href='/css/addProduct.css') 
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
-    style.
-      .navbar-blue {
-        background-color: rgb(57, 69, 87);
-      }
-      .nav-link {
-        color: white !important;
-      }
   body
-    nav.navbar.navbar-dark.navbar-blue
-      .container.d-flex.justify-content-center
-        ul.nav
-          li.nav-item
-            a.nav-link(href='/managerMatuggaDash') Back to Dashboard
+    - const values = formData || {}
+    .top-nav
+      .container.d-flex.justify-content-between.align-items-center
+        h1.page-title Add Stock
+        a.btn.btn-outline-light.back-btn(href='/managerMatuggaDash') Back to Dashboard
 
-    .container.mt-4
-      h3.mb-3 Record New Procurement
-      form#procurementForm(method='POST' action='/addProduct' onsubmit='return validateForm()')
-        .row.mb-3
-          .col
-            label(for='produceName') Produce Name
-            select#produceName.form-select(name='produceName' required)
-              option(value='') -- Select Produce Name --
-              option(value='Beans') Beans
-              option(value='Maize Grains') Maize Grains
-              option(value='G-Nuts') G-Nuts 
-              option(value='Soya Beans') Soya Beans
-              option(value='Cow Peas') Cow Peas 
-          .col
-            label(for='produceType') Produce Type
-            select#produceType.form-select(name='produceType' required)
-              option(value='') -- Select Produce Type --
-              option(value='Legume') Legume
-              option(value='Cereals') Cereals
+    .container.py-4
+      .form-wrapper
+        .form-header
+          h3.mb-1 New Procurement Record
+          p.mb-0 Fill all required fields accurately before submitting.
 
-        .row.mb-3
-          .col
-            label(for='procureDate') Date
-            input#procureDate.form-control(type='date' name='procureDate' required)
-          .col
-            label(for='procureTime') Time
-            input#procureTime.form-control(type='time' name='procureTime' required)
+        if errorMessage
+          .alert.alert-danger(role='alert')= errorMessage
 
-        .row.mb-3
-          .col
-            label(for='tonnage') Tonnage (kg)
-            input#tonnage.form-control(type='number' name='tonnage' required)
-          .col
-            label(for='cost') Cost (UGX)
-            input#cost.form-control(type='number' name='cost' required)
+        if validationErrors && validationErrors.length
+          .alert.alert-warning(role='alert')
+            ul.mb-0
+              each err in validationErrors
+                li= err
 
-        .row.mb-3
-          .col
-            label(for='dealerName') Dealer Name
-            input#dealerName.form-control(type='text' name='dealerName' required)
-          .col
-            label(for='branchName') Branch Name
-            select#branchName.form-select(name='branchName' required)
-              option(value='') -- Select Branch --
-              option(value='Maganjo') Maganjo
-              option(value='Matugga') Matugga
+        form#procurementForm.needs-validation(method='POST' action='/addProduct' novalidate)
+          .row.g-3
+            .col-md-6
+              label.form-label(for='produceName') Produce Name
+              select#produceName.form-select(name='produceName' required)
+                option(value='') -- Select Produce Name --
+                option(value='Beans' selected=values.produceName === 'Beans') Beans
+                option(value='Maize Grains' selected=values.produceName === 'Maize Grains') Maize Grains
+                option(value='G-Nuts' selected=values.produceName === 'G-Nuts') G-Nuts
+                option(value='Soya Beans' selected=values.produceName === 'Soya Beans') Soya Beans
+                option(value='Cow Peas' selected=values.produceName === 'Cow Peas') Cow Peas
+              .invalid-feedback Please select a produce name.
 
-        .row.mb-3
-          .col
-            label(for='contact') Dealer Contact (Phone)
-            input#contact.form-control(type='tel' name='contact' required)
-          .col
-            label(for='sellPrice') Selling Price (UGX)
-            input#sellPrice.form-control(type='number' name='sellPrice' required)
+            .col-md-6
+              label.form-label(for='produceType') Produce Type
+              select#produceType.form-select(name='produceType' required)
+                option(value='') -- Select Produce Type --
+                option(value='Legume' selected=values.produceType === 'Legume') Legume
+                option(value='Cereals' selected=values.produceType === 'Cereals') Cereals
+              .invalid-feedback Please select a produce type.
 
-        button.btn.btn-success(type='submit') Submit Procurement
+            .col-md-6
+              label.form-label(for='procureDate') Procurement Date
+              input#procureDate.form-control(type='date' name='procureDate' value=values.procureDate || '' required)
+              .invalid-feedback Please provide a valid date.
 
-      #formAlert.mt-3
+            .col-md-6
+              label.form-label(for='procureTime') Procurement Time
+              input#procureTime.form-control(type='time' name='procureTime' value=values.procureTime || '' required)
+              .invalid-feedback Please provide a valid time.
+
+            .col-md-6
+              label.form-label(for='tonnage') Tonnage (kg)
+              input#tonnage.form-control(type='number' name='tonnage' min='100' step='1' value=values.tonnage || '' required)
+              .invalid-feedback Tonnage must be at least 100kg.
+
+            .col-md-6
+              label.form-label(for='cost') Cost Price (UGX)
+              input#cost.form-control(type='number' name='cost' min='10000' step='1' value=values.cost || '' required)
+              .invalid-feedback Cost must be at least UGX 10,000.
+
+            .col-md-6
+              label.form-label(for='dealerName') Dealer Name
+              input#dealerName.form-control(type='text' name='dealerName' minlength='2' value=values.dealerName || '' required)
+              .invalid-feedback Dealer name must be at least 2 characters.
+
+            .col-md-6
+              label.form-label(for='branchName') Branch Name
+              select#branchName.form-select(name='branchName' required)
+                option(value='') -- Select Branch --
+                option(value='Maganjo' selected=values.branchName === 'Maganjo') Maganjo
+                option(value='Matugga' selected=values.branchName === 'Matugga') Matugga
+              .invalid-feedback Please select a branch.
+
+            .col-md-6
+              label.form-label(for='contact') Dealer Contact (Phone)
+              input#contact.form-control(type='tel' name='contact' pattern='^0\d{9}$' placeholder='07XXXXXXXX' value=values.contact || '' required)
+              .invalid-feedback Enter a valid Ugandan number (07XXXXXXXX).
+
+            .col-md-6
+              label.form-label(for='sellPrice') Selling Price (UGX)
+              input#sellPrice.form-control(type='number' name='sellPrice' min='10000' step='1' value=values.sellPrice || '' required)
+              .invalid-feedback Selling price must be at least UGX 10,000 and not below cost.
+
+          .mt-4.d-grid
+            button.btn.btn-primary.btn-lg(type='submit') Save Stock Record
 
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
 
     script.
-      function clearInvalidFields() {
-        const fields = document.querySelectorAll('.is-invalid');
-        fields.forEach(field => field.classList.remove('is-invalid'));
+      const procurementForm = document.getElementById('procurementForm');
+      const procureDate = document.getElementById('procureDate');
+      const procureTime = document.getElementById('procureTime');
+      const cost = document.getElementById('cost');
+      const sellPrice = document.getElementById('sellPrice');
 
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => alert.remove());
-      }
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const hh = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      const today = `${yyyy}-${mm}-${dd}`;
 
-      function showError(message, fieldId) {
-        const field = document.getElementById(fieldId);
-        field.classList.add('is-invalid');
+      procureDate.max = today;
 
-        const alert = document.createElement('div');
-        alert.className = 'alert alert-danger mt-1';
-        alert.textContent = message;
+      if (!procureDate.value) procureDate.value = today;
+      if (!procureTime.value) procureTime.value = `${hh}:${min}`;
 
-        // Avoid duplicating alerts
-        const existingAlert = field.parentElement.querySelector('.alert');
-        if (!existingAlert) {
-          field.parentElement.appendChild(alert);
+      procurementForm.addEventListener('submit', (event) => {
+        const selectedDate = procureDate.value ? new Date(procureDate.value) : null;
+        const currentDate = new Date(today);
+
+        if (selectedDate && selectedDate > currentDate) {
+          procureDate.setCustomValidity('Procurement date cannot be in the future.');
+        } else {
+          procureDate.setCustomValidity('');
         }
 
-        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-
-      function validateForm() {
-        clearInvalidFields();
-
-        const name = document.getElementById('produceName');
-        const type = document.getElementById('produceType');
-        const date = document.getElementById('procureDate');
-        const time = document.getElementById('procureTime');
-        const tonnage = document.getElementById('tonnage');
-        const cost = document.getElementById('cost');
-        const dealer = document.getElementById('dealerName');
-        const contact = document.getElementById('contact');
-        const sellPrice = document.getElementById('sellPrice');
-        const branch = document.getElementById('branchName');
-
-        const phoneRegex = /^0\d{9}$/;
-
-        if (!name.value.trim()) {
-          showError('Produce Name is required.', 'produceName');
-          return false;
-        }
-        if (!type.value) {
-          showError('Please select a produce type.', 'produceType');
-          return false;
-        }
-        if (!date.value || !time.value) {
-          showError('Both Date and Time are required.', 'procureDate');
-          return false;
-        }
-        if (!tonnage.value || tonnage.value.length < 3 || Number(tonnage.value) < 100) {
-          showError('Tonnage must be at least 100kg (3 digits).', 'tonnage');
-          return false;
-        }
-        if (!cost.value || cost.value.length < 5 || Number(cost.value) <= 0) {
-          showError('Cost must be a numeric value with at least 5 digits.', 'cost');
-          return false;
-        }
-        if (!dealer.value.trim() || dealer.value.trim().length < 2) {
-          showError('Dealer Name must be at least 2 characters.', 'dealerName');
-          return false;
-        }
-        if (!phoneRegex.test(contact.value.trim())) {
-          showError('Contact must be a valid Ugandan phone number (e.g. 07XXXXXXXX).', 'contact');
-          return false;
-        }
-        if (!branch.value) {
-          showError('Please select a branch.', 'branchName');
-          return false;
-        }
-        if (!sellPrice.value || sellPrice.value.length < 5 || Number(sellPrice.value) <= 0) {
-          showError('Selling Price must be a numeric value with at least 5 digits.', 'sellPrice');
-          return false;
+        if (Number(sellPrice.value) < Number(cost.value)) {
+          sellPrice.setCustomValidity('Selling price cannot be less than cost price.');
+        } else {
+          sellPrice.setCustomValidity('');
         }
 
-        return true; // All validation passed
-      }
+        if (!procurementForm.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
 
-      window.onload = () => {
-        const now = new Date();
-        const dateField = document.getElementById('procureDate');
-        const timeField = document.getElementById('procureTime');
-
-        const yyyy = now.getFullYear();
-        const mm = String(now.getMonth() + 1).padStart(2, '0');
-        const dd = String(now.getDate()).padStart(2, '0');
-        const hh = String(now.getHours()).padStart(2, '0');
-        const min = String(now.getMinutes()).padStart(2, '0');
-
-        dateField.value = `${yyyy}-${mm}-${dd}`;
-        timeField.value = `${hh}:${min}`;
-      };
+        procurementForm.classList.add('was-validated');
+      });
