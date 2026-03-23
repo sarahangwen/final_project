@@ -1,51 +1,43 @@
-# name: hello sarah
+name: Linters
 
-# on: [push]
+on: push
 
-# jobs:
-#   say-hello:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: hello sarah
-#         run: echo "hello, sarah!"
-
-name: Node.js CI
-
-on: [push, pull_request]
+env:
+  FORCE_COLOR: 1
 
 jobs:
-  lint:
-    name: Lint with ESLint
-    runs-on: ubuntu-latest
+  nodechecker:
+    name: node_modules checker
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Check node_modules existence
+        run: |
+          if [ -d "node_modules/" ]; then
+            echo -e "\e[1;31mThe node_modules/ folder was pushed to the repo. Please remove it from the GitHub repository and try again.";
+            echo -e "\e[1;32mYou can set up a .gitignore file with this folder included on it to prevent this from happening in the future.";
+            exit 1;
+          fi
 
-      - name: Set up Node.js
+  lint-build-test:
+    name: lint, build and test
+    runs-on: ubuntu-24.04
+    needs: nodechecker
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # or any supported version
-
+          node-version: "22"
+          cache: "npm"
       - name: Install dependencies
-        run: npm install
-
+        run: npm ci
       - name: Run ESLint
-        run: npx eslint .
-
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install
-
+        run: npm run lint
+      - name: TypeScript check
+        run: npx tsc --noEmit
+      - name: Build project
+        run: npm run build
       - name: Run tests
-        run: npm test
+        run: npm test -- --passWithNoTests
