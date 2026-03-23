@@ -3,34 +3,43 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title KGL Manager Dashboard - Matugga
-    link(rel='stylesheet' href='/css/manager-dashboard.css')
+    title Sales Per Product - Maganjo
+    link(rel='stylesheet' href='/css/productList.css')
     script(src='https://cdn.jsdelivr.net/npm/chart.js')  
 
   body
-    nav.navbar
-      ul
-        li
-          a(href='/managerMaganjoDash') Back to Dashboard
-        
-    .dashboard-container
-      // Removed the header section with h1
+    .top-nav
+      .container.d-flex.justify-content-between.align-items-center
+        h1.page-title Sales Per Product
+        a.btn.btn-outline-light.back-btn(href='/managerMaganjoDash') Back to Dashboard
 
-      section#product-sales
-        h2 Total Sales per Product 
-        table
-          thead
-            tr
-              th Product
-              th Total Quantity Sold (kg)
-              th Total Sales Amount (UGX)
-          tbody
-            if products.length
-              each product in products 
+    .container.py-4
+      .list-card
+        .list-header
+          .list-header-content
+            h3.mb-1 Product Performance - Maganjo
+            p.mb-0 Overview of stock sold per product.
+          .record-count
+            span.count-label Total Products
+            span.count-value= products.length
+
+        .table-responsive
+          table#procuredTable.table.align-middle.mb-0
+            thead
+              tr
+                th Product
+                th Total Quantity (kg)
+                th Total Sales Amount (UGX)
+            tbody
+              if products.length
+                each product in products 
+                  tr
+                    td.fw-semibold #{product.produceName}
+                    td #{product.tonnage.toLocaleString()}
+                    td #{(product.sellPrice * product.tonnage).toLocaleString()}
+              else
                 tr
-                  td #{product.produceName}
-                  td #{product.tonnage.toLocaleString()}
-                  td #{(product.sellPrice * product.tonnage).toLocaleString()}
+                  td.empty-state(colspan='3') No product sales data found.
 
     script.
       window.onload = function() {
