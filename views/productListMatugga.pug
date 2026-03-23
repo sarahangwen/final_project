@@ -3,62 +3,64 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title Procured Items
+    title Product List - Matugga
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
-    link(rel='stylesheet' href='/css/salesList.css')
-    style.
-      .navbar-blue {
-        background-color: rgb(59, 67, 78);
-      }
-      .nav-link {
-        color: white !important;
-      }
+    link(rel='stylesheet' href='/css/productList.css')
 
   body
-    nav.navbar.navbar-dark.navbar-blue
-      .container.d-flex.justify-content-center
-        ul.nav
-          li.nav-item
-            a.nav-link(href='/managerMatuggaDash') Back to Dashboard
+    .top-nav
+      .container.d-flex.justify-content-between.align-items-center
+        h1.page-title Product List
+        a.btn.btn-outline-light.back-btn(href='/managerMatuggaDash') Back to Dashboard
 
-    .container
-      h3.mt-5 Product List
-      table#procuredTable.table.table-bordered.mt-3
-        thead.table-dark
-          tr
-            th(scope='col') Produce Name
-            th(scope='col') Type 
-            th(scope='col') Date
-            th(scope='col') Time
-            th(scope='col') Tonnage 
-            th(scope='col') Cost 
-            th(scope='col') Dealer 
-            th(scope='col') Branch 
-            th(scope='col') Dealer Contact 
-            th(scope='col') Price (UgX)
-            th(scope='col') Actions
-        tbody
-          if products.length 
-            each product in products 
+    .container.py-4
+      .list-card
+        .list-header
+          .list-header-content
+            h3.mb-1 Procured Stock - Matugga
+            p.mb-0 Review, update, and manage stock records.
+          .record-count
+            span.count-label Total Records
+            span.count-value= products.length
+
+        .table-responsive
+          table#procuredTable.table.align-middle.mb-0
+            thead
               tr
-                td #{product.produceName}
-                td #{product.produceType}
-                td #{moment(product.procureDate).format("DD-MM-YYYY")}
-                td #{product.procureTime}
-                td #{product.tonnage.toLocaleString()}
-                td #{product.cost.toLocaleString()}
-                td #{product.dealerName}
-                td #{product.branchName}
-                td #{product.contact}
-                td #{product.sellPrice.toLocaleString()}
-                td
-                  .d-flex.gap-2
-                    a.btn.btn-sm.btn-danger.w-100(href="/updateProductMat/"+product._id) Update
-                    form(action="/deleteProduct" method='POST' onsubmit="return confirm('Are you sure you want to delete this product?')" style="margin: 0;")
-                      input(type="hidden" name="id" value=product._id)
-                      button.btn.btn-sm.btn-danger.w-100(type="submit") Delete
-          else
-            tr
-              td(colspan='11') No products found.
+                th(scope='col') Produce
+                th(scope='col') Type
+                th(scope='col') Date
+                th(scope='col') Time
+                th(scope='col') Tonnage (kg)
+                th(scope='col') Cost (UGX)
+                th(scope='col') Dealer
+                th(scope='col') Branch
+                th(scope='col') Contact
+                th(scope='col') Selling Price (UGX)
+                th(scope='col') Actions
+            tbody
+              if products.length
+                each product in products
+                  tr
+                    td.fw-semibold #{product.produceName}
+                    td #{product.produceType}
+                    td #{moment(product.procureDate).format("DD-MM-YYYY")}
+                    td #{product.procureTime}
+                    td #{product.tonnage.toLocaleString()}
+                    td #{product.cost.toLocaleString()}
+                    td #{product.dealerName}
+                    td
+                      span.branch-badge #{product.branchName}
+                    td #{product.contact}
+                    td.fw-semibold #{product.sellPrice.toLocaleString()}
+                    td
+                      .action-group
+                        a.btn.btn-sm.btn-outline-primary(href="/updateProductMat/"+product._id) Update
+                        form(action="/deleteProduct" method='POST' onsubmit="return confirm('Are you sure you want to delete this product?')")
+                          input(type="hidden" name="id" value=product._id)
+                          button.btn.btn-sm.btn-outline-danger(type="submit") Delete
+              else
+                tr
+                  td.empty-state(colspan='11') No product records found.
 
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
