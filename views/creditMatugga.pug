@@ -3,150 +3,142 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title Credit Sales
-    link(rel='stylesheet' href='/css/credit.css')
+    title Record Credit Sale - Matugga
+    link(rel='stylesheet', href='/css/addProduct.css')
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
-    style.
-      .navbar-center {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      }
-      .error-msg {
-        color: red;
-        font-size: 0.9em;
-        margin-top: 5px;
-      }
   body
-    // Navbar with centered link
-    nav.navbar.navbar-dark(style='background-color:  #2c3e50 ;')
-      .navbar-center
-        a.nav-link.text-white.text-decoration-none(href='/managerMatuggaDash') Back to Dashboard
+    - const values = formData || {}
+    .top-nav
+      .container.d-flex.justify-content-between.align-items-center
+        h1.page-title Record Credit Sale
+        a.btn.btn-outline-light.back-btn(href='/managerMatuggaDash') Back to Dashboard
 
-    h2.text-center.my-3 Credit Sales
+    .container.py-4
+      .form-wrapper
+        .form-header
+          h3.mb-1 New Credit Entry
+          p.mb-0 Capture all customer and dispatch details accurately.
 
-    form#credit-sales-form(action="/addingCredit" method="POST" onsubmit="return validateCreditForm(event)")
-      .container
-        label(for='credit-buyer-name') Buyer Name:
-        input#credit-buyer-name.form-control(type='text' name='creditBuyerName' required)
+        if errorMessage
+          .alert.alert-danger(role='alert')= errorMessage
 
-        label(for='national-id') National ID:
-        input#national-id.form-control(type='text' name='nationalId' required)
+        if validationErrors && validationErrors.length
+          .alert.alert-warning(role='alert')
+            ul.mb-0
+              each err in validationErrors
+                li= err
 
-        label(for='location') Location:
-        input#location.form-control(type='text' name='location' required)
+        form#credit-sales-form.needs-validation(action='/addingCredit' method='POST' novalidate)
+          .row.g-3
+            .col-md-6
+              label.form-label(for='credit-buyer-name') Buyer Name
+              input#credit-buyer-name.form-control(type='text' name='creditBuyerName' minlength='2' pattern="^[A-Za-z\\s'-]{2,}$" value=values.creditBuyerName || '' required)
+              .invalid-feedback Enter a valid buyer name.
 
-        label(for='contact') Contact:
-        input#contact.form-control(type='text' name='contact' required)
+            .col-md-6
+              label.form-label(for='national-id') National ID
+              input#national-id.form-control(type='text' name='nationalId' pattern='^C[A-Z0-9]{13}$' value=values.nationalId || '' required)
+              .invalid-feedback Enter a valid National ID.
 
-        label(for='amount-due') Amount Due (UGX):
-        input#amount-due.form-control(type='number' name='amountDue' required)
+            .col-md-6
+              label.form-label(for='location') Location
+              input#location.form-control(type='text' name='location' minlength='2' value=values.location || '' required)
+              .invalid-feedback Location is required.
 
-        label(for='due-date') Due Date:
-        input#due-date.form-control(type='date' name='dueDate' required)
+            .col-md-6
+              label.form-label(for='contact') Contact
+              input#contact.form-control(type='tel' name='contact' pattern='^(?:\+256|0)(7\d{8})$' placeholder='07XXXXXXXX or +2567XXXXXXXX' value=values.contact || '' required)
+              .invalid-feedback Enter a valid Ugandan phone number.
 
-        label(for='credit-branch-name') Product Name:
-        select#credit-product-name.form-select(name='productName' required)
-          option(value='') Select Product 
-          option(value='Beans') Beans
-          option(value='Maize Grains') Maize Grains
-          option(value='G-Nuts') G-Nuts
-          option(value='Soya Beans') Soya Beans 
-          option(value='Cow Peas') Cow Peas
-        
-        label(for='credit-tonnage') Tonnage (kg):
-        input#credit-tonnage.form-control(type='number' name='creditTonnage' required)
+            .col-md-6
+              label.form-label(for='amount-due') Amount Due (UGX)
+              input#amount-due.form-control(type='number' name='amountDue' min='10000' step='1' value=values.amountDue || '' required)
+              .invalid-feedback Amount due must be at least UGX 10,000.
 
-        label(for='credit-branch-name') Branch Name:
-        select#credit-branch-name.form-select(name='creditBranchName' required)
-          option(value='') Select Branch
-          option(value='Maganjo') Maganjo
-          option(value='Matugga') Matugga
+            .col-md-6
+              label.form-label(for='due-date') Due Date
+              input#due-date.form-control(type='date' name='dueDate' value=values.dueDate || '' required)
+              .invalid-feedback Enter a valid due date.
 
-        label(for='date-of-dispatch') Date of Dispatch:
-        input#date-of-dispatch.form-control(type='date' name='dateOfDispatch' required)
+            .col-md-6
+              label.form-label(for='credit-produce-name') Produce Name
+              select#credit-produce-name.form-select(name='creditProduceName' required)
+                option(value='') Select Product
+                option(value='Beans' selected=values.creditProduceName === 'Beans') Beans
+                option(value='Maize Grains' selected=values.creditProduceName === 'Maize Grains') Maize Grains
+                option(value='G-Nuts' selected=values.creditProduceName === 'G-Nuts') G-Nuts
+                option(value='Soya Beans' selected=values.creditProduceName === 'Soya Beans') Soya Beans
+                option(value='Cow Peas' selected=values.creditProduceName === 'Cow Peas') Cow Peas
+              .invalid-feedback Please select a produce name.
 
-        label(for='credit-sales-agent-name') Sales Agent Name:
-        input#credit-sales-agent-name.form-control(type='text' name='creditSalesAgentName' required)
+            .col-md-6
+              label.form-label(for='credit-tonnage') Tonnage (kg)
+              input#credit-tonnage.form-control(type='number' name='creditTonnage' min='1' step='1' value=values.creditTonnage || '' required)
+              .invalid-feedback Tonnage must be at least 1kg.
 
-        label(for='status') Credit Status:
-        select#status.form-select(name='status' required)
-          option(value='Pending') Pending
-          option(value='Partially Paid') Partially Paid
-          option(value='Paid') Paid
-          option(value='Overdue') Overdue
+            .col-md-6
+              label.form-label(for='credit-branch-name') Branch Name
+              select#credit-branch-name.form-select(name='creditBranchName' required)
+                option(value='Matugga' selected=true) Matugga
+              .invalid-feedback Branch must be Matugga.
 
-        p#error-msg.error-msg
+            .col-md-6
+              label.form-label(for='type-of-produce') Produce Type
+              select#type-of-produce.form-select(name='typeOfProduce' required)
+                option(value='') Select Produce Type
+                option(value='Legume' selected=values.typeOfProduce === 'Legume') Legume
+                option(value='Cereals' selected=values.typeOfProduce === 'Cereals') Cereals
+              .invalid-feedback Please select a produce type.
 
-        button.btn.btn-primary.mt-3(type='submit') Record Credit Sale
+            .col-md-6
+              label.form-label(for='date-of-dispatch') Date of Dispatch
+              input#date-of-dispatch.form-control(type='date' name='dateOfDispatch' value=values.dateOfDispatch || '' required)
+              .invalid-feedback Enter a valid dispatch date.
 
-    footer.text-center.mt-4
-      p &copy; 2025 Karibu Groceries LTD. All rights reserved.
+            .col-md-6
+              label.form-label(for='credit-sales-agent-name') Sales Agent Name
+              input#credit-sales-agent-name.form-control(type='text' name='creditSalesAgentName' minlength='2' pattern="^[A-Za-z\\s'-]{2,}$" value=values.creditSalesAgentName || '' required)
+              .invalid-feedback Enter a valid sales agent name.
+
+            .col-md-6
+              label.form-label(for='status') Credit Status
+              select#status.form-select(name='status' required)
+                option(value='Pending' selected=values.status === 'Pending' || !values.status) Pending
+                option(value='Paid' selected=values.status === 'Paid') Paid
+                option(value='Overdue' selected=values.status === 'Overdue') Overdue
+              .invalid-feedback Please select a status.
+
+          .mt-4.d-grid
+            button.btn.btn-primary.btn-lg(type='submit') Save Credit Record
 
     script.
-      function validateCreditForm(event) {
-        event.preventDefault();
-        const get = id => document.getElementById(id).value.trim();
-        const errorMsg = document.getElementById('error-msg');
-        const alphaNumRegex = /^[a-zA-Z0-9 ]+$/;
-        const ninRegex = /^C[A-Z]{2}[0-9A-Z]{12}$/;
-        const phoneRegex = /^(?:\+256|0)(7\d{8})$/;
+      const form = document.getElementById('credit-sales-form');
+      const dueDate = document.getElementById('due-date');
+      const dispatchDate = document.getElementById('date-of-dispatch');
+      const branchSelect = document.getElementById('credit-branch-name');
+      const today = new Date().toISOString().split('T')[0];
 
-        const fields = {
-          buyer: get('credit-buyer-name'),
-          nationalId: get('national-id'),
-          location: get('location'),
-          contact: get('contact'),
-          amount: get('amount-due'),
-          dueDate: get('due-date'),
-          produceName: get('credit-product-name'),
-          tonnage: get('credit-tonnage'),
-          branch: get('credit-branch-name'),
-          dispatch: get('date-of-dispatch'),
-          agent: get('credit-sales-agent-name'),
-        };
+      dueDate.min = today;
+      dispatchDate.max = today;
+      branchSelect.value = 'Matugga';
 
-        if (!alphaNumRegex.test(fields.buyer) || fields.buyer.length < 2) {
-          return showError("Name must be at least 2 alphanumeric characters.");
+      form.addEventListener('submit', (event) => {
+        if (new Date(dueDate.value) < new Date(today)) {
+          dueDate.setCustomValidity('Due date cannot be in the past.');
+        } else {
+          dueDate.setCustomValidity('');
         }
 
-        if (!ninRegex.test(fields.nationalId)) {
-          return showError("Invalid NIN format.");
+        if (branchSelect.value !== 'Matugga') {
+          branchSelect.setCustomValidity('Branch must be Matugga.');
+        } else {
+          branchSelect.setCustomValidity('');
         }
 
-        if (!alphaNumRegex.test(fields.location) || fields.location.length < 2) {
-          return showError("Invalid Name.");
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
         }
 
-        if (!phoneRegex.test(fields.contact)) {
-          return showError("Invalid phone Number.");
-        }
-
-        if (isNaN(fields.amount) || fields.amount.length < 5) {
-          return showError("Amount Must be at least 5 digits.");
-        }
-
-        if (fields.branch === '') {
-          return showError("Please select a branch.");
-        }
-
-        if (!alphaNumRegex.test(fields.produceName) || fields.produceName.length < 2) {
-          return showError("Produce name must be at least 2 alphanumeric characters.");
-        }
-
-        if (isNaN(fields.tonnage) || fields.tonnage < 1) {
-          return showError("Tonnage must be a number greater than or equal to 1.");
-        }
-
-        if (!alphaNumRegex.test(fields.agent) || fields.agent.length < 2) {
-          return showError("Sales agent name must be at least 2 alphanumeric characters.");
-        }
-
-        errorMsg.textContent = "";
-        document.getElementById("credit-sales-form").submit();
-      }
-
-      function showError(message) {
-        document.getElementById('error-msg').textContent = message;
-        return false;
-      }
+        form.classList.add('was-validated');
+      });
