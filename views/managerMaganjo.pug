@@ -7,62 +7,54 @@ html
     link(rel='stylesheet' href='/css/manager.css')
     script(src='https://cdn.jsdelivr.net/npm/chart.js')   
 
-    style.
-      .logout-button {
-        background-color: rgb(91, 91, 182);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-      }
-
-      .logout-button:hover {
-        background-color: darkblue;
-      }
-
   body
-    nav.navbar
-      ul
-        //- li
-        //-   a(href='/') Home 
-        li
-          a(href='/productMaganjo') Add Product  
-        li
-          a(href='/productListMaganjo') Product List
-        li
-          a(href='/addingSales') Record Sale
-        li
-          a(href='/salesListMag') View Sales List
-        li
-          a(href='/salesPerProductListMaganjo') sales Per Product
-        li
-          a(href='/creditSaleMaganjo') Record Credit Sales
-        li
-          a(href='/creditSalesListMaganjo') Credit Sales Management 
-        li
-          a#logout-button.logout-button(href='/logout') Logout
+    .dashboard-layout
+      aside.sidebar
+        .sidebar-header
+          h2.sidebar-title KGL Dashboard
+          p.sidebar-subtitle Maganjo Branch
+        ul
+          li
+            a(href='/productMaganjo') Add Product  
+          li
+            a(href='/productListMaganjo') Product List
+          li
+            a(href='/addingSales') Record Sale
+          li
+            a(href='/salesListMag') View Sales List
+          li
+            a(href='/salesPerProductListMaganjo') sales Per Product
+          li
+            a(href='/creditSaleMaganjo') Record Credit Sales
+          li
+            a(href='/creditSalesListMaganjo') Credit Sales Management 
+          li
+            a#logout-button.logout-button(href='/logout') Logout
 
-    .dashboard-container
-      header
-        h1 Manager's Dashboard - KGL Maganjo
+      main.main-content
+        .dashboard-container
+          header
+            h1 Manager Dashboard
+            p.dashboard-subtitle Operational summary for KGL Maganjo
 
-      section#summary.summary-cards
-        .card
-          | Total Sales (Today): 
-          span UGX #{totalSalesToday.toLocaleString()}
-        .card
-          | Total Revenue (Monthly): 
-          span UGX #{totalRevenue.toLocaleString()}
-        .card
-          | Outstanding Credit Payments: 
-          span UGX #{outstandingCredits.toLocaleString()}
-        .card
-          | Low Stock Alerts: 
-          span #{lowStockCount} Items
+          section#summary.summary-cards
+            article.card
+              p.card-label Total Sales (Today)
+              p.card-value UGX #{totalSalesToday.toLocaleString()}
+            article.card
+              p.card-label Total Revenue (Monthly)
+              p.card-value UGX #{totalRevenue.toLocaleString()}
+            article.card
+              p.card-label Outstanding Credit Payments
+              p.card-value UGX #{outstandingCredits.toLocaleString()}
+            article.card
+              p.card-label Low Stock Alerts
+              p.card-value #{lowStockCount} Items
 
-      section.charts
-        canvas#managerPieChart(style='width: 300px; height: 300px;')  // Adjust the width and height
+          section.charts
+            .chart-panel
+              h2.chart-title Top Selling Products
+              canvas#managerPieChart(style='width: 300px; height: 300px;')
 
       //- section#reports.reports
       //-   h2 Branch Performance
@@ -92,6 +84,15 @@ html
     script.
       const productLabels = !{JSON.stringify(topSellingData.map(p => p.label))};
       const productSales = !{JSON.stringify(topSellingData.map(p => p.value))};
+
+      const currentPath = window.location.pathname;
+      const sidebarLinks = document.querySelectorAll('.sidebar a');
+      sidebarLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (href && currentPath === href) {
+          link.classList.add('active');
+        }
+      });
 
       const data = {
         labels: productLabels,
