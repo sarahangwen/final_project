@@ -7,7 +7,7 @@ const Credit = require('../models/Credit');
 // Route to show all credit sales
 router.get('/creditSalesListMaganjo', async (req, res) => {
   try {
-    const credits = await Credit.find(); // Fetch all credit records from database
+    const credits = await Credit.find({ creditBranchName: 'Maganjo' });
     res.render('creditRecordMaganjo', { credits }); 
     // ^ this 'credit-sales-list' is your Pug file name
   } catch (error) {
@@ -18,7 +18,7 @@ router.get('/creditSalesListMaganjo', async (req, res) => {
 
 router.get('/creditSalesListMatugga', async (req, res) => {
   try {
-    const credits = await Credit.find(); // Fetch all credit records from database
+    const credits = await Credit.find({ creditBranchName: 'Matugga' });
     res.render('creditRecordMatugga', { credits }); 
     // ^ this 'credit-sales-list' is your Pug file name
   } catch (error) {
