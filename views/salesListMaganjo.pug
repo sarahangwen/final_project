@@ -5,56 +5,58 @@ html
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     title Sales List Maganjo
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
-    link(rel='stylesheet' href='/css/salesLiist.css')
+    link(rel='stylesheet' href='/css/productList.css')
   body
-     style.
-      .navbar-blue {
-        background-color:rgb(57, 69, 87);
-      }
-      .nav-link {
-        color: white !important;
-      }
-  body
-    nav.navbar.navbar-dark.navbar-blue
-      .container.d-flex.justify-content-center
-        ul.nav
-          li.nav-item
-            a.nav-link(href='/managerMaganjoDash') Back to Dashboard
-    .container
-      h3.mt-5 List of Items Maganjo
-        //- input#searchInput(type='text' name='search' placeholder='Search...')
-        //- button(type='submit') Search
-      table#procuredTable.table.table-bordered.mt-3
-        thead.table-dark
-          tr
-            th(scope='col') Produce Name
-            th(scope='col') Type
-            th(scope='col') Date
-            th(scope='col') Time
-            th(scope='col') Quantity (kg)
-            th(scope='col') Cost (UGX)
-            th(scope='col') Buyer Name
-            th(scope='col') Contact
-            th(scope='col') Branch Name
-            th(scope='col') Update
-            th
-        tbody
-          if sales.length 
-            each sale in sales 
+    .top-nav
+      .container.d-flex.justify-content-between.align-items-center
+        h1.page-title Sales List
+        a.btn.btn-outline-light.back-btn(href='/managerMaganjoDash') Back to Dashboard
+
+    .container.py-4
+      .list-card
+        .list-header
+          .list-header-content
+            h3.mb-1 Sales Records - Maganjo
+            p.mb-0 Review, update, and manage sales transactions.
+          .record-count
+            span.count-label Total Records
+            span.count-value= sales.length
+
+        .table-responsive
+          table#procuredTable.table.align-middle.mb-0
+            thead
               tr
-                td #{sale.produceName}
-                td #{sale.produceType}
-                td #{moment(sale.saleDate).format("DD-MM-YYYY")}
-                td #{sale.saleTime}
-                td #{sale.quantitySold}
-                td #{sale.pricePerKg}
-                td #{sale.buyerName}
-                td #{sale.buyerContact}
-                td #{sale.branchName}
-                td(colspan="2")
-                  .d-flex.gap-2
-                    a.btn.btn-sm.btn-primary.w-100(href="/updateSale/"+sale._id) Update
-                    form(action="/deleteSaleMaganjo" method='POST' onsubmit="return confirm('Are you sure you want to delete this product?')" class="w-100")
-                      input(type="hidden" name="id" value=sale._id)
-                      button.btn.btn-sm.btn-danger.w-100(type="submit") Delete
+                th(scope='col') Produce
+                th(scope='col') Type
+                th(scope='col') Date
+                th(scope='col') Time
+                th(scope='col') Quantity (kg)
+                th(scope='col') Price/Kg (UGX)
+                th(scope='col') Buyer
+                th(scope='col') Contact
+                th(scope='col') Branch
+                th(scope='col') Actions
+            tbody
+              if sales.length
+                each sale in sales
+                  tr
+                    td.fw-semibold #{sale.produceName}
+                    td #{sale.produceType}
+                    td #{moment(sale.saleDate).format("DD-MM-YYYY")}
+                    td #{sale.saleTime}
+                    td #{sale.quantitySold.toLocaleString()}
+                    td #{sale.pricePerKg.toLocaleString()}
+                    td #{sale.buyerName}
+                    td #{sale.buyerContact}
+                    td
+                      span.branch-badge #{sale.branchName}
+                    td
+                      .action-group
+                        a.btn.btn-sm.btn-outline-primary(href="/updateSale/" + sale._id) Update
+                        form(action="/deletesaleMaganjo" method='POST' onsubmit="return confirm('Are you sure you want to delete this sale?')")
+                          input(type="hidden" name="id" value=sale._id)
+                          button.btn.btn-sm.btn-outline-danger(type="submit") Delete
+              else
+                tr
+                  td.empty-state(colspan='10') No sales records found.
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
