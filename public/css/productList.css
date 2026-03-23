@@ -1,0 +1,169 @@
+:root {
+  --page-bg: #f3f6fb;
+  --surface: #ffffff;
+  --text-main: #13253a;
+  --text-muted: #5f7085;
+  --border: #d9e4f0;
+  --primary: #1f4f8f;
+  --primary-soft: #eaf2ff;
+}
+
+body {
+  background: var(--page-bg);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-main);
+}
+
+.top-nav {
+  background: linear-gradient(90deg, #1f3d63 0%, #2a5a91 100%);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(19, 37, 58, 0.15);
+}
+
+.top-nav .container {
+  min-height: 72px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.back-btn {
+  border-color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.list-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 14px 28px rgba(19, 37, 58, 0.08);
+  overflow: hidden;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.list-header-content h3 {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.list-header-content p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.record-count {
+  background: var(--primary-soft);
+  border: 1px solid #cfe0ff;
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.count-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #4a6481;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.count-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #17395f;
+}
+
+#procuredTable {
+  margin: 0;
+}
+
+#procuredTable thead th {
+  background: #15385f;
+  color: #fff;
+  font-size: 0.87rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-bottom: 0;
+  padding: 14px 12px;
+  white-space: nowrap;
+}
+
+#procuredTable tbody td {
+  padding: 12px;
+  border-color: #e8eef5;
+  font-size: 0.92rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+#procuredTable tbody tr:hover {
+  background: #f7fbff;
+}
+
+.branch-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #ecf3ff;
+  color: #204b83;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+}
+
+.action-group form {
+  margin: 0;
+}
+
+.empty-state {
+  text-align: center;
+  color: #6f7e92;
+  font-style: italic;
+  padding: 24px 12px !important;
+}
+
+@media (max-width: 992px) {
+  .top-nav .container {
+    min-height: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .record-count {
+    width: 100%;
+  }
+
+  .action-group {
+    flex-direction: column;
+  }
+}
