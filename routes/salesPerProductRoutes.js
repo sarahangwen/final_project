@@ -5,7 +5,7 @@ const Product = require('../models/Product');
 
 router.get('/salesPerProductList', async (req, res) => {
     try {
-      const products = await Product.find(); 
+  const products = await Product.find({ branchName: 'Matugga' }); 
       res.render('salesPerProductMatugga', { products }); 
     } catch (error) {
         console.error('Error loading manager dashboard:', error);
@@ -15,7 +15,7 @@ router.get('/salesPerProductList', async (req, res) => {
 
 router.get('/salesPerProductListMaganjo', async (req, res) => {
   try {
-    const products = await Product.find(); 
+    const products = await Product.find({ branchName: 'Maganjo' }); 
     res.render('salesPerProductMaganjo', { products }); 
   } catch (error) {
       console.error('Error loading manager dashboard:', error);
