@@ -1,65 +1,92 @@
 doctype html
 html
   head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
     title Sales Agent Dashboard
     link(rel='stylesheet' href='/css/sales-agent-dashboard.css')
   body
-    header
-      h1 Welcome #{agentName}
-      nav
+    .dashboard-layout
+      aside.sidebar
+        .sidebar-header
+          h2.sidebar-title Sales Agent
+          p.sidebar-subtitle Matugga Branch
         ul
-          li: a(href='/addSale') Record Cash Sale
-          li: a(href='/addingCredit') Record Credit Sale
-          li: a(href='/salesHistory') My Sales History
-          li: a(href='/logout') Logout
+          li
+            a(href='/addSaleMatugga') Record Cash Sale
+          li
+            a(href='/addingCredit') Record Credit Sale
+          li
+            a(href='/salesHistoryMatuggaDash') My Sales History
+        .sidebar-footer
+          a.logout-button(href='/logout') Logout
 
-    main
-      section
-        h2 My Sales Summary
-        p Total Cash Sales: UGX #{totalAmount}
-        p Total Credit Sales: UGX #{totalCredit}
+      main.main-content
+        .dashboard-container
+          header
+            h1 Welcome #{agentName || 'Sales Agent'}
 
-      section
-        h3 Recent Cash Sales
-        table
-          thead
-            tr
-              th Produce
-              th Tonnage (kg)
-              th Amount Paid
-              th Date
-          tbody
-            if cashSales && cashSales.length
-              each sale in cashSales
-                tr
-                  td= sale.produceName
-                  td= sale.tonnage
-                  td UGX #{sale.amountPaid}
-                  td= sale.date.toDateString()
-            else
-              tr
-                td(colspan="4") No cash sales available.
+          section.summary-cards
+            .card
+              p.card-label Total Cash Sales
+              p.card-value UGX #{Number(totalAmount || 0).toLocaleString()}
+            .card
+              p.card-label Total Credit Sales
+              p.card-value UGX #{Number(totalCredit || 0).toLocaleString()}
 
-      section
-        h3 Outstanding Credit Sales
-        table
-          thead
-            tr
-              th Buyer
-              th Produce
-              th Amount Due
-              th Due Date
-          tbody
-            if creditSales && creditSales.length
-              each credit in creditSales
-                tr
-                  td= credit.buyerName
-                  td= credit.produceName
-                  td UGX #{credit.amountDue}
-                  td= credit.dueDate.toDateString()
-            else
-              tr
-                td(colspan="4") No outstanding credit sales.
+          section.panel
+            h3.panel-title Recent Cash Sales
+            .table-wrap
+              table
+                thead
+                  tr
+                    th Produce
+                    th Tonnage (kg)
+                    th Amount Paid
+                    th Date
+                tbody
+                  if cashSales && cashSales.length
+                    each sale in cashSales
+                      tr
+                        td #{sale.produceName}
+                        td #{Number(sale.tonnage || 0).toLocaleString()}
+                        td UGX #{Number(sale.amountPaid || 0).toLocaleString()}
+                        td #{sale.date ? sale.date.toDateString() : '-'}
+                  else
+                    tr
+                      td(colspan="4") No cash sales available.
+
+          section.panel
+            h3.panel-title Outstanding Credit Sales
+            .table-wrap
+              table
+                thead
+                  tr
+                    th Buyer
+                    th Produce
+                    th Amount Due
+                    th Due Date
+                tbody
+                  if creditSales && creditSales.length
+                    each credit in creditSales
+                      tr
+                        td #{credit.buyerName}
+                        td #{credit.produceName}
+                        td UGX #{Number(credit.amountDue || 0).toLocaleString()}
+                        td #{credit.dueDate ? credit.dueDate.toDateString() : '-'}
+                  else
+                    tr
+                      td(colspan="4") No outstanding credit sales.
+
+    script.
+      const currentPath = window.location.pathname;
+      const sidebarLinks = document.querySelectorAll('.sidebar a');
+      sidebarLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (href && href === currentPath) {
+          link.classList.add('active');
+        }
+      });
 
     //- footer
     //-   p &copy; 2025 Karibu Groceries LTD.
