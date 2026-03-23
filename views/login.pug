@@ -3,43 +3,56 @@ html(lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title LOGIN PAGE
+    title Login - KGL
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css", rel="stylesheet")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
     link(rel="stylesheet", href="/css/login.css")
 
   body
-    h2.text-center.mt-4 Welcome to KGL Grocery Store
-    h6.text-center.mb-4 Please Sign into Your Account
+    .login-page
+      .login-shell
+        .brand-panel
+          .brand-badge KGL
+          h1 Karibu Groceries Ltd
+          p Manage stock, sales, and credit operations securely from one platform.
+          ul.feature-list
+            li
+              i.fas.fa-check-circle
+              span Branch-level sales visibility
+            li
+              i.fas.fa-check-circle
+              span Real-time stock monitoring
+            li
+              i.fas.fa-check-circle
+              span Credit tracking and follow-up
 
-    // Display login error message if any
-    if message && message.length
-      .alert.alert-danger.text-center(role="alert")
-        i.fas.fa-exclamation-circle.me-2
-        = message[0]
+        .form-panel
+          h2 Sign In
+          p.form-subtitle Welcome back. Enter your account details to continue.
 
-    .login-container.mx-auto.p-4.border.rounded(style="max-width: 400px;")
-      form(action="/login", method="POST")
-        .mb-3
-          label.form-label(for="email") Email
-          input#email.form-control(type="email", name="email", required)
+          if message && message.length
+            .alert.alert-danger(role="alert")
+              i.fas.fa-exclamation-circle.me-2
+              = message[0]
 
-        .mb-3
-          label.form-label(for="password") Password
-          .input-group
-            input#password.form-control(type="password", name="password", required)
-            span.input-group-text(style="cursor: pointer;" onclick="togglePassword()")
-              i#toggleIcon.fas.fa-eye
+          form(action="/login", method="POST")
+            .mb-3
+              label.form-label(for="email") Email Address
+              input#email.form-control(type="email", name="email", placeholder="name@example.com", required)
 
-        button.btn.btn-primary.w-100(type="submit") Sign in
+            .mb-3
+              label.form-label(for="password") Password
+              .input-group
+                input#password.form-control(type="password", name="password", placeholder="Enter your password", required)
+                button.input-group-text(type="button" onclick="togglePassword()" aria-label="Toggle password visibility")
+                  i#toggleIcon.fas.fa-eye
 
-      br
-      h6.text-center
-        | Forgot password? 
-        a.text-primary(href="/reset") Reset
-      h6.text-center
-        | New? 
-        a.text-primary(href="/signingup") Create an Account
+            button.btn.btn-primary.w-100(type="submit") Sign in
+
+          .form-links
+            a(href="/reset") Forgot password?
+            span ·
+            a(href="/signingup") Create an account
 
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js", crossorigin="anonymous")
     script.
