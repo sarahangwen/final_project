@@ -8,9 +8,10 @@ body {
   
 
   header {
-    background-color: #23313f ;
+    background: linear-gradient(90deg, #1f3d63 0%, #2a5a91 100%);
     color: white;
     padding: 1rem 2rem;
+    box-shadow: 0 8px 18px rgba(19, 37, 58, 0.14);
   }
   
   header nav ul {
@@ -46,7 +47,7 @@ body {
   }
   
   thead {
-    background-color:  #23313f;
+    background: linear-gradient(90deg, #244a78 0%, #2f649f 100%);
     color: white;
   }
   
