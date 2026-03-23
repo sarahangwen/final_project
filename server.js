@@ -35,10 +35,7 @@ const salesAgentMaganjoRoutes=require('./routes/salesAgentMaganjoRoutes');
 // //const stockRoutes = require('./routes/stockRoutes');
 
 // 3. Mongoose Configuration
-mongoose.connect(process.env.DATABASE, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(process.env.DATABASE);
 mongoose.connection
   .on('open', () => {
     console.log('Mongoose connection open');
