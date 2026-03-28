@@ -16,7 +16,7 @@ const Signup = require('./models/Signup');// Ensure this is the correct path
 
 // 2. Instantiations
 const app = express();
-const PORT = 3008;
+const PORT = process.env.PORT || 3008;
 
 // Import routes
 const saleRoutes= require('./routes/saleRoutes');
@@ -92,7 +92,11 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// Bootstrapping the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Bootstrapping local server only. Vercel invokes the exported app directly.
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
