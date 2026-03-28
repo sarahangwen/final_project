@@ -108,6 +108,8 @@ html
     script.
       // Smooth scroll for anchor links
       document.addEventListener('DOMContentLoaded', function () {
+        document.documentElement.classList.add('js-enabled');
+
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
           anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -135,13 +137,18 @@ html
 
         // Fade-in animations on scroll
         const faders = document.querySelectorAll('.fade-in');
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('show');
-            }
-          });
-        }, { threshold: 0.1 });
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+              }
+            });
+          }, { threshold: 0.1 });
 
-        faders.forEach(fader => observer.observe(fader));
+          faders.forEach(fader => observer.observe(fader));
+        } else {
+          faders.forEach(fader => fader.classList.add('show'));
+        }
+      });
       });
