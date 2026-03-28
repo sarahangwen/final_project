@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Sale = require('../models/sale');
+const Sale = require('../models/Sale');
 const Credit = require('../models/Credit');
 
 router.get('/directorDash', async (req, res) => {
