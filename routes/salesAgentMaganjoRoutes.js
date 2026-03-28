@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Sale = require('../models/sale');
+const Sale = require('../models/Sale');
 const Credit = require('../models/Credit');
 
 // Route to render the sales agent dashboard for Maganjo
