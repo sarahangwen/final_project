@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const Sale = require('../models/sale');
+const Sale = require('../models/Sale');
 
 const ALLOWED_PRODUCE_NAMES = ['Maize grains', 'Soya beans', 'Cow peas', 'G-nuts', 'Maize'];
 const ALLOWED_PRODUCE_TYPES = ['Legume', 'Cereals'];
