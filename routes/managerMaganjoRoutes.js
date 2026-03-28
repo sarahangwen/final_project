@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Import models correctly
-const Sale = require('../models/sale');
+const Sale = require('../models/Sale');
 const Credit = require('../models/Credit');
 const Product = require('../models/Product');
 
