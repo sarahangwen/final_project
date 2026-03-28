@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Sale = require('../models/sale');
+const Sale = require('../models/Sale');
 // sale History at Maganjo
 router.get('/salesHistory', async (req, res) => {
   try {
