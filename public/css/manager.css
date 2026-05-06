@@ -184,7 +184,7 @@ canvas#managerPieChart {
 }
 
 .logout-button {
-  margin-top: 4px;
+  margin-top: auto;
   background: rgba(179, 38, 30, 0.15);
   border-color: rgba(179, 38, 30, 0.28) !important;
   color: #ffcec8 !important;
