@@ -68,8 +68,8 @@ const validateProductInput = (data) => {
     errors.push('Please select a valid branch.');
   }
 
-  if (!/^0\d{9}$/.test(data.contact)) {
-    errors.push('Contact must be a valid Ugandan number (07XXXXXXXX).');
+  if (!/^(?:\+256|0)(7\d{8})$/.test(data.contact)) {
+    errors.push('Contact must be a valid Ugandan number (07XXXXXXXX or +2567XXXXXXXX).');
   }
 
   if (!Number.isFinite(data.sellPrice) || data.sellPrice < 10000) {
@@ -87,7 +87,20 @@ const validateProductInput = (data) => {
 router.get('/productMaganjo', async (req, res) => {
   try {
     const products = await Product.find({ branchName: 'Maganjo' });
-    res.render('productMaganjo', { products, formData: {}, validationErrors: [] });
+    const successMessage = req.session.successMessage || '';
+    const errorMessage = req.session.errorMessage || '';
+    
+    // Clear messages after displaying
+    delete req.session.successMessage;
+    delete req.session.errorMessage;
+    
+    res.render('productMaganjo', { 
+      products, 
+      formData: {}, 
+      validationErrors: [],
+      successMessage,
+      errorMessage
+    });
   } catch (error) {
     console.error('Error loading products:', error);
     res.status(500).send('Unable to load products.');
@@ -112,23 +125,41 @@ router.post('/productMaganjo', async (req, res) => {
 
     const product = new Product(formData);
     await product.save();
-    res.redirect('/productMaganjo'); // Reload the page to show updated products
+    
+    // Store success message in session
+    req.session.successMessage = `✓ Stock record for "${formData.produceName}" added successfully!`;
+    res.redirect('/productMaganjo');
   } catch (error) {
     console.error('Error saving product:', error);
     const products = await Product.find({ branchName: 'Maganjo' });
-    res.status(400).render('productMaganjo', { 
-      errorMessage: 'There was an issue saving the stock. Please verify your entries and try again.',
-      validationErrors,
-      formData,
-      products
-    });
+    
+    // Store error message in session
+    req.session.errorMessage = 'There was an issue saving the stock. Please verify your entries and try again.';
+    res.redirect('/productMaganjo');
   }
 });
 
 
 // For the form (GET request)
-router.get('/addProduct', (req, res) => {
-  res.render('productMatugga', { formData: {}, validationErrors: [] });
+router.get('/addProduct', async (req, res) => {
+  try {
+    const successMessage = req.session.successMessage || '';
+    const errorMessage = req.session.errorMessage || '';
+    
+    // Clear messages after displaying
+    delete req.session.successMessage;
+    delete req.session.errorMessage;
+    
+    res.render('productMatugga', { 
+      formData: {}, 
+      validationErrors: [],
+      successMessage,
+      errorMessage
+    });
+  } catch (error) {
+    console.error('Error loading form:', error);
+    res.status(500).send('Unable to load form.');
+  }
 });
 
 // For form submission (POST request)
@@ -147,14 +178,16 @@ router.post('/addProduct', async (req, res) => {
 
       const product = new Product(formData);
       await product.save();
-      res.redirect('/addProduct'); 
+      
+      // Store success message in session
+      req.session.successMessage = `✓ Stock record for "${formData.produceName}" added successfully!`;
+      res.redirect('/addProduct');
   } catch (error) {
       console.error('Error saving product:', error);
-      res.status(400).render('productMatugga', {
-        errorMessage: 'There was an issue saving the stock. Please verify your entries and try again.',
-        validationErrors,
-        formData
-      });
+      
+      // Store error message in session
+      req.session.errorMessage = 'There was an issue saving the stock. Please verify your entries and try again.';
+      res.redirect('/addProduct');
   }
 });
 

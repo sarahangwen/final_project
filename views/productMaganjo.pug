@@ -6,97 +6,207 @@ html
     title Add Stock - Maganjo
     link(rel='stylesheet', href='/css/addProduct.css') 
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet')
   body
     - const values = formData || {}
     .top-nav
       .container.d-flex.justify-content-between.align-items-center
-        h1.page-title Add Stock
-        a.btn.btn-outline-light.back-btn(href='/managerMaganjoDash') Back to Dashboard
+        .d-flex.align-items-center
+          i.fas.fa-boxes.me-2
+          h1.page-title Add Stock - Maganjo
+        a.btn.btn-outline-light.back-btn(href='/managerMaganjoDash')
+          i.fas.fa-arrow-left.me-2
+          | Back to Dashboard
 
-    .container.py-4
-      .form-wrapper
+    .container.py-5
+      .form-container
         .form-header
-          h3.mb-1 New Procurement Record
-          p.mb-0 Fill all required fields accurately before submitting.
+          .header-icon
+            i.fas.fa-warehouse
+          .header-content
+            h2.header-title New Procurement Record
+            p.header-subtitle Fill all required fields accurately to register new stock
 
         if errorMessage
-          .alert.alert-danger(role='alert')= errorMessage
+          .alert.alert-danger.alert-dismissible.fade.show(role='alert')
+            i.fas.fa-exclamation-circle.me-2
+            = errorMessage
+            button.btn-close(type='button' data-bs-dismiss='alert')
+
+        if successMessage
+          .alert.alert-success.alert-dismissible.fade.show(role='alert')
+            i.fas.fa-check-circle.me-2
+            = successMessage
+            button.btn-close(type='button' data-bs-dismiss='alert')
 
         if validationErrors && validationErrors.length
-          .alert.alert-warning(role='alert')
-            ul.mb-0
-              each err in validationErrors
-                li= err
+          .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+            .d-flex.align-items-start
+              i.fas.fa-info-circle.me-3.mt-1
+              .flex-grow-1
+                strong.d-block.mb-2 Please review the following errors:
+                ul.mb-0
+                  each err in validationErrors
+                    li= err
+            button.btn-close(type='button' data-bs-dismiss='alert')
 
         form#procurementForm.needs-validation(method='POST' action='/productMaganjo' novalidate)
-          .row.g-3
-            .col-md-6
-              label.form-label(for='produceName') Produce Name
-              select#produceName.form-select(name='produceName' required)
-                option(value='') -- Select Produce Name --
-                option(value='Beans' selected=values.produceName === 'Beans') Beans
-                option(value='Maize Grains' selected=values.produceName === 'Maize Grains') Maize Grains
-                option(value='G-Nuts' selected=values.produceName === 'G-Nuts') G-Nuts
-                option(value='Soya Beans' selected=values.produceName === 'Soya Beans') Soya Beans
-                option(value='Cow Peas' selected=values.produceName === 'Cow Peas') Cow Peas
-              .invalid-feedback Please select a produce name.
+          
+          // Produce Information Section
+          .form-section
+            .section-header
+              i.fas.fa-leaf
+              h4.section-title Produce Information
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='produceName')
+                    | Produce Name 
+                    span.required-mark *
+                  select#produceName.form-select(name='produceName' required)
+                    option(value='') Select a produce...
+                    option(value='Beans' selected=values.produceName === 'Beans') Beans
+                    option(value='Maize Grains' selected=values.produceName === 'Maize Grains') Maize Grains
+                    option(value='G-Nuts' selected=values.produceName === 'G-Nuts') G-Nuts
+                    option(value='Soya Beans' selected=values.produceName === 'Soya Beans') Soya Beans
+                    option(value='Cow Peas' selected=values.produceName === 'Cow Peas') Cow Peas
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please select a produce name
 
-            .col-md-6
-              label.form-label(for='produceType') Produce Type
-              select#produceType.form-select(name='produceType' required)
-                option(value='') -- Select Produce Type --
-                option(value='Legume' selected=values.produceType === 'Legume') Legume
-                option(value='Cereals' selected=values.produceType === 'Cereals') Cereals
-              .invalid-feedback Please select a produce type.
+              .col-md-6
+                .form-group
+                  label.form-label(for='produceType')
+                    | Produce Type 
+                    span.required-mark *
+                  select#produceType.form-select(name='produceType' required)
+                    option(value='') Select a type...
+                    option(value='Legume' selected=values.produceType === 'Legume') Legume
+                    option(value='Cereals' selected=values.produceType === 'Cereals') Cereals
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please select a produce type
 
-            .col-md-6
-              label.form-label(for='procureDate') Procurement Date
-              input#procureDate.form-control(type='date' name='procureDate' value=values.procureDate || '' required)
-              .invalid-feedback Please provide a valid date.
+          // Procurement Details Section
+          .form-section
+            .section-header
+              i.fas.fa-calendar-alt
+              h4.section-title Procurement Details
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='procureDate')
+                    | Procurement Date 
+                    span.required-mark *
+                  input#procureDate.form-control(type='date' name='procureDate' value=values.procureDate || '' required)
+                  small.form-text Cannot be a future date
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please provide a valid date
 
-            .col-md-6
-              label.form-label(for='procureTime') Procurement Time
-              input#procureTime.form-control(type='time' name='procureTime' value=values.procureTime || '' required)
-              .invalid-feedback Please provide a valid time.
+              .col-md-6
+                .form-group
+                  label.form-label(for='procureTime')
+                    | Procurement Time 
+                    span.required-mark *
+                  input#procureTime.form-control(type='time' name='procureTime' value=values.procureTime || '' required)
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please provide a valid time
 
-            .col-md-6
-              label.form-label(for='tonnage') Tonnage (kg)
-              input#tonnage.form-control(type='number' name='tonnage' min='100' step='1' value=values.tonnage || '' required)
-              .invalid-feedback Tonnage must be at least 100kg.
+              .col-md-6
+                .form-group
+                  label.form-label(for='tonnage')
+                    | Tonnage (kg) 
+                    span.required-mark *
+                  input#tonnage.form-control(type='number' name='tonnage' min='100' step='1' value=values.tonnage || '' required placeholder='Minimum 100 kg')
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Tonnage must be at least 100 kg
 
-            .col-md-6
-              label.form-label(for='cost') Cost Price (UGX)
-              input#cost.form-control(type='number' name='cost' min='10000' step='1' value=values.cost || '' required)
-              .invalid-feedback Cost must be at least UGX 10,000.
+              .col-md-6
+                .form-group
+                  label.form-label(for='branchName')
+                    | Branch 
+                    span.required-mark *
+                  select#branchName.form-select(name='branchName' required)
+                    option(value='') Select branch...
+                    option(value='Maganjo' selected=values.branchName === 'Maganjo') Maganjo
+                    option(value='Matugga' selected=values.branchName === 'Matugga') Matugga
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please select a branch
 
-            .col-md-6
-              label.form-label(for='dealerName') Dealer Name
-              input#dealerName.form-control(type='text' name='dealerName' minlength='2' value=values.dealerName || '' required)
-              .invalid-feedback Dealer name must be at least 2 characters.
+          // Pricing Section
+          .form-section
+            .section-header
+              i.fas.fa-money-bill-wave
+              h4.section-title Pricing
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='cost')
+                    | Cost Price (UGX) 
+                    span.required-mark *
+                  .input-group
+                    span.input-group-text UGX
+                    input#cost.form-control(type='number' name='cost' min='10000' step='1' value=values.cost || '' required placeholder='10,000')
+                  small.form-text Minimum UGX 10,000
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Cost must be at least UGX 10,000
 
-            .col-md-6
-              label.form-label(for='branchName') Branch Name
-              select#branchName.form-select(name='branchName' required)
-                option(value='') -- Select Branch --
-                option(value='Maganjo' selected=values.branchName === 'Maganjo') Maganjo
-                option(value='Matugga' selected=values.branchName === 'Matugga') Matugga
-              .invalid-feedback Please select a branch.
+              .col-md-6
+                .form-group
+                  label.form-label(for='sellPrice')
+                    | Selling Price (UGX) 
+                    span.required-mark *
+                  .input-group
+                    span.input-group-text UGX
+                    input#sellPrice.form-control(type='number' name='sellPrice' min='10000' step='1' value=values.sellPrice || '' required placeholder='10,000')
+                  small.form-text Must be ≥ cost price
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Selling price must be valid and not below cost
 
-            .col-md-6
-              label.form-label(for='contact') Dealer Contact (Phone)
-              input#contact.form-control(type='tel' name='contact' pattern='^0\d{9}$' placeholder='07XXXXXXXX' value=values.contact || '' required)
-              .invalid-feedback Enter a valid Ugandan number (07XXXXXXXX).
+          // Dealer Information Section
+          .form-section
+            .section-header
+              i.fas.fa-user-tie
+              h4.section-title Dealer Information
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='dealerName')
+                    | Dealer Name 
+                    span.required-mark *
+                  input#dealerName.form-control(type='text' name='dealerName' minlength='2' value=values.dealerName || '' required placeholder='Enter dealer name')
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Dealer name must be at least 2 characters
 
-            .col-md-6
-              label.form-label(for='sellPrice') Selling Price (UGX)
-              input#sellPrice.form-control(type='number' name='sellPrice' min='10000' step='1' value=values.sellPrice || '' required)
-              .invalid-feedback Selling price must be at least UGX 10,000 and not below cost.
+              .col-md-6
+                .form-group
+                  label.form-label(for='contact')
+                    | Dealer Contact 
+                    span.required-mark *
+                  input#contact.form-control(type='tel' name='contact' pattern='^(?:\+256|0)(7\d{8})$' placeholder='07XXXXXXXX or +2567XXXXXXXX' value=values.contact || '' required)
+                  small.form-text Format: 07XXXXXXXX or +2567XXXXXXXX
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Enter a valid Ugandan number
 
-          .mt-4.d-grid
-            button.btn.btn-primary.btn-lg(type='submit') Save Stock Record
+          // Action Buttons
+          .form-actions.mt-5
+            button.btn.btn-primary.btn-submit(type='submit')
+              i.fas.fa-check-circle.me-2
+              | Save Stock Record
+            a.btn.btn-secondary.btn-cancel(href='/managerMaganjoDash')
+              i.fas.fa-times.me-2
+              | Cancel
 
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
-
+    
     script.
       const procurementForm = document.getElementById('procurementForm');
       const procureDate = document.getElementById('procureDate');
