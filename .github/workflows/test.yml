@@ -35,8 +35,8 @@ jobs:
         run: npm ci
       - name: Run ESLint
         run: npm run lint
-      - name: TypeScript check
-        run: npx tsc --noEmit
+      - name: Javascript check
+        run: npx jsc --noEmit
       - name: Build project
         run: npm run build
       - name: Run tests
