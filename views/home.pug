@@ -18,7 +18,6 @@ html
             li: a(href='#home') Home
             li: a(href='#about') About
             li: a(href='#operations') Operations
-            li: a(href='#rules') Rules
             li: a(href='#contact') Contact
         a.btn.btn-light.login-link(href='/login') Login
 
@@ -26,83 +25,131 @@ html
       section#home.hero.fade-in
         .container
           .hero-content
-            p.eyebrow KGL Management Platform
-            h1 Welcome to Karibu Groceries Management System
+            p.eyebrow 🌾 Wholesale Distribution Excellence
+            h1 Karibu Groceries Management System
             p.lead
-              | Karibu Groceries Ltd (KGL) is a wholesale distributor of cereals and legumes including Beans, Grain Maize, Cow Peas, Groundnuts, and Soybeans. We source from trusted suppliers and farms in Maganjo and Matugga.
+              | Karibu Groceries Ltd is a leading wholesale distributor of premium cereals and legumes. We streamline operations with intelligent stock management, real-time sales tracking, and complete transparency across Maganjo and Matugga branches.
             .hero-actions
-              a.btn.btn-primary.btn-lg(href='/login') Get Started
-              a.btn.btn-outline-light.btn-lg(href='#about') Learn More
+              a.btn.btn-primary.btn-lg(href='/login') 
+                span.btn-icon 📊
+                span Access Dashboard
+              a.btn.btn-outline-light.btn-lg(href='#about') 
+                span Learn More
 
       section#about.section-block.fade-in
         .container
-          h2.section-title About Us
-          p.section-subtitle
-            | Founded to streamline produce distribution, KGL uses technology to enhance stock control, sales tracking, and operational transparency.
+          .about-header
+            h2.section-title About Karibu Groceries Ltd
+            p.section-subtitle
+              | Founded on principles of efficiency and transparency, KGL leverages cutting-edge technology to revolutionize agricultural wholesale distribution in East Africa.
           .stats-grid
             .stat-card
+              .stat-icon 🏢
               h3 2
               p Operational Branches
+              .stat-detail Maganjo & Matugga
             .stat-card
-              h3 1+2
-              p Manager and Sales Agents per Branch
+              .stat-icon 👥
+              h3 6
+              p Dedicated Staff
+              .stat-detail 1 Manager + 2 Agents per Branch
             .stat-card
+              .stat-icon 📱
               h3 100%
-              p Digitized Procurement and Sales Records
+              p Digital Operations
+              .stat-detail All Records Digitized
 
       section#operations.section-block.alt.fade-in
         .container
-          h2.section-title System Operations
+          h2.section-title Core Operations
+          p.section-subtitle Streamlined processes for maximum efficiency and accuracy
           .operations-grid
             article.info-card
-              h3 Procurement
+              .card-icon 📦
+              h3 Procurement Management
               p
-                | Managers register new stock with produce type, dealer, quantity, branch allocation, and pricing details.
+                | Efficiently register new stock with produce type, dealer information, quantities, branch allocation, and competitive pricing—all tracked in real-time.
             article.info-card
-              h3 Sales
+              .card-icon 💳
+              h3 Sales Tracking
               p
-                | Sales agents record branch transactions, and tonnage updates automatically for accurate stock movement.
+                | Record branch transactions with automatic tonnage updates. Complete visibility into every sale, movement, and customer interaction.
             article.info-card
-              h3 Credit Sales
+              .card-icon 💰
+              h3 Credit Sales System
               p
-                | Credit transactions capture complete buyer details including NIN, location, contacts, due dates, and status.
+                | Comprehensive credit management capturing buyer details, locations, contact information, payment terms, and status tracking for secure transactions.
             article.info-card
-              h3 Branch Structure
+              .card-icon 🔧
+              h3 Branch Operations
               p
-                | Each branch operates with one manager and two sales agents for reliable day-to-day operations.
-
-      section#rules.section-block.fade-in
-        .container
-          h2.section-title Key Business Rules
-          ul.rules-list
-            li Produce must exist in stock before it can be sold.
-            li Tonnage is deducted automatically after each recorded sale.
-            li Sales Agents cannot enter or modify stock records.
-            li Managers are responsible for setting product prices.
-            li The Director can view total sales summaries across branches.
+                | Each branch operates with dedicated management—one manager overseeing one manager overseeing operations and two sales agents handling customer relationships.
 
       section#contact.section-block.fade-in
         .container
-          .contact-card
-            h2.section-title Contact Us
-            p.section-subtitle
-              | Have questions or need support? Reach out to our team anytime.
-            ul.contact-list
-              li
-                span.label Email
-                span.value info@karibugroceries.com
-              li
-                span.label Phone
-                span.value +256-700-000000
-              li
-                span.label Address
-                span.value Kampala, Uganda
+          .contact-header
+            h2.section-title Get in Touch
+            p.section-subtitle Need support or have questions? Our team is here to help.
+          .contact-grid
+            .contact-card
+              .contact-icon 📧
+              h3 Email
+              p.contact-value info@karibugroceries.com
+              p.contact-desc Reach us via email
+            .contact-card
+              .contact-icon 📞
+              h3 Phone
+              p.contact-value +256-700-000000
+              p.contact-desc Call our support team
+            .contact-card
+              .contact-icon 📍
+              h3 Location
+              p.contact-value Kampala, Uganda
+              p.contact-desc Visit our headquarters
 
     // Scroll-to-top button
     a#scrollTopBtn(href='#') ↑
 
     footer
-      p &copy; 2025 Karibu Groceries Ltd 
+      .footer-container
+        .footer-content
+          .footer-column
+            .footer-brand
+              span.footer-badge KGL
+              span.footer-name Karibu Groceries Ltd
+            p.footer-desc
+              | Revolutionizing agricultural wholesale distribution through technology and transparency. Trusted by managers, agents, and partners across Uganda.
+            .footer-socials
+              a.social-link(href='#', title='Facebook') f
+              a.social-link(href='#', title='Twitter') 𝕏
+              a.social-link(href='#', title='LinkedIn') in
+
+          .footer-column
+            h4.footer-title Quick Links
+            ul.footer-links
+              li: a(href='#home') Home
+              li: a(href='#about') About Us
+              li: a(href='#operations') Operations
+              li: a(href='#contact') Contact
+
+          .footer-column
+            h4.footer-title Branches
+            ul.footer-links
+              li: a(href='#') Maganjo Branch
+              li: a(href='#') Matugga Branch
+              li: a(href='#') Management Portal
+
+          .footer-column
+            h4.footer-title Support
+            ul.footer-links
+              li: a(href='#') Help Center
+              li: a(href='#') Documentation
+              li: a(href='#') Contact Support
+              li: a(href='#') Careers
+
+        .footer-bottom
+          p &copy; 2025 Karibu Groceries Ltd. All rights reserved.
+          p Empowering agricultural wholesale distribution across East Africa. 
 
     // JavaScript Enhancements
     script.
