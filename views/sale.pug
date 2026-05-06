@@ -147,7 +147,7 @@ html
                   label.form-label(for='buyerContact')
                     | Buyer Contact 
                     span.required-mark *
-                  input#buyerContact.form-control(type='tel' name='buyerContact' pattern='^(?:\\+256|0)(7\\d{8})$' required placeholder='07XXXXXXXX or +2567XXXXXXXX')
+                  input#buyerContact.form-control(type='tel' name='buyerContact' pattern='^(07[0-9]{8}|2567[0-9]{8}|\+2567[0-9]{8})$' required placeholder='07XXXXXXXX or +2567XXXXXXXX')
                   small.form-text Format: 07XXXXXXXX or +2567XXXXXXXX
                   .invalid-feedback
                     i.fas.fa-times-circle.me-1
@@ -240,7 +240,7 @@ html
       // Handle form submission - show errors only on submit attempt
       registerSaleForm.addEventListener('submit', (event) => {
         // Validate contact number only on submit
-        const pattern = /^(?:\+256|0)(7\d{8})$/;
+        const pattern = /^(07[0-9]{8}|2567[0-9]{8}|\+2567[0-9]{8})$/;
         if (buyerContact.value && !pattern.test(buyerContact.value)) {
           buyerContact.setCustomValidity('Please enter a valid Ugandan number (07XXXXXXXX or +2567XXXXXXXX)');
         } else {

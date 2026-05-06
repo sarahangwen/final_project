@@ -3,60 +3,170 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title Sales List Maganjo
+    title Sales List - Maganjo
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet')
     link(rel='stylesheet' href='/css/productList.css')
+
   body
     .top-nav
       .container.d-flex.justify-content-between.align-items-center
-        h1.page-title Sales List
-        a.btn.btn-outline-light.back-btn(href='/managerMaganjoDash') Back to Dashboard
+        .d-flex.align-items-center
+          i.fas.fa-receipt.me-2
+          h1.page-title Sales List - Maganjo
+        a.btn.btn-outline-light.back-btn(href='/managerMaganjoDash')
+          i.fas.fa-arrow-left.me-2
+          | Back
 
-    .container.py-4
-      .list-card
+    .container.py-5
+      .list-wrapper
         .list-header
-          .list-header-content
-            h3.mb-1 Sales Records - Maganjo
-            p.mb-0 Review, update, and manage sales transactions.
-          .record-count
-            span.count-label Total Records
-            span.count-value= sales.length
+          .header-content
+            .d-flex.align-items-center.gap-3
+              .header-icon
+                i.fas.fa-cash-register
+              div
+                h2.header-title Sales Records
+                p.header-subtitle Review and manage all sales transactions from Maganjo branch
+          
+          .header-stats
+            .stat-item
+              .stat-icon
+                i.fas.fa-receipt
+              .stat-info
+                .stat-label Total Records
+                .stat-value= sales.length
 
-        .table-responsive
-          table#procuredTable.table.align-middle.mb-0
-            thead
-              tr
-                th(scope='col') Produce
-                th(scope='col') Type
-                th(scope='col') Date
-                th(scope='col') Time
-                th(scope='col') Quantity (kg)
-                th(scope='col') Price/Kg (UGX)
-                th(scope='col') Buyer
-                th(scope='col') Contact
-                th(scope='col') Branch
-                th(scope='col') Actions
-            tbody
-              if sales.length
-                each sale in sales
+        .search-filter-bar
+          .search-box
+            i.fas.fa-search
+            input#searchInput.form-control.search-input(type='text' placeholder='Search by produce, buyer name, or contact...')
+          
+          .filter-info
+            span.badge.bg-info
+              i.fas.fa-info-circle.me-1
+              | Showing #{sales.length} record(s)
+
+        if sales.length
+          .table-container
+            .table-responsive
+              table#salesTable.table.professional-table.mb-0
+                thead
                   tr
-                    td.fw-semibold #{sale.produceName}
-                    td #{sale.produceType}
-                    td #{moment(sale.saleDate).format("DD-MM-YYYY")}
-                    td #{sale.saleTime}
-                    td #{sale.quantitySold.toLocaleString()}
-                    td #{sale.pricePerKg.toLocaleString()}
-                    td #{sale.buyerName}
-                    td #{sale.buyerContact}
-                    td
-                      span.branch-badge #{sale.branchName}
-                    td
-                      .action-group
-                        a.btn.btn-sm.btn-outline-primary(href="/updateSale/" + sale._id) Update
-                        form(action="/deletesaleMaganjo" method='POST' onsubmit="return confirm('Are you sure you want to delete this sale?')")
-                          input(type="hidden" name="id" value=sale._id)
-                          button.btn.btn-sm.btn-outline-danger(type="submit") Delete
-              else
-                tr
-                  td.empty-state(colspan='10') No sales records found.
-    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous')
+                    th.col-produce
+                      i.fas.fa-leaf.me-2
+                      | Name
+                    th.col-type
+                      i.fas.fa-tag.me-2
+                      | Type
+                    th.col-date
+                      i.fas.fa-calendar.me-2
+                      | Date
+                    th.col-time
+                      i.fas.fa-clock.me-2
+                      | Time
+                    th.col-quantity
+                      i.fas.fa-weight.me-2
+                      | Qty  (kg)
+                    th.col-price
+                      i.fas.fa-coins.me-2
+                      | Price/Kg (UGX)
+                    th.col-total
+                      i.fas.fa-calculator.me-2
+                      | Total (UGX)
+                    th.col-buyer
+                      i.fas.fa-user.me-2
+                      | Name
+                    th.col-contact
+                      i.fas.fa-phone.me-2
+                      | Contact
+                    th.col-payment
+                      i.fas.fa-money-bill.me-2
+                      | Payment Mode
+                    th.col-actions
+                      i.fas.fa-cog.me-2
+                      | Actions
+                tbody
+                  each sale in sales
+                    tr.data-row
+                      td.col-produce.fw-semibold
+                        span.produce-badge= sale.produceName
+                      td.col-type
+                        span.type-badge= sale.produceType
+                      td.col-date
+                        span.date-text= moment(sale.saleDate).format("DD MMM YYYY")
+                      td.col-time
+                        span.time-text= sale.saleTime
+                      td.col-quantity.text-end
+                        .quantity-display= sale.quantitySold.toLocaleString() + ' kg'
+                      td.col-price.text-end
+                        .price-display= 'UGX ' + sale.pricePerKg.toLocaleString()
+                      td.col-total.text-end
+                        .price-highlight= 'UGX ' + (sale.quantitySold * sale.pricePerKg).toLocaleString()
+                      td.col-buyer= sale.buyerName
+                      td.col-contact
+                        a(href='tel:' + sale.buyerContact title=sale.buyerContact)
+                          i.fas.fa-phone.me-1
+                          = sale.buyerContact
+                      td.col-payment
+                        span.payment-badge(class=sale.paymentMode === 'Cash' ? 'badge-cash' : 'badge-mobile')
+                          i.fas.fa-money-bill.me-1
+                          = sale.paymentMode
+                      td.col-actions
+                        .action-buttons
+                          a.btn-action.btn-edit(href="/updateSale/"+sale._id title='Edit record')
+                            i.fas.fa-edit
+                          button.btn-action.btn-delete(type='button' onclick="deleteSale('"+sale._id+"')" title='Delete record')
+                            i.fas.fa-trash-alt
+        else
+          .empty-state
+            .empty-icon
+              i.fas.fa-inbox
+            .empty-title No Records Found
+            .empty-text No sales records have been added yet for Maganjo branch.
+            a.btn.btn-primary.mt-3(href='/salesMaganjo')
+              i.fas.fa-plus.me-2
+              | Add First Sale
+
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
+    
+    script.
+      const searchInput = document.getElementById('searchInput');
+      const table = document.getElementById('salesTable');
+      const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+      searchInput.addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        let visibleCount = 0;
+
+        Array.from(rows).forEach(row => {
+          const text = row.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            row.style.display = '';
+            visibleCount++;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+
+        // Update filter info
+        const filterInfo = document.querySelector('.filter-info .badge');
+        filterInfo.textContent = visibleCount + ' record(s) shown';
+      });
+
+      function deleteSale(id) {
+        if (confirm('Are you sure you want to delete this sale record?')) {
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/deletesaleMaganjo';
+          
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'id';
+          input.value = id;
+          
+          form.appendChild(input);
+          document.body.appendChild(form);
+          form.submit();
+        }
+      }

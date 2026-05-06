@@ -65,8 +65,8 @@ const validateSaleInput = (data, expectedBranch) => {
     errors.push('Buyer name must contain only letters and be at least 2 characters.');
   }
 
-  if (!/^(07\d{8}|2567\d{8})$/.test(data.buyerContact)) {
-    errors.push('Buyer contact must be a valid Ugandan number (07XXXXXXXX or 2567XXXXXXXX).');
+  if (!/^(07[0-9]{8}|2567[0-9]{8}|\+2567[0-9]{8})$/.test(data.buyerContact)) {
+    errors.push('Buyer contact must be a valid Ugandan number (07XXXXXXXX, 2567XXXXXXXX, or +2567XXXXXXXX).');
   }
 
   if (!ALLOWED_BRANCHES.includes(data.branchName)) {
@@ -94,9 +94,14 @@ const renderSaleForm = (res, view, errorMessage, validationErrors, formData) => 
 
 
 router.get('/addSaleMaganjo', (req, res) => {
+  const successMessage = req.session.successMessage;
+  if (successMessage) {
+    delete req.session.successMessage;
+  }
   res.render('salesAtMaganjo', {
     formData: { branchName: 'Maganjo' },
-    validationErrors: []
+    validationErrors: [],
+    successMessage
   });
 });
 
@@ -120,8 +125,13 @@ router.post('/addSaleMaganjo', async (req, res) => {
     const sale = new Sale(formData);
         // Save the sale to the database
         await sale.save();
-        // Redirect back to the sale form (or another route if desired)
-        res.redirect('/addSaleMaganjo');
+        // Store success message in session
+        req.session.successMessage = 'Sale recorded successfully.';
+        // Save session before redirecting
+        req.session.save((err) => {
+          if (err) console.error('Session save error:', err);
+          res.redirect('/addSaleMaganjo');
+        });
     } catch (error) {
         console.error('Error saving sale:', error);
         // Render the sale form with an error message if saving fails
@@ -136,9 +146,14 @@ router.post('/addSaleMaganjo', async (req, res) => {
 });
 
 router.get('/addSaleMatugga', (req, res) => {
+  const successMessage = req.session.successMessage;
+  if (successMessage) {
+    delete req.session.successMessage;
+  }
   res.render('salesAtMatugga', {
     formData: { branchName: 'Matugga' },
-    validationErrors: []
+    validationErrors: [],
+    successMessage
   });
 });
 
@@ -162,8 +177,13 @@ router.post('/addSaleMatugga', async (req, res) => {
     const sale = new Sale(formData);
         // Save the sale to the database
         await sale.save();
-        // Redirect back to the sale form (or another route if desired)
-        res.redirect('/addSaleMatugga');
+        // Store success message in session
+        req.session.successMessage = 'Sale recorded successfully.';
+        // Save session before redirecting
+        req.session.save((err) => {
+          if (err) console.error('Session save error:', err);
+          res.redirect('/addSaleMatugga');
+        });
     } catch (error) {
         console.error('Error saving sale:', error);
         // Render the sale form with an error message if saving fails
@@ -180,9 +200,14 @@ router.post('/addSaleMatugga', async (req, res) => {
 
 // sales AT manager maganjo dash
 router.get('/addingSales', (req, res) => {
+  const successMessage = req.session.successMessage;
+  if (successMessage) {
+    delete req.session.successMessage;
+  }
   res.render('salesMaganjo', {
     formData: { branchName: 'Maganjo' },
-    validationErrors: []
+    validationErrors: [],
+    successMessage
   });
 });
 
@@ -206,8 +231,13 @@ router.post('/addingSales', async (req, res) => {
     const sale = new Sale(formData);
         // Save the sale to the database
         await sale.save();
-        // Redirect back to the sale form (or another route if desired)
-        res.redirect('/addingSales');
+        // Store success message in session
+        req.session.successMessage = 'Sale recorded successfully.';
+        // Save session before redirecting
+        req.session.save((err) => {
+          if (err) console.error('Session save error:', err);
+          res.redirect('/addingSales');
+        });
     } catch (error) {
         console.error('Error saving sale:', error);
         // Render the sale form with an error message if saving fails
