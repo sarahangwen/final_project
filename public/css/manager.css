@@ -22,11 +22,14 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: var(--bg);
   color: var(--text-primary);
+  height: 100vh;
+  overflow: hidden;
 }
 
 .dashboard-layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -36,6 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
 .sidebar-header {
@@ -94,6 +98,7 @@ body {
 .main-content {
   flex: 1;
   padding: 24px;
+  overflow: hidden;
 }
 
 .dashboard-container {
