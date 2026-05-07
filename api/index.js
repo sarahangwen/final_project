@@ -81,6 +81,10 @@ passport.serializeUser(Signup.serializeUser());
 passport.deserializeUser(Signup.deserializeUser());
 
 // 6. Routes
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'Server is running' });
+});
+
 app.use('/', saleRoutes);
 app.use('/', productRoutes);
 app.use('/', creditRoutes);
@@ -95,10 +99,20 @@ app.use('/', salesPerProductRoutes);
 app.use('/', managerMaganjoRoutes);
 app.use('/', salesAgentMaganjoRoutes);
 
-// 7. Error handling for routes
+// 7. 404 handler for undefined routes
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found', path: req.path });
+});
+
+// 8. Error handling for routes
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+  console.error('Error:', err.message);
+  console.error('Stack:', err.stack);
+  res.status(500).json({ 
+    error: 'Something broke!',
+    message: err.message,
+    path: req.path
+  });
 });
 
 // Bootstrapping local server only. Vercel invokes the exported app directly.
