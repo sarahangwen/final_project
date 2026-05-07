@@ -25,78 +25,29 @@ body {
 }
 
 .signup-shell {
-    width: min(980px, 100%);
+    width: min(500px, 100%);
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 18px;
     overflow: hidden;
     box-shadow: 0 22px 40px rgba(20, 39, 61, 0.12);
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-}
-
-.brand-panel {
-    background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 100%);
-    color: #fff;
-    padding: 40px 34px;
-}
-
-.brand-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-}
-
-.brand-panel h1 {
-    margin: 16px 0 10px;
-    font-size: 1.8rem;
-    line-height: 1.25;
-}
-
-.brand-panel p {
-    color: #e1ecff;
-    margin: 0;
-}
-
-.feature-list {
-    list-style: none;
-    padding: 0;
-    margin: 28px 0 0;
-    display: grid;
-    gap: 12px;
-}
-
-.feature-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #f1f6ff;
-}
-
-.feature-list i {
-    color: #b7d1ff;
 }
 
 .form-panel {
-    padding: 40px 34px;
+    padding: 48px 40px;
 }
 
 .form-panel h2 {
     margin: 0;
     font-weight: 800;
+    font-size: 1.75rem;
+    color: var(--primary);
 }
 
 .form-subtitle {
-    margin: 10px 0 22px;
+    margin: 12px 0 28px;
     color: var(--text-muted);
-    font-size: 0.96rem;
+    font-size: 0.95rem;
 }
 
 .form-label {
