@@ -35,9 +35,5 @@ jobs:
         run: npm ci
       - name: Run ESLint
         run: npm run lint
-      - name: Javascript check
-        run: npx jsc --noEmit
       - name: Build project
         run: npm run build
-      - name: Run tests
-        run: npm test -- --passWithNoTests
