@@ -135,9 +135,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Bootstrapping local server only. Vercel invokes the exported app directly.
+// Bootstrapping local server for development and Render
+// Vercel invokes the exported app directly as serverless
 if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
   });
 }
