@@ -108,7 +108,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   console.error('Error:', err.message);
   console.error('Stack:', err.stack);
-  res.status(500).json({ 
+  res.status(err.status || 500).json({ 
     error: 'Something broke!',
     message: err.message,
     path: req.path
