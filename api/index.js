@@ -69,6 +69,18 @@ const sessionConfig = expressSession({
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// CORS support
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Express session & passport setup
 app.use(sessionConfig);
@@ -106,12 +118,20 @@ app.use((req, res) => {
 
 // 8. Error handling for routes
 app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
+  console.error('=== ERROR DETAILS ===');
+  console.error('Path:', req.path);
+  console.error('Method:', req.method);
+  console.error('Message:', err.message);
+  console.error('Status:', err.status);
   console.error('Stack:', err.stack);
+  console.error('====================');
+  
   res.status(err.status || 500).json({ 
     error: 'Something broke!',
     message: err.message,
-    path: req.path
+    path: req.path,
+    method: req.method,
+    status: err.status || 500
   });
 });
 
