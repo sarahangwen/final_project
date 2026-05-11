@@ -62,14 +62,23 @@ app.set('views', path.join(__dirname, '../views'));
 app.locals.moment = moment;
 
 // 5. Middleware Configuration
+let sessionStore;
+
+if (process.env.DATABASE) {
+  sessionStore = new MongoStore({
+    mongoUrl: process.env.DATABASE,
+    touchAfter: 24 * 3600 // lazy session update (in seconds)
+  });
+} else {
+  console.warn('DATABASE not configured. Using default memory store for sessions.');
+  sessionStore = new expressSession.MemoryStore();
+}
+
 const sessionConfig = expressSession({
   secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
   saveUninitialized: false,
-  store: new MongoStore({
-    mongoUrl: process.env.DATABASE,
-    touchAfter: 24 * 3600 // lazy session update (in seconds)
-  })
+  store: sessionStore
 });
 
 app.use(express.static(path.join(__dirname, '../public')));
