@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const moment = require('moment');
 const expressSession = require('express-session');
+const MongoStore = require('connect-mongo');
 
 // Load environment variables
 require('dotenv').config();
@@ -62,9 +63,13 @@ app.locals.moment = moment;
 
 // 5. Middleware Configuration
 const sessionConfig = expressSession({
-  secret: 'secret',
+  secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongoUrl: process.env.DATABASE,
+    touchAfter: 24 * 3600 // lazy session update (in seconds)
+  })
 });
 
 app.use(express.static(path.join(__dirname, '../public')));
