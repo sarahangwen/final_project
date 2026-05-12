@@ -6,6 +6,7 @@ const passport = require('passport');
 const moment = require('moment');
 const expressSession = require('express-session');
 const MongoStore = require('connect-mongo');
+const cors = require('cors');
 
 // Load environment variables
 require('dotenv').config();
@@ -85,25 +86,15 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// CORS support
-const allowedOrigins = process.env.FRONTEND_URL || 'https://final-project-eta-umber.vercel.app';
+// CORS Configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'https://final-project-eta-umber.vercel.app',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  
-  if (allowedOrigins.split(',').includes(origin) || origin === allowedOrigins) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-  next();
-});
+app.use(cors(corsOptions));
 
 // Express session & passport setup
 app.use(sessionConfig);
