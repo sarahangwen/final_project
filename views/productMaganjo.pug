@@ -6,7 +6,8 @@ html
     title Add Stock - Maganjo
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
     link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet')
-    link(rel='stylesheet', href='/css/product.css')
+    link(rel='stylesheet' href='/css/sale.css')
+
   body
     - const values = formData || {}
     .top-nav
@@ -22,10 +23,10 @@ html
       .form-container
         .form-header
           .header-icon
-            i.fas.fa-warehouse
+            i.fas.fa-inbox
           .header-content
-            h2.header-title New Procurement Record
-            p.header-subtitle Fill all required fields accurately to register new stock
+            h2.header-title New Stock Record
+            p.header-subtitle Add new product inventory to the system
 
         if errorMessage
           .alert.alert-danger.alert-dismissible.fade.show(role='alert')
@@ -41,16 +42,242 @@ html
 
         if validationErrors && validationErrors.length
           .alert.alert-warning.alert-dismissible.fade.show(role='alert')
-            .d-flex.align-items-start
-              i.fas.fa-info-circle.me-3.mt-1
-              .flex-grow-1
-                strong.d-block.mb-2 Please review the following errors:
-                ul.mb-0
-                  each err in validationErrors
-                    li= err
+            i.fas.fa-info-circle.me-2
+            = validationErrors.join(', ')
             button.btn-close(type='button' data-bs-dismiss='alert')
 
-        form#procurementForm.needs-validation(method='POST' action='/productMaganjo' novalidate)
+        form#addProductForm.needs-validation(method='POST' action='/productMaganjo' novalidate)
+          
+          // Produce Information Section
+          .form-section
+            .section-header
+              i.fas.fa-leaf
+              h4.section-title Produce Information
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='produceName')
+                    | Produce Name 
+                    span.required-mark *
+                  select#produceName.form-select(name='produceName' required)
+                    option(value='') Select a produce...
+                    option(value='Beans' selected=values.produceName === 'Beans') Beans
+                    option(value='Maize Grains' selected=values.produceName === 'Maize Grains') Maize Grains
+                    option(value='G-Nuts' selected=values.produceName === 'G-Nuts') G-Nuts
+                    option(value='Soya Beans' selected=values.produceName === 'Soya Beans') Soya Beans
+                    option(value='Cow Peas' selected=values.produceName === 'Cow Peas') Cow Peas
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please select a produce name
+
+              .col-md-6
+                .form-group
+                  label.form-label(for='produceType')
+                    | Produce Type 
+                    span.required-mark *
+                  select#produceType.form-select(name='produceType' required)
+                    option(value='') Select a type...
+                    option(value='Legume' selected=values.produceType === 'Legume') Legume
+                    option(value='Cereals' selected=values.produceType === 'Cereals') Cereals
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please select a produce type
+
+          // Procurement Details Section
+          .form-section
+            .section-header
+              i.fas.fa-calendar-alt
+              h4.section-title Procurement Details
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='procureDate')
+                    | Procurement Date 
+                    span.required-mark *
+                  input#procureDate.form-control(type='date' name='procureDate' value=values.procureDate || '' required)
+                  small.form-text Cannot be a future date
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please provide a valid date
+
+              .col-md-6
+                .form-group
+                  label.form-label(for='procureTime')
+                    | Procurement Time 
+                    span.required-mark *
+                  input#procureTime.form-control(type='time' name='procureTime' value=values.procureTime || '' required)
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please provide a valid time
+
+              .col-md-6
+                .form-group
+                  label.form-label(for='tonnage')
+                    | Tonnage (kg) 
+                    span.required-mark *
+                  input#tonnage.form-control(type='number' name='tonnage' min='100' step='1' value=values.tonnage || '' required placeholder='Minimum 100 kg')
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Tonnage must be at least 100 kg
+
+              .col-md-6
+                .form-group
+                  label.form-label(for='branchName')
+                    | Branch 
+                    span.required-mark *
+                  select#branchName.form-select(name='branchName' required)
+                    option(value='') Select branch...
+                    option(value='Maganjo' selected) Maganjo
+                    option(value='Matugga') Matugga
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Please select a branch
+
+          // Pricing Section
+          .form-section
+            .section-header
+              i.fas.fa-money-bill-wave
+              h4.section-title Pricing
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='cost')
+                    | Cost Price (UGX) 
+                    span.required-mark *
+                  .input-group
+                    span.input-group-text UGX
+                    input#cost.form-control(type='number' name='cost' min='10000' step='1' value=values.cost || '' required placeholder='10,000')
+                  small.form-text Minimum UGX 10,000
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Cost must be at least UGX 10,000
+
+              .col-md-6
+                .form-group
+                  label.form-label(for='sellPrice')
+                    | Selling Price (UGX) 
+                    span.required-mark *
+                  .input-group
+                    span.input-group-text UGX
+                    input#sellPrice.form-control(type='number' name='sellPrice' min='10000' step='1' value=values.sellPrice || '' required placeholder='10,000')
+                  small.form-text Must be ≥ cost price
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Selling price must be valid and not below cost
+
+          // Dealer Information Section
+          .form-section
+            .section-header
+              i.fas.fa-user-tie
+              h4.section-title Dealer Information
+            .row.g-3
+              .col-md-6
+                .form-group
+                  label.form-label(for='dealerName')
+                    | Dealer Name 
+                    span.required-mark *
+                  input#dealerName.form-control(type='text' name='dealerName' minlength='2' value=values.dealerName || '' required placeholder='Enter dealer name')
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Dealer name must be at least 2 characters
+
+              .col-md-6
+                .form-group
+                  label.form-label(for='contact')
+                    | Dealer Contact 
+                    span.required-mark *
+                  input#contact.form-control(type='tel' name='contact' pattern='^(?:\+256|0)(7\d{8})$' placeholder='07XXXXXXXX or +2567XXXXXXXX' value=values.contact || '' required)
+                  small.form-text Format: 07XXXXXXXX or +2567XXXXXXXX
+                  .invalid-feedback
+                    i.fas.fa-times-circle.me-1
+                    | Enter a valid Ugandan number
+
+          // Summary Section
+          .form-section.summary-section
+            .summary-box
+              .summary-row
+                .summary-label Total Investment:
+                .summary-value#totalInvestment UGX 0
+              .summary-row
+                .summary-label Profit Margin per kg:
+                .summary-value#profitPerKg UGX 0
+              .summary-text#summaryText (Calculated: Quantity × Cost, and Sell Price - Cost Price)
+
+          // Action Buttons
+          .form-actions.mt-5
+            button.btn.btn-primary.btn-submit(type='submit')
+              i.fas.fa-check-circle.me-2
+              | Save Stock Record
+            a.btn.btn-secondary.btn-cancel(href='/managerMaganjoDash')
+              i.fas.fa-times.me-2
+              | Cancel
+
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
+    
+    script.
+      const addProductForm = document.getElementById('addProductForm');
+      const procureDate = document.getElementById('procureDate');
+      const procureTime = document.getElementById('procureTime');
+      const cost = document.getElementById('cost');
+      const sellPrice = document.getElementById('sellPrice');
+      const tonnage = document.getElementById('tonnage');
+      const totalInvestment = document.getElementById('totalInvestment');
+      const profitPerKg = document.getElementById('profitPerKg');
+      const branchName = document.getElementById('branchName');
+
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const hh = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      const today = `${yyyy}-${mm}-${dd}`;
+
+      procureDate.max = today;
+      branchName.value = 'Maganjo';
+
+      if (!procureDate.value) procureDate.value = today;
+      if (!procureTime.value) procureTime.value = `${hh}:${min}`;
+
+      // Calculate totals
+      function calculateTotals() {
+        const qty = parseFloat(tonnage.value) || 0;
+        const costPrice = parseFloat(cost.value) || 0;
+        const sellPriceValue = parseFloat(sellPrice.value) || 0;
+        const totalInv = qty * costPrice;
+        const profitMargin = sellPriceValue - costPrice;
+        
+        totalInvestment.textContent = totalInv > 0 ? 'UGX ' + totalInv.toLocaleString() : 'UGX 0';
+        profitPerKg.textContent = profitMargin > 0 ? 'UGX ' + profitMargin.toLocaleString() : 'UGX 0';
+      }
+
+      tonnage.addEventListener('input', calculateTotals);
+      cost.addEventListener('input', calculateTotals);
+      sellPrice.addEventListener('input', calculateTotals);
+
+      addProductForm.addEventListener('submit', (event) => {
+        const selectedDate = procureDate.value ? new Date(procureDate.value) : null;
+        const currentDate = new Date(today);
+
+        if (selectedDate && selectedDate > currentDate) {
+          procureDate.setCustomValidity('Procurement date cannot be in the future.');
+        } else {
+          procureDate.setCustomValidity('');
+        }
+
+        if (Number(sellPrice.value) < Number(cost.value)) {
+          sellPrice.setCustomValidity('Selling price cannot be less than cost price.');
+        } else {
+          sellPrice.setCustomValidity('');
+        }
+
+        if (!addProductForm.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        addProductForm.classList.add('was-validated');
+      });
           
           // Produce Information Section
           .form-section
@@ -196,17 +423,6 @@ html
                     i.fas.fa-times-circle.me-1
                     | Enter a valid Ugandan number
 
-          // Summary Section
-          .form-section.summary-section
-            .summary-box
-              .summary-row
-                .summary-label Total Investment:
-                .summary-value#totalInvestment UGX 0
-              .summary-row
-                .summary-label Profit Margin per kg:
-                .summary-value#profitPerKg UGX 0
-              .summary-text#summaryText (Calculated: Quantity × Cost, and Sell Price - Cost Price)
-
           // Action Buttons
           .form-actions.mt-5
             button.btn.btn-primary.btn-submit(type='submit')
@@ -224,9 +440,6 @@ html
       const procureTime = document.getElementById('procureTime');
       const cost = document.getElementById('cost');
       const sellPrice = document.getElementById('sellPrice');
-      const tonnage = document.getElementById('tonnage');
-      const totalInvestment = document.getElementById('totalInvestment');
-      const profitPerKg = document.getElementById('profitPerKg');
 
       const now = new Date();
       const yyyy = now.getFullYear();
@@ -240,22 +453,6 @@ html
 
       if (!procureDate.value) procureDate.value = today;
       if (!procureTime.value) procureTime.value = `${hh}:${min}`;
-
-      // Calculate totals
-      function calculateTotals() {
-        const qty = parseFloat(tonnage.value) || 0;
-        const costPrice = parseFloat(cost.value) || 0;
-        const sellPriceValue = parseFloat(sellPrice.value) || 0;
-        const totalInv = qty * costPrice;
-        const profitMargin = sellPriceValue - costPrice;
-        
-        totalInvestment.textContent = totalInv > 0 ? 'UGX ' + totalInv.toLocaleString() : 'UGX 0';
-        profitPerKg.textContent = profitMargin > 0 ? 'UGX ' + profitMargin.toLocaleString() : 'UGX 0';
-      }
-
-      tonnage.addEventListener('input', calculateTotals);
-      cost.addEventListener('input', calculateTotals);
-      sellPrice.addEventListener('input', calculateTotals);
 
       procurementForm.addEventListener('submit', (event) => {
         const selectedDate = procureDate.value ? new Date(procureDate.value) : null;
@@ -273,10 +470,10 @@ html
           sellPrice.setCustomValidity('');
         }
 
-        if (!procurementForm.checkValidity()) {
+        if (!addProductForm.checkValidity()) {
           event.preventDefault();
           event.stopPropagation();
         }
 
-        procurementForm.classList.add('was-validated');
+        addProductForm.classList.add('was-validated');
       });
