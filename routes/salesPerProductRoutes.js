@@ -1,14 +1,43 @@
 const express = require('express');
 const router = express.Router();
 
-const Product = require('../models/Product'); 
+const Product = require('../models/Product');
+
+const getMaganjoSidebarItems = () => [
+  { href: '/productMaganjo', label: 'Add Product' },
+  { href: '/productListMaganjo', label: 'Product List' },
+  { href: '/addingSales', label: 'Record Sale' },
+  { href: '/salesListMag', label: 'View Sales List' },
+  { href: '/salesPerProductListMaganjo', label: 'Sales Per Product' },
+  { href: '/creditSaleMaganjo', label: 'Record Credit Sales' },
+  { href: '/creditSalesListMaganjo', label: 'Credit Sales Management' },
+  { href: '/logout', label: 'Logout', isLogout: true, class: 'logout-button' }
+];
+
+const getMatuggaSidebarItems = () => [
+  { href: '/productMatugga', label: 'Add Product' },
+  { href: '/productListMatugga', label: 'Product List' },
+  { href: '/addingSales', label: 'Record Sale' },
+  { href: '/salesListMatugga', label: 'View Sales List' },
+  { href: '/salesPerProductListMatugga', label: 'Sales Per Product' },
+  { href: '/creditSalesAgentMatuggaDash', label: 'Record Credit Sales' },
+  { href: '/creditSalesAgentMatuggaDash', label: 'Credit Sales Management' },
+  { href: '/logout', label: 'Logout', isLogout: true, class: 'logout-button' }
+];
 
 router.get('/salesPerProductList', async (req, res) => {
     try {
-  const products = await Product.find({ branchName: 'Matugga' }); 
-      res.render('salesPerProductMatugga', { products }); 
+      const products = await Product.find({ branchName: 'Matugga' }); 
+      res.render('salesPerProductMatugga', { 
+        products,
+        pageTitle: 'Sales Per Product - Matugga',
+        pageHeader: 'Sales Per Product',
+        pageSubtitle: 'Detailed sales performance by product',
+        branchName: 'Matugga Branch',
+        sidebarItems: getMatuggaSidebarItems()
+      }); 
     } catch (error) {
-        console.error('Error loading manager dashboard:', error);
+        console.error('Error loading sales per product:', error);
         res.status(500).send('Server Error');   
     }
 });
@@ -16,10 +45,18 @@ router.get('/salesPerProductList', async (req, res) => {
 router.get('/salesPerProductListMaganjo', async (req, res) => {
   try {
     const products = await Product.find({ branchName: 'Maganjo' }); 
-    res.render('salesPerProductMaganjo', { products }); 
+    res.render('salesPerProductMaganjo', { 
+      products,
+      pageTitle: 'Sales Per Product - Maganjo',
+      pageHeader: 'Sales Per Product',
+      pageSubtitle: 'Detailed sales performance by product',
+      branchName: 'Maganjo Branch',
+      sidebarItems: getMaganjoSidebarItems()
+    }); 
   } catch (error) {
-      console.error('Error loading manager dashboard:', error);
+      console.error('Error loading sales per product:', error);
       res.status(500).send('Server Error');   
   }
 });
+
 module.exports = router;

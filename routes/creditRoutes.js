@@ -130,43 +130,6 @@ router.post('/creditsalesAgentMaganjoDash', async (req, res) => {
   }
 });
 
-router.get('/creditsalesAgentMatuggaDash', (req, res) => {
-  res.render('creditSalesAgentMatugga', {
-    formData: { creditBranchName: 'Matugga', status: 'Pending' },
-    validationErrors: []
-  });
-});
-
-router.post('/creditsalesAgentMatuggaDash', async (req, res) => {
-  const formData = normalizeCreditInput(req.body);
-  const validationErrors = validateCreditInput(formData, 'Matugga');
-
-  try {
-    if (validationErrors.length > 0) {
-      return renderCreditForm(
-        res,
-        'creditSalesAgentMatugga',
-        'Please correct the highlighted errors before submitting.',
-        validationErrors,
-        formData
-      );
-    }
-
-    const credit = new Credit(formData);
-    await credit.save();
-    res.redirect('/creditsalesAgentMatuggaDash');
-  } catch (error) {
-    console.error('Error saving credit:', error);
-    return renderCreditForm(
-      res,
-      'creditSalesAgentMatugga',
-      'There was an issue saving the credit sale. Please verify the entries and try again.',
-      validationErrors,
-      formData
-    );
-  }
-});
-
 router.get('/creditSaleMaganjo', (req, res) => {
   res.render('creditMaganjo', {
     formData: { creditBranchName: 'Maganjo', status: 'Pending' },

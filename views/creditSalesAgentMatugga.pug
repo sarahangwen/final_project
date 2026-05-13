@@ -3,255 +3,103 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title Record Credit Sales - Matugga
+    title Credit Sales
+    link(rel='stylesheet' href='/css/credit.css')
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
-    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet')
-    link(rel='stylesheet', href='/css/product.css')
-  body
-    .top-nav
-      .container.d-flex.justify-content-between.align-items-center
-        .d-flex.align-items-center
-          i.fas.fa-handshake.me-2
-          h1.page-title Record Credit Sales - Matugga
-        a.btn.btn-outline-light.back-btn(href='/salesAgentMatuggaDash')
-          i.fas.fa-arrow-left.me-2
-          | Back to Dashboard
-
-    .container.py-5
-      .form-container
-        .form-header
-          .header-icon
-            i.fas.fa-credit-card
-          .header-content
-            h2.header-title New Credit Sale Record
-            p.header-subtitle Record credit sales transaction details
-
-        form#creditSalesForm.needs-validation(method='POST' action='/creditsalesAgentMatuggaDash' novalidate)
-          
-          // Customer Information Section
-          .form-section
-            .section-header
-              i.fas.fa-user
-              h4.section-title Customer Information
-            .row.g-3
-              .col-md-6
-                .form-group
-                  label.form-label(for='creditBuyerName')
-                    | Customer Name 
-                    span.required-mark *
-                  input#creditBuyerName.form-control(type='text' name='creditBuyerName' required placeholder='Enter customer name')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Customer name is required
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='nationalId')
-                    | National ID 
-                    span.required-mark *
-                  input#nationalId.form-control(type='text' name='nationalId' required placeholder='Enter national ID')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | National ID is required
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='contact')
-                    | Contact 
-                    span.required-mark *
-                  input#contact.form-control(type='tel' name='contact' pattern='^(?:\\+256|0)(7\\d{8})$' required placeholder='07XXXXXXXX or +2567XXXXXXXX')
-                  small.form-text Format: 07XXXXXXXX or +2567XXXXXXXX
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Enter a valid phone number
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='location')
-                    | Location 
-                    span.required-mark *
-                  input#location.form-control(type='text' name='location' required placeholder='Enter customer location')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Location is required
-
-          // Produce Information Section
-          .form-section
-            .section-header
-              i.fas.fa-leaf
-              h4.section-title Produce Information
-            .row.g-3
-              .col-md-6
-                .form-group
-                  label.form-label(for='creditProduceName')
-                    | Produce Name 
-                    span.required-mark *
-                  input#creditProduceName.form-control(type='text' name='creditProduceName' required placeholder='Enter produce name')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Produce name is required
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='typeOfProduce')
-                    | Type of Produce 
-                    span.required-mark *
-                  input#typeOfProduce.form-control(type='text' name='typeOfProduce' required placeholder='e.g., Legume, Cereals')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Type of produce is required
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='creditTonnage')
-                    | Tonnage (kg) 
-                    span.required-mark *
-                  input#creditTonnage.form-control(type='number' name='creditTonnage' min='1' step='0.01' required placeholder='Enter tonnage')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Tonnage must be greater than 0
-
-          // Credit Details Section
-          .form-section
-            .section-header
-              i.fas.fa-money-bill-wave
-              h4.section-title Credit Details
-            .row.g-3
-              .col-md-6
-                .form-group
-                  label.form-label(for='amountDue')
-                    | Amount Due (UGX) 
-                    span.required-mark *
-                  .input-group
-                    span.input-group-text UGX
-                    input#amountDue.form-control(type='number' name='amountDue' min='0' step='1' required placeholder='Amount due')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Amount must be greater than 0
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='dueDate')
-                    | Due Date 
-                    span.required-mark *
-                  input#dueDate.form-control(type='date' name='dueDate' required)
-                  small.form-text Payment deadline
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Due date is required
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='dateOfDispatch')
-                    | Date of Dispatch 
-                    span.required-mark *
-                  input#dateOfDispatch.form-control(type='date' name='dateOfDispatch' required)
-                  small.form-text When goods were dispatched
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Dispatch date is required
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='status')
-                    | Credit Status 
-                    span.required-mark *
-                  select#status.form-select(name='status' required)
-                    option(value='') Select status...
-                    option(value='Pending') Pending
-                    option(value='Partially Paid') Partially Paid
-                    option(value='Paid') Paid
-                    option(value='Overdue') Overdue
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Please select a status
-
-          // Additional Information Section
-          .form-section
-            .section-header
-              i.fas.fa-info-circle
-              h4.section-title Additional Information
-            .row.g-3
-              .col-md-6
-                .form-group
-                  label.form-label(for='creditBranchName')
-                    | Branch 
-                    span.required-mark *
-                  select#creditBranchName.form-select(name='creditBranchName' required)
-                    option(value='') Select branch...
-                    option(value='Maganjo') Maganjo
-                    option(value='Matugga') Matugga
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Please select a branch
-
-              .col-md-6
-                .form-group
-                  label.form-label(for='creditSalesAgentName')
-                    | Sales Agent Name 
-                    span.required-mark *
-                  input#creditSalesAgentName.form-control(type='text' name='creditSalesAgentName' required placeholder='Enter your name')
-                  .invalid-feedback
-                    i.fas.fa-times-circle.me-1
-                    | Sales agent name is required
-
-          // Summary Section
-          .form-section.summary-section
-            .summary-box
-              .summary-row
-                .summary-label Total Credit Amount:
-                .summary-value#totalCreditAmount UGX 0
-              .summary-text#summaryText (Amount Due displayed above)
-
-          // Action Buttons
-          .form-actions.mt-5
-            button.btn.btn-primary.btn-submit(type='submit')
-              i.fas.fa-check-circle.me-2
-              | Record Credit Sale
-            a.btn.btn-secondary.btn-cancel(href='/salesAgentMatuggaDash')
-              i.fas.fa-times.me-2
-              | Cancel
-
-    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
-    
-    script.
-      const creditSalesForm = document.getElementById('creditSalesForm');
-      const amountDue = document.getElementById('amountDue');
-      const dueDate = document.getElementById('dueDate');
-      const dispatchDate = document.getElementById('dateOfDispatch');
-      const totalCreditAmount = document.getElementById('totalCreditAmount');
-
-      const now = new Date();
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth() + 1).padStart(2, '0');
-      const dd = String(now.getDate()).padStart(2, '0');
-      const today = `${yyyy}-${mm}-${dd}`;
-
-      // Set default dates
-      if (!dispatchDate.value) dispatchDate.value = today;
-
-      // Update total credit amount
-      function updateTotalCredit() {
-        const amount = parseFloat(amountDue.value) || 0;
-        totalCreditAmount.textContent = amount > 0 ? 'UGX ' + amount.toLocaleString() : 'UGX 0';
+    style.
+      .navbar-center {
+        justify-content: center;
       }
+  body
+    // Navbar
+    nav.navbar.navbar-light.bg-light.d-flex.navbar-center
+      a.nav-link.text-decoration-none(href='/managerMatuggaDash') Back to Dashboard
 
-      amountDue.addEventListener('input', updateTotalCredit);
+    h2 Credit Sales
+    form#credit-sales-form(action="/addingCredit" method="POST" novalidate)
+      label(for='credit-buyer-name') Buyer Name:
+      input#credit-buyer-name(type='text' name='creditBuyerName' required)
 
-      creditSalesForm.addEventListener('submit', (event) => {
-        // Validate due date is not before dispatch date
-        if (dispatchDate.value && dueDate.value) {
-          if (new Date(dueDate.value) < new Date(dispatchDate.value)) {
-            dueDate.setCustomValidity('Due date cannot be before dispatch date.');
-          } else {
-            dueDate.setCustomValidity('');
-          }
+      label(for='national-id') National ID:
+      input#national-id(type='text' name='nationalId' required)
+
+      label(for='location') Location:
+      input#location(type='text' name='location' required)
+
+      label(for='contact') Contact:
+      input#contact(type='text' name='contact' required)
+
+      label(for='amount-due') Amount Due (UGX):
+      input#amount-due(type='number' name='amountDue' required min='0' step='0.01')
+
+      label(for='due-date') Due Date:
+      input#due-date(type='date' name='dueDate' required)
+
+      label(for='credit-produce-name') Produce Name:
+      input#credit-produce-name(type='text' name='creditProduceName' required)
+
+      label(for='credit-tonnage') Tonnage (kg):
+      input#credit-tonnage(type='number' name='creditTonnage' required min='1' step='0.01')
+
+      label(for='credit-branch-name') Branch Name:
+      select#credit-branch-name(name='creditBranchName' required)
+        option(value='') Select Branch
+        option(value='Maganjo') Maganjo
+        option(value='Matugga') Matugga
+
+      label(for='type-of-produce') Type of Produce:
+      input#type-of-produce(type='text' name='typeOfProduce' required)
+
+      label(for='date-of-dispatch') Date of Dispatch:
+      input#date-of-dispatch(type='date' name='dateOfDispatch' required)
+
+      label(for='credit-sales-agent-name') Sales Agent Name:
+      input#credit-sales-agent-name(type='text' name='creditSalesAgentName' required)
+
+      label(for='status') Credit Status:
+      select#status(name='status' required)
+        option(value='Pending') Pending
+        option(value='Partially Paid') Partially Paid
+        option(value='Paid') Paid
+        option(value='Overdue') Overdue
+
+      button(type='submit') Record Credit Sale
+
+    footer
+      p &copy; 2025 Karibu Groceries LTD. All rights reserved.
+
+    // JavaScript Form Validation
+    script.
+      document.getElementById('credit-sales-form').addEventListener('submit', function (e) {
+        const amountDue = document.getElementById('amount-due');
+        const tonnage = document.getElementById('credit-tonnage');
+        const branch = document.getElementById('credit-branch-name');
+
+        // Clear previous validation styles
+        [amountDue, tonnage, branch].forEach(input => input.classList.remove('is-invalid'));
+
+        let valid = true;
+
+        // Amount Due validation
+        if (isNaN(amountDue.value) || Number(amountDue.value) <= 0) {
+          amountDue.classList.add('is-invalid');
+          valid = false;
         }
 
-        if (!creditSalesForm.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
+        // Tonnage validation
+        if (isNaN(tonnage.value) || Number(tonnage.value) <= 0) {
+          tonnage.classList.add('is-invalid');
+          valid = false;
         }
 
-        creditSalesForm.classList.add('was-validated');
+        // Branch selection
+        if (branch.value === '') {
+          branch.classList.add('is-invalid');
+          valid = false;
+        }
+
+        if (!valid) {
+          e.preventDefault(); // Stop form submission
+          alert('Please correct the highlighted fields before submitting the form.');
+        }
       });

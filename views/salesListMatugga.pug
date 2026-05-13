@@ -6,17 +6,35 @@ html
     title Sales List - Matugga
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
     link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/css/manager.css')
     link(rel='stylesheet' href='/css/productList.css')
 
   body
-    .top-nav
-      .container.d-flex.justify-content-between.align-items-center
-        .d-flex.align-items-center
-          i.fas.fa-receipt.me-2
-          h1.page-title Sales List - Matugga
-        a.btn.btn-outline-light.back-btn(href='/managerMatuggaDash')
-          i.fas.fa-arrow-left.me-2
-          | Back
+    .dashboard-layout
+      aside.sidebar
+        .sidebar-header
+          h2.sidebar-title KGL Dashboard
+          p.sidebar-subtitle Matugga Branch
+        ul
+          li
+            a(href='/productMatugga') Add Product
+          li
+            a(href='/productListMatugga') Product List
+          li
+            a(href='/addingSalesMatugga') Record Sale
+          li
+            a(href='/salesListMatugga') View Sales List
+          li
+            a(href='/salesPerProductListMatugga') Sales Per Product
+          li
+            a(href='/creditSalesAgentMatuggaDash') Record Credit Sales
+          li
+            a(href='/creditSalesAgentMatuggaDash') Credit Sales Management
+          li
+            a#logout-button.logout-button(href='/logout') Logout
+
+      main.main-content
+        .dashboard-container
 
     .container.py-5
       .list-wrapper

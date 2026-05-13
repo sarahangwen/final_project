@@ -139,61 +139,9 @@ router.post('/productMaganjo', async (req, res) => {
   }
 });
 
-// Route for displaying the procurement form for MATUGGA (GET)
-router.get('/productMatugga', async (req, res) => {
-  try {
-    const products = await Product.find({ branchName: 'Matugga' });
-    const successMessage = req.session.successMessage || '';
-    const errorMessage = req.session.errorMessage || '';
-    
-    // Clear messages after displaying
-    delete req.session.successMessage;
-    delete req.session.errorMessage;
-    
-    res.render('productMatugga', { 
-      products, 
-      formData: {}, 
-      validationErrors: [],
-      successMessage,
-      errorMessage
-    });
-  } catch (error) {
-    console.error('Error loading products:', error);
-    res.status(500).send('Unable to load products.');
-  }
-});
 
-// Route for handling the form submission for MATUGGA (POST)
-router.post('/productMatugga', async (req, res) => {
-  const formData = normalizeProductInput(req.body);
-  const validationErrors = validateProductInput(formData);
-
-  try {
-    if (validationErrors.length > 0) {
-      const products = await Product.find({ branchName: 'Matugga' });
-      return res.status(400).render('productMatugga', {
-        errorMessage: 'Please correct the highlighted errors before submitting.',
-        validationErrors,
-        formData,
-        products
-      });
-    }
-
-    const product = new Product(formData);
-    await product.save();
-    
-    // Store success message in session
-    req.session.successMessage = `✓ Stock record for "${formData.produceName}" added successfully!`;
-    res.redirect('/productMatugga');
-  } catch (error) {
-    console.error('Error saving product:', error);
-    const products = await Product.find({ branchName: 'Matugga' });
-    
-    // Store error message in session
-    req.session.errorMessage = 'There was an issue saving the stock. Please verify your entries and try again.';
-    res.redirect('/productMatugga');
-  }
-});
+// For the form (GET request)
+router.get('/addProduct', async (req, res) => {
   try {
     const successMessage = req.session.successMessage || '';
     const errorMessage = req.session.errorMessage || '';

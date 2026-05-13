@@ -1,51 +1,199 @@
-doctype html
-html
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title Sales Per Product - Matugga
-    link(rel='stylesheet' href='/css/productList.css')
-    script(src='https://cdn.jsdelivr.net/npm/chart.js')  
+extends layouts/dashboard-layout
 
-  body
-    .top-nav
-      .container.d-flex.justify-content-between.align-items-center
-        h1.page-title Sales Per Product
-        a.btn.btn-outline-light.back-btn(href='/managerMatuggaDash') Back to Dashboard
+block styles
+  style.
+    :root {
+      --table-border: #e0e7f1;
+      --row-hover: #f8fafb;
+      --row-stripe: #fafbfc;
+    }
 
-    .container.py-4
-      .list-card
-        .list-header
-          .list-header-content
-            h3.mb-1 Product Performance - Matugga
-            p.mb-0 Overview of stock sold per product.
-          .record-count
-            span.count-label Total Products
-            span.count-value= products.length
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      margin-top: 2rem;
+    }
 
-        .table-responsive
-          table#procuredTable.table.align-middle.mb-0
+    .table-header {
+      background: linear-gradient(135deg, #1f4f8f 0%, #3d6ab8 100%);
+      padding: 1.5rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .table-header h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .table-header i {
+      font-size: 1.5rem;
+    }
+
+    .table-stats {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .table-stats span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+    }
+
+    .professional-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0;
+    }
+
+    .professional-table thead {
+      background: #f8fafb;
+      border-bottom: 2px solid var(--table-border);
+    }
+
+    .professional-table thead th {
+      padding: 1.25rem 1.5rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1f4f8f;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: left;
+      border: none;
+    }
+
+    .professional-table tbody tr {
+      border-bottom: 1px solid var(--table-border);
+      transition: background-color 0.2s;
+    }
+
+    .professional-table tbody tr:nth-child(even) {
+      background-color: var(--row-stripe);
+    }
+
+    .professional-table tbody tr:hover {
+      background-color: var(--row-hover);
+    }
+
+    .professional-table tbody td {
+      padding: 1.25rem 1.5rem;
+      color: #333;
+      font-size: 0.95rem;
+    }
+
+    .product-name {
+      font-weight: 600;
+      color: #1f4f8f;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .product-name i {
+      color: #3d6ab8;
+      font-size: 1rem;
+    }
+
+    .quantity-value {
+      font-weight: 600;
+      color: #2d7a3e;
+    }
+
+    .sales-value {
+      font-weight: 700;
+      color: #1f4f8f;
+      font-size: 1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      color: #ddd;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .table-responsive {
+        overflow-x: auto;
+      }
+
+      .professional-table thead th,
+      .professional-table tbody td {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+      }
+
+      .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .table-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+
+block content
+  .container.py-3
+    .table-container
+      .table-header
+        h2
+          i.fas.fa-list
+          | Product Sales Details
+        .table-stats
+          span
+            i.fas.fa-cube
+            | #{products.length} Product(s)
+
+      .table-responsive
+        if products.length
+          table.professional-table
             thead
               tr
-                th Product
-                th Total Quantity (kg)
-                th Total Sales Amount (UGX)
+                th
+                  i.fas.fa-leaf.me-2(style='color: #3d6ab8')
+                  | Product Name
+                th
+                  i.fas.fa-weight.me-2(style='color: #2d7a3e')
+                  | Total Quantity (kg)
+                th
+                  i.fas.fa-coins.me-2(style='color: #1f4f8f')
+                  | Total Sales (UGX)
             tbody
-              if products.length
-                each product in products 
-                  tr
-                    td.fw-semibold #{product.produceName}
-                    td #{product.tonnage.toLocaleString()}
-                    td #{(product.sellPrice * product.tonnage).toLocaleString()}
-              else
+              each product in products
                 tr
-                  td.empty-state(colspan='3') No product sales data found.
-
-    script.
-      window.onload = function() {
-        const product = #{JSON.stringify(product)};
-        
-        // Example if needed to use chart.js or any other JS functionality
-        // if (productSalesAgg.length) {
-        //   console.log(productSalesAgg); 
-        // }
+                  td
+                    .product-name
+                      i.fas.fa-box
+                      | #{product.produceName}
+                  td.quantity-value
+                    = product.tonnage.toLocaleString()
+                  td.sales-value
+                    = (product.sellPrice * product.tonnage).toLocaleString()
+        else
+          .empty-state
+            .empty-state-icon
+              i.fas.fa-inbox
+            h4 No Product Sales Data
+            p No products have been sold at Matugga Branch yet.
