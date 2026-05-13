@@ -4,21 +4,44 @@ html
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     title Procure Produce
-    link(rel='stylesheet', href='/css/Product.css') 
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet')
-    style.
-      .navbar-blue {
-        background-color:rgb(57, 69, 87);
-      }
-      .nav-link {
-        color: white !important;
-      }
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet')
+    link(rel='stylesheet', href='/css/manager.css')
+    link(rel='stylesheet', href='/css/Product.css') 
   body
-    nav.navbar.navbar-dark.navbar-blue
-      .container.d-flex.justify-content-center
-        ul.nav
-          li.nav-item
-            a.nav-link(href='/managerMaganjoDash') Back to Dashboard
+    .dashboard-layout
+      aside.sidebar
+        .sidebar-header
+          h2.sidebar-title KGL Dashboard
+          p.sidebar-subtitle Matugga Branch
+        ul
+          li
+            a(href='/productMatugga') Add Product
+          li
+            a(href='/productListMatugga') Product List
+          li
+            a(href='/addingSalesMatugga') Record Sale
+          li
+            a(href='/salesListMatugga') View Sales List
+          li
+            a(href='/salesPerProductListMatugga') Sales Per Product
+          li
+            a(href='/creditSalesAgentMatuggaDash') Record Credit Sales
+          li
+            a(href='/creditSalesAgentMatuggaDash') Credit Sales Management
+          li
+            a#logout-button.logout-button(href='/logout') Logout
+
+      main.main-content
+        .dashboard-container
+          .container.mt-4
+            h3.mb-3 Record New Procurement
+            form#procurementForm(method='POST', action=`/updateProduct/${product._id}`, onsubmit='return validateForm()')
+              .row.mb-3
+                .col
+                  label(for='produceName') Produce Name
+                  select#produceName.form-select(name='produceName')
+                    option(value='') -- Select Produce Name --
 
     .container.mt-4
       h3.mb-3 Record New Procurement

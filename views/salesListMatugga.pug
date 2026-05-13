@@ -35,116 +35,115 @@ html
 
       main.main-content
         .dashboard-container
+          .container.py-5
+            .list-wrapper
+              .list-header
+                .header-content
+                  .d-flex.align-items-center.gap-3
+                    .header-icon
+                      i.fas.fa-cash-register
+                    div
+                      h2.header-title Sales Records
+                      p.header-subtitle Review and manage all sales transactions from Matugga branch
+                
+                .header-stats
+                  .stat-item
+                    .stat-icon
+                      i.fas.fa-receipt
+                    .stat-info
+                      .stat-label Total Records
+                      .stat-value= sales.length
 
-    .container.py-5
-      .list-wrapper
-        .list-header
-          .header-content
-            .d-flex.align-items-center.gap-3
-              .header-icon
-                i.fas.fa-cash-register
-              div
-                h2.header-title Sales Records
-                p.header-subtitle Review and manage all sales transactions from Matugga branch
-          
-          .header-stats
-            .stat-item
-              .stat-icon
-                i.fas.fa-receipt
-              .stat-info
-                .stat-label Total Records
-                .stat-value= sales.length
+              .search-filter-bar
+                .search-box
+                  i.fas.fa-search
+                  input#searchInput.form-control.search-input(type='text' placeholder='Search by produce, buyer name, or contact...')
+                
+                .filter-info
+                  span.badge.bg-info
+                    i.fas.fa-info-circle.me-1
+                    | Showing #{sales.length} record(s)
 
-        .search-filter-bar
-          .search-box
-            i.fas.fa-search
-            input#searchInput.form-control.search-input(type='text' placeholder='Search by produce, buyer name, or contact...')
-          
-          .filter-info
-            span.badge.bg-info
-              i.fas.fa-info-circle.me-1
-              | Showing #{sales.length} record(s)
-
-        if sales.length
-          .table-container
-            .table-responsive
-              table#salesTable.table.professional-table.mb-0
-                thead
-                  tr
-                    th.col-produce
-                      i.fas.fa-leaf.me-2
-                      | Produce Name
-                    th.col-type
-                      i.fas.fa-tag.me-2
-                      | Produce Type
-                    th.col-date
-                      i.fas.fa-calendar.me-2
-                      | Sale Date
-                    th.col-time
-                      i.fas.fa-clock.me-2
-                      | Sale Time
-                    th.col-quantity
-                      i.fas.fa-weight.me-2
-                      | Quantity (kg)
-                    th.col-price
-                      i.fas.fa-coins.me-2
-                      | Price/Kg (UGX)
-                    th.col-total
-                      i.fas.fa-calculator.me-2
-                      | Total (UGX)
-                    th.col-buyer
-                      i.fas.fa-user.me-2
-                      | Buyer Name
-                    th.col-contact
-                      i.fas.fa-phone.me-2
-                      | Buyer Contact
-                    th.col-payment
-                      i.fas.fa-money-bill.me-2
-                      | Payment Mode
-                    th.col-actions
-                      i.fas.fa-cog.me-2
-                      | Actions
-                tbody
-                  each sale in sales
-                    tr.data-row
-                      td.col-produce.fw-semibold
-                        span.produce-badge= sale.produceName
-                      td.col-type
-                        span.type-badge= sale.produceType
-                      td.col-date
-                        span.date-text= moment(sale.saleDate).format("DD MMM YYYY")
-                      td.col-time
-                        span.time-text= sale.saleTime
-                      td.col-quantity.text-end
-                        .quantity-display= sale.quantitySold.toLocaleString() + ' kg'
-                      td.col-price.text-end
-                        .price-display= 'UGX ' + sale.pricePerKg.toLocaleString()
-                      td.col-total.text-end
-                        .price-highlight= 'UGX ' + (sale.quantitySold * sale.pricePerKg).toLocaleString()
-                      td.col-buyer= sale.buyerName
-                      td.col-contact
-                        a(href='tel:' + sale.buyerContact title=sale.buyerContact)
-                          i.fas.fa-phone.me-1
-                          = sale.buyerContact
-                      td.col-payment
-                        span.payment-badge(class=sale.paymentMode === 'Cash' ? 'badge-cash' : 'badge-mobile')
-                          i.fas.fa-money-bill.me-1
-                          = sale.paymentMode
-                      td.col-actions
-                        .action-buttons
-                          a.btn-action.btn-edit(href="/updateSale/"+sale._id title='Edit record')
-                            i.fas.fa-edit
-                          button.btn-action.btn-delete(type='button' onclick="deleteSale('"+sale._id+"')" title='Delete record')
-                            i.fas.fa-trash-alt
-        else
-          .empty-state
-            .empty-icon
-              i.fas.fa-inbox
-            .empty-title No Records Found
-            .empty-text No sales records have been added yet for Matugga branch.
-            a.btn.btn-primary.mt-3(href='/salesMatugga')
-              i.fas.fa-plus.me-2
-              | Add First Sale
+              if sales.length
+                .table-container
+                  .table-responsive
+                    table#salesTable.table.professional-table.mb-0
+                      thead
+                        tr
+                          th.col-produce
+                            i.fas.fa-leaf.me-2
+                            | Produce Name
+                          th.col-type
+                            i.fas.fa-tag.me-2
+                            | Produce Type
+                          th.col-date
+                            i.fas.fa-calendar.me-2
+                            | Sale Date
+                          th.col-time
+                            i.fas.fa-clock.me-2
+                            | Sale Time
+                          th.col-quantity
+                            i.fas.fa-weight.me-2
+                            | Quantity (kg)
+                          th.col-price
+                            i.fas.fa-coins.me-2
+                            | Price/Kg (UGX)
+                          th.col-total
+                            i.fas.fa-calculator.me-2
+                            | Total (UGX)
+                          th.col-buyer
+                            i.fas.fa-user.me-2
+                            | Buyer Name
+                          th.col-contact
+                            i.fas.fa-phone.me-2
+                            | Buyer Contact
+                          th.col-payment
+                            i.fas.fa-money-bill.me-2
+                            | Payment Mode
+                          th.col-actions
+                            i.fas.fa-cog.me-2
+                            | Actions
+                      tbody
+                        each sale in sales
+                          tr.data-row
+                            td.col-produce.fw-semibold
+                              span.produce-badge= sale.produceName
+                            td.col-type
+                              span.type-badge= sale.produceType
+                            td.col-date
+                              span.date-text= moment(sale.saleDate).format("DD MMM YYYY")
+                            td.col-time
+                              span.time-text= sale.saleTime
+                            td.col-quantity.text-end
+                              .quantity-display= sale.quantitySold.toLocaleString() + ' kg'
+                            td.col-price.text-end
+                              .price-display= 'UGX ' + sale.pricePerKg.toLocaleString()
+                            td.col-total.text-end
+                              .price-highlight= 'UGX ' + (sale.quantitySold * sale.pricePerKg).toLocaleString()
+                            td.col-buyer= sale.buyerName
+                            td.col-contact
+                              a(href='tel:' + sale.buyerContact title=sale.buyerContact)
+                                i.fas.fa-phone.me-1
+                                = sale.buyerContact
+                            td.col-payment
+                              span.payment-badge(class=sale.paymentMode === 'Cash' ? 'badge-cash' : 'badge-mobile')
+                                i.fas.fa-money-bill.me-1
+                                = sale.paymentMode
+                            td.col-actions
+                              .action-buttons
+                                a.btn-action.btn-edit(href="/updateSale/"+sale._id title='Edit record')
+                                  i.fas.fa-edit
+                                button.btn-action.btn-delete(type='button' onclick="deleteSale('"+sale._id+"')" title='Delete record')
+                                  i.fas.fa-trash-alt
+              else
+                .empty-state
+                  .empty-icon
+                    i.fas.fa-inbox
+                  .empty-title No Records Found
+                  .empty-text No sales records have been added yet for Matugga branch.
+                  a.btn.btn-primary.mt-3(href='/salesMatugga')
+                    i.fas.fa-plus.me-2
+                    | Add First Sale
 
     script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
     

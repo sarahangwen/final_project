@@ -8,127 +8,6 @@ html
     link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet')
     link(rel='stylesheet' href='/css/manager.css')
     link(rel='stylesheet' href='/css/credit.css')
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      
-      body {
-        background-color: #f5f7fa;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-      
-      .top-nav {
-        background: linear-gradient(135deg, #1f4f8f 0%, #3d6ab8 100%);
-        color: white;
-        padding: 20px 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      }
-      
-      .page-title {
-        font-size: 28px;
-        font-weight: 600;
-        margin: 0;
-      }
-      
-      .back-btn {
-        background-color: rgba(255,255,255,0.2);
-        border: 1px solid rgba(255,255,255,0.3);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 6px;
-        text-decoration: none;
-        transition: all 0.3s;
-      }
-      
-      .back-btn:hover {
-        background-color: rgba(255,255,255,0.3);
-      }
-      
-      .container {
-        max-width: 1000px;
-      }
-      
-      .form-wrapper {
-        background: white;
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        margin-top: 30px;
-      }
-      
-      .form-header {
-        margin-bottom: 30px;
-        border-bottom: 2px solid #eaf2ff;
-        padding-bottom: 20px;
-      }
-      
-      .form-header h3 {
-        color: #1f4f8f;
-        font-weight: 600;
-      }
-      
-      .form-header p {
-        color: #666;
-        font-size: 14px;
-      }
-      
-      .form-label {
-        color: #333;
-        font-weight: 500;
-        margin-bottom: 8px;
-        display: block;
-      }
-      
-      .form-control,
-      .form-select {
-        border: 1px solid #d0d7e0;
-        border-radius: 6px;
-        padding: 10px 12px;
-        font-size: 14px;
-        transition: all 0.3s;
-      }
-      
-      .form-control:focus,
-      .form-select:focus {
-        border-color: #1f4f8f;
-        box-shadow: 0 0 0 3px rgba(31, 79, 143, 0.1);
-        outline: none;
-      }
-      
-      .form-control::placeholder {
-        color: #999;
-      }
-      
-      .btn-submit {
-        background: linear-gradient(135deg, #1f4f8f 0%, #3d6ab8 100%);
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        width: 100%;
-        margin-top: 20px;
-      }
-      
-      .btn-submit:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(31, 79, 143, 0.3);
-      }
-      
-      .invalid-feedback {
-        color: #b42318;
-        font-size: 13px;
-        margin-top: 4px;
-      }
-      
-      .was-validated .form-control:invalid,
-      .was-validated .form-select:invalid {
-        border-color: #b42318;
-      }
 
   body
     .dashboard-layout
@@ -156,195 +35,118 @@ html
 
       main.main-content
         - const values = formData || {}
-        .container.py-4
-          .form-wrapper
-            .form-header
-              h3.mb-1 Record Credit Sale
-              p.mb-0 Capture all credit sale details accurately.
+        .dashboard-container
+          .container.py-4
+            .form-wrapper
+              .form-header
+                h3.mb-1 Record Credit Sale
+                p.mb-0 Capture all credit sale details accurately.
 
-            if errorMessage
-              .alert.alert-danger(role='alert')= errorMessage
+              if errorMessage
+                .alert.alert-danger.alert-dismissible.fade.show(role='alert')
+                  i.fas.fa-exclamation-circle.me-2
+                  = errorMessage
+                  button.btn-close(type='button' data-bs-dismiss='alert')
 
-            if validationErrors && validationErrors.length
-              .alert.alert-warning(role='alert')
-            ul.mb-0
-              each err in validationErrors
-                li= err
+              if successMessage
+                .alert.alert-success.alert-dismissible.fade.show(role='alert')
+                  i.fas.fa-check-circle.me-2
+                  = successMessage
+                  button.btn-close(type='button' data-bs-dismiss='alert')
 
-        form#credit-sales-form.needs-validation(action='/addingCredit' method='POST' novalidate)
-          .row.g-3
-            .col-md-6
-              label.form-label(for='credit-produce-name') Produce Name
-              select#credit-produce-name.form-select(name='creditProduceName' required)
-                option(value='') Select Produce
-                option(value='Beans' selected=values.creditProduceName === 'Beans') Beans
-                option(value='Maize Grains' selected=values.creditProduceName === 'Maize Grains') Maize Grains
-                option(value='G-Nuts' selected=values.creditProduceName === 'G-Nuts') G-Nuts
-                option(value='Soya Beans' selected=values.creditProduceName === 'Soya Beans') Soya Beans
-                option(value='Cow Peas' selected=values.creditProduceName === 'Cow Peas') Cow Peas
-              .invalid-feedback Please select a produce name.
+              if validationErrors && validationErrors.length
+                .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+                  .d-flex.align-items-start
+                    i.fas.fa-info-circle.me-3.mt-1
+                    .flex-grow-1
+                      strong.d-block.mb-2 Please correct the following errors:
+                      ul.mb-0
+                        each err in validationErrors
+                          li= err
+                  button.btn-close(type='button' data-bs-dismiss='alert')
 
-            .col-md-6
-              label.form-label(for='type-of-produce') Produce Type
-              select#type-of-produce.form-select(name='typeOfProduce' required)
-                option(value='') Select Type
-                option(value='Legume' selected=values.typeOfProduce === 'Legume') Legume
-                option(value='Cereals' selected=values.typeOfProduce === 'Cereals') Cereals
-              .invalid-feedback Please select a produce type.
+              form#credit-sales-form.needs-validation(action='/creditSaleMatugga' method='POST' novalidate)
+                .row.g-3
+                  .col-md-6
+                    label.form-label(for='credit-produce-name') Produce Name
+                    select#credit-produce-name.form-select(name='creditProduceName' required)
+                      option(value='') Select Produce
+                      option(value='Beans' selected=values.creditProduceName === 'Beans') Beans
+                      option(value='Maize Grains' selected=values.creditProduceName === 'Maize Grains') Maize Grains
+                      option(value='G-Nuts' selected=values.creditProduceName === 'G-Nuts') G-Nuts
+                      option(value='Soya Beans' selected=values.creditProduceName === 'Soya Beans') Soya Beans
+                      option(value='Cow Peas' selected=values.creditProduceName === 'Cow Peas') Cow Peas
+                    .invalid-feedback Please select a produce name.
 
-            .col-md-6
-              label.form-label(for='credit-buyer-name') Buyer Name
-              input#credit-buyer-name.form-control(type='text' name='creditBuyerName' minlength='2' pattern="^[A-Za-z\\s'-]{2,}$" value=values.creditBuyerName || '' required)
-              .invalid-feedback Enter a valid buyer name.
+                  .col-md-6
+                    label.form-label(for='type-of-produce') Produce Type
+                    select#type-of-produce.form-select(name='typeOfProduce' required)
+                      option(value='') Select Type
+                      option(value='Legume' selected=values.typeOfProduce === 'Legume') Legume
+                      option(value='Cereals' selected=values.typeOfProduce === 'Cereals') Cereals
+                    .invalid-feedback Please select a produce type.
 
-            .col-md-6
-              label.form-label(for='contact') Buyer Contact
-              input#contact.form-control(type='tel' name='contact' pattern='^(?:\+256|0)(7\d{8})$' placeholder='07XXXXXXXX or +2567XXXXXXXX' value=values.contact || '' required)
-              .invalid-feedback Enter a valid phone number.
+                  .col-md-6
+                    label.form-label(for='credit-buyer-name') Buyer Name
+                    input#credit-buyer-name.form-control(type='text' name='creditBuyerName' minlength='2' pattern="^[A-Za-z\\s'-]{2,}$" value=values.creditBuyerName || '' required)
+                    .invalid-feedback Enter a valid buyer name.
 
-            .col-md-6
-              label.form-label(for='national-id') National ID
-              input#national-id.form-control(type='text' name='nationalId' pattern='^C[A-Z0-9]{13}$' value=values.nationalId || '' required)
-              .invalid-feedback Enter a valid National ID.
+                  .col-md-6
+                    label.form-label(for='contact') Buyer Contact
+                    input#contact.form-control(type='tel' name='contact' pattern='^(?:\+256|0)(7\d{8})$' placeholder='07XXXXXXXX or +2567XXXXXXXX' value=values.contact || '' required)
+                    .invalid-feedback Enter a valid phone number.
 
-            .col-md-6
-              label.form-label(for='location') Location
-              input#location.form-control(type='text' name='location' minlength='2' value=values.location || '' required)
-              .invalid-feedback Location is required.
+                  .col-md-6
+                    label.form-label(for='national-id') National ID
+                    input#national-id.form-control(type='text' name='nationalId' pattern='^C[A-Z0-9]{13}$' value=values.nationalId || '' required)
+                    .invalid-feedback Enter a valid National ID.
 
-            .col-md-6
-              label.form-label(for='credit-tonnage') Tonnage (kg)
-              input#credit-tonnage.form-control(type='number' name='creditTonnage' min='1' step='1' value=values.creditTonnage || '' required)
-              .invalid-feedback Tonnage must be at least 1kg.
+                  .col-md-6
+                    label.form-label(for='location') Location
+                    input#location.form-control(type='text' name='location' minlength='2' value=values.location || '' required)
+                    .invalid-feedback Location is required.
 
-            .col-md-6
-              label.form-label(for='amount-due') Amount Due (UGX)
-              input#amount-due.form-control(type='number' name='amountDue' min='10000' step='1' value=values.amountDue || '' required)
-              .invalid-feedback Amount due must be at least UGX 10,000.
+                  .col-md-6
+                    label.form-label(for='credit-tonnage') Tonnage (kg)
+                    input#credit-tonnage.form-control(type='number' name='creditTonnage' min='1' step='1' value=values.creditTonnage || '' required)
+                    .invalid-feedback Tonnage must be at least 1kg.
 
-            .col-md-6
-              label.form-label(for='due-date') Due Date
-              input#due-date.form-control(type='date' name='dueDate' value=values.dueDate || '' required)
-              .invalid-feedback Enter a valid due date.
+                  .col-md-6
+                    label.form-label(for='amount-due') Amount Due (UGX)
+                    input#amount-due.form-control(type='number' name='amountDue' min='10000' step='1' value=values.amountDue || '' required)
+                    .invalid-feedback Amount due must be at least UGX 10,000.
 
-            .col-md-6
-              label.form-label(for='date-of-dispatch') Date of Dispatch
-              input#date-of-dispatch.form-control(type='date' name='dateOfDispatch' value=values.dateOfDispatch || '' required)
-              .invalid-feedback Enter a valid dispatch date.
+                  .col-md-6
+                    label.form-label(for='due-date') Due Date
+                    input#due-date.form-control(type='date' name='dueDate' value=values.dueDate || '' required)
+                    .invalid-feedback Enter a valid due date.
 
-            .col-md-6
-              label.form-label(for='credit-branch-name') Branch Name
-              select#credit-branch-name.form-select(name='creditBranchName' required)
-                option(value='Matugga' selected=true) Matugga
-              .invalid-feedback Branch must be Matugga.
+                  .col-md-6
+                    label.form-label(for='date-of-dispatch') Date of Dispatch
+                    input#date-of-dispatch.form-control(type='date' name='dateOfDispatch' value=values.dateOfDispatch || '' required)
+                    .invalid-feedback Enter a valid dispatch date.
 
-            .col-md-6
-              label.form-label(for='status') Credit Status
-              select#status.form-select(name='status' required)
-                option(value='Pending' selected=values.status === 'Pending' || !values.status) Pending
-                option(value='Paid' selected=values.status === 'Paid') Paid
-                option(value='Overdue' selected=values.status === 'Overdue') Overdue
-              .invalid-feedback Please select a status.
+                  .col-md-6
+                    label.form-label(for='credit-branch-name') Branch Name
+                    select#credit-branch-name.form-select(name='creditBranchName' required)
+                      option(value='Matugga' selected=true) Matugga
+                    .invalid-feedback Branch must be Matugga.
 
-            .col-md-6
-              label.form-label(for='credit-sales-agent-name') Sales Agent Name
-              input#credit-sales-agent-name.form-control(type='text' name='creditSalesAgentName' minlength='2' pattern="^[A-Za-z\\s'-]{2,}$" value=values.creditSalesAgentName || '' required)
-              .invalid-feedback Enter a valid sales agent name.
+                  .col-md-6
+                    label.form-label(for='status') Credit Status
+                    select#status.form-select(name='status' required)
+                      option(value='Pending' selected=values.status === 'Pending' || !values.status) Pending
+                      option(value='Paid' selected=values.status === 'Paid') Paid
+                      option(value='Overdue' selected=values.status === 'Overdue') Overdue
+                    .invalid-feedback Please select a status.
 
-          button.btn-submit(type='submit') Save Credit Record
+                  .col-md-6
+                    label.form-label(for='credit-sales-agent-name') Sales Agent Name
+                    input#credit-sales-agent-name.form-control(type='text' name='creditSalesAgentName' minlength='2' pattern="^[A-Za-z\\s'-]{2,}$" value=values.creditSalesAgentName || '' required)
+                    .invalid-feedback Enter a valid sales agent name.
 
-    script.
-      const form = document.getElementById('credit-sales-form');
-      const dueDate = document.getElementById('due-date');
-      const dispatchDate = document.getElementById('date-of-dispatch');
-      const branchSelect = document.getElementById('credit-branch-name');
-      const today = new Date().toISOString().split('T')[0];
-
-      dueDate.min = today;
-      dispatchDate.max = today;
-      branchSelect.value = 'Matugga';
-
-      form.addEventListener('submit', (event) => {
-        if (new Date(dueDate.value) < new Date(today)) {
-          dueDate.setCustomValidity('Due date cannot be in the past.');
-        } else {
-          dueDate.setCustomValidity('');
-        }
-
-        if (branchSelect.value !== 'Matugga') {
-          branchSelect.setCustomValidity('Branch must be Matugga.');
-        } else {
-          branchSelect.setCustomValidity('');
-        }
-
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        form.classList.add('was-validated');
-      });
-
-            .col-md-6
-              label.form-label(for='amount-due') Amount Due (UGX)
-              input#amount-due.form-control(type='number' name='amountDue' min='10000' step='1' value=values.amountDue || '' required)
-              .invalid-feedback Amount due must be at least UGX 10,000.
-
-            .col-md-6
-              label.form-label(for='due-date') Due Date
-              input#due-date.form-control(type='date' name='dueDate' value=values.dueDate || '' required)
-              .invalid-feedback Enter a valid due date.
-
-            .col-md-6
-              label.form-label(for='credit-produce-name') Produce Name
-              select#credit-produce-name.form-select(name='creditProduceName' required)
-                option(value='') Select Product
-                option(value='Beans' selected=values.creditProduceName === 'Beans') Beans
-                option(value='Maize Grains' selected=values.creditProduceName === 'Maize Grains') Maize Grains
-                option(value='G-Nuts' selected=values.creditProduceName === 'G-Nuts') G-Nuts
-                option(value='Soya Beans' selected=values.creditProduceName === 'Soya Beans') Soya Beans
-                option(value='Cow Peas' selected=values.creditProduceName === 'Cow Peas') Cow Peas
-              .invalid-feedback Please select a produce name.
-
-            .col-md-6
-              label.form-label(for='credit-tonnage') Tonnage (kg)
-              input#credit-tonnage.form-control(type='number' name='creditTonnage' min='1' step='1' value=values.creditTonnage || '' required)
-              .invalid-feedback Tonnage must be at least 1kg.
-
-            .col-md-6
-              label.form-label(for='credit-branch-name') Branch Name
-              select#credit-branch-name.form-select(name='creditBranchName' required)
-                option(value='Matugga' selected=true) Matugga
-              .invalid-feedback Branch must be Matugga.
-
-            .col-md-6
-              label.form-label(for='type-of-produce') Produce Type
-              select#type-of-produce.form-select(name='typeOfProduce' required)
-                option(value='') Select Produce Type
-                option(value='Legume' selected=values.typeOfProduce === 'Legume') Legume
-                option(value='Cereals' selected=values.typeOfProduce === 'Cereals') Cereals
-              .invalid-feedback Please select a produce type.
-
-            .col-md-6
-              label.form-label(for='date-of-dispatch') Date of Dispatch
-              input#date-of-dispatch.form-control(type='date' name='dateOfDispatch' value=values.dateOfDispatch || '' required)
-              .invalid-feedback Enter a valid dispatch date.
-
-            .col-md-6
-              label.form-label(for='credit-sales-agent-name') Sales Agent Name
-              input#credit-sales-agent-name.form-control(type='text' name='creditSalesAgentName' minlength='2' pattern="^[A-Za-z\\s'-]{2,}$" value=values.creditSalesAgentName || '' required)
-              .invalid-feedback Enter a valid sales agent name.
-
-            .col-md-6
-              label.form-label(for='status') Credit Status
-              select#status.form-select(name='status' required)
-                option(value='Pending' selected=values.status === 'Pending' || !values.status) Pending
-                option(value='Paid' selected=values.status === 'Paid') Paid
-                option(value='Overdue' selected=values.status === 'Overdue') Overdue
-              .invalid-feedback Please select a status.
-
-          .mt-4.d-grid
-            button.btn.btn-primary.btn-lg(type='submit') Save Credit Record
+                .mt-4.d-grid
+                  button.btn.btn-primary.btn-lg(type='submit') Save Credit Record
 
     script.
       const form = document.getElementById('credit-sales-form');
