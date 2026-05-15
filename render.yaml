@@ -11,6 +11,4 @@ services:
       - key: FRONTEND_URL
         value: https://final-project-eta-umber.vercel.app
       - key: DATABASE
-        fromDatabase:
-          name: kglppro-mongodb
-          property: connectionString
+        sync: false
