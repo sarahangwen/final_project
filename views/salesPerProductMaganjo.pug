@@ -154,46 +154,163 @@ block styles
       }
     }
 
-block content
-  .container.py-3
-    .table-container
-      .table-header
-        h2
-          i.fas.fa-list
-          | Product Sales Details
-        .table-stats
-          span
-            i.fas.fa-cube
-            | #{products.length} Product(s)
+    .page-topbar {
+      position: fixed;
+      top: 0;
+      left: 280px;
+      right: 0;
+      z-index: 1100;
+      background: #ffffff;
+      border-bottom: 1px solid #d9e4f0;
+      padding: 10px 0;
+      box-shadow: 0 6px 18px rgba(19, 37, 58, 0.06);
+      height: 64px;
+    }
 
-      .table-responsive
-        if products.length
-          table.professional-table
-            thead
-              tr
-                th
-                  i.fas.fa-leaf.me-2(style='color: #3d6ab8')
-                  | Product Name
-                th
-                  i.fas.fa-weight.me-2(style='color: #2d7a3e')
-                  | Total Quantity (kg)
-                th
-                  i.fas.fa-coins.me-2(style='color: #1f4f8f')
-                  | Total Sales (UGX)
-            tbody
-              each product in products
-                tr
-                  td
-                    .product-name
-                      i.fas.fa-box
-                      | #{product.produceName}
-                  td.quantity-value
-                    = product.tonnage.toLocaleString()
-                  td.sales-value
-                    = (product.sellPrice * product.tonnage).toLocaleString()
-        else
-          .empty-state
-            .empty-state-icon
-              i.fas.fa-inbox
-            h4 No Product Sales Data
-            p No products have been sold at Maganjo Branch yet.
+    .page-topbar .page-topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .topbar-title {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #13253a;
+    }
+
+    .topbar-subtitle {
+      margin: 2px 0 0;
+      color: #5f7085;
+      font-size: 0.9rem;
+    }
+
+    main.main-content > .dashboard-container > header {
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      .page-topbar {
+        left: 200px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-topbar {
+        left: 0;
+      }
+    }
+
+block content
+  .page-topbar
+    .container.page-topbar-inner
+      .topbar-left
+        h3.topbar-title Sales Per Product
+        p.topbar-subtitle Maganjo branch
+
+  .dashboard-container
+    - var totalSales = 0;
+    - for (var i = 0; i < products.length; i++) { totalSales += (products[i].sellPrice || 0) * (products[i].tonnage || 0); }
+
+    .list-wrapper
+      .list-header
+        .header-content
+          .d-flex.align-items-center.gap-3
+            .header-icon
+              i.fas.fa-chart-bar
+            div
+              h2.header-title Product Sales Details
+              p.header-subtitle Aggregated sales figures by product for Maganjo branch
+        .header-stats
+          .stat-item
+            .stat-icon
+              i.fas.fa-cube
+            .stat-info
+              .stat-label Products
+              .stat-value= products.length
+          .stat-item
+            .stat-icon
+              i.fas.fa-calculator
+            .stat-info
+              .stat-label Total Sales
+              .stat-value= totalSales.toLocaleString()
+
+      .search-filter-bar.mt-3
+        .search-box
+          i.fas.fa-search
+          input#searchInput.form-control.search-input(type='text' placeholder='Search product name...')
+        .filter-info
+          span.badge.bg-info
+            i.fas.fa-info-circle.me-1
+            | Showing #{products.length} record(s)
+
+      .row.mt-4.g-4
+        .col-md-4
+          .card
+            .card-body
+              h5.card-title.mb-3 Sales Summary
+              p.mb-2
+                strong Total Products: 
+                |  #{products.length}
+              p.mb-2
+                strong Total Sales: 
+                |  UGX #{totalSales.toLocaleString()}
+              // Placeholder for a chart - optional Chart.js render can be added later
+              .chart-placeholder.mt-3(style='height:180px; display:flex; align-items:center; justify-content:center; background:#fafafa; border-radius:8px;')
+                i.fas.fa-chart-simple.fa-2x.text-muted
+
+        .col-md-8
+          .table-container
+            .table-responsive
+              if products.length
+                table#salesPerProductTable.professional-table.mb-0
+                  thead
+                    tr
+                      th
+                        i.fas.fa-leaf.me-2(style='color: #3d6ab8')
+                        | Product Name
+                      th.text-end
+                        i.fas.fa-weight.me-2(style='color: #2d7a3e')
+                        | Total Quantity (kg)
+                      th.text-end
+                        i.fas.fa-coins.me-2(style='color: #1f4f8f')
+                        | Total Sales (UGX)
+                  tbody
+                    each product in products
+                      tr.data-row
+                        td
+                          .product-name
+                            i.fas.fa-box
+                            | #{product.produceName}
+                        td.quantity-value.text-end
+                          = (product.tonnage || 0).toLocaleString()
+                        td.sales-value.text-end
+                          = ((product.sellPrice || 0) * (product.tonnage || 0)).toLocaleString()
+              else
+                .empty-state
+                  .empty-state-icon
+                    i.fas.fa-inbox
+                  h4 No Product Sales Data
+                  p No products have been sold at Maganjo Branch yet.
+
+    script.
+      (function(){
+        const searchInput = document.getElementById('searchInput');
+        const table = document.getElementById('salesPerProductTable');
+        const rows = table ? table.getElementsByTagName('tbody')[0].getElementsByTagName('tr') : [];
+
+        if (searchInput) {
+          searchInput.addEventListener('keyup', function(){
+            const term = this.value.toLowerCase();
+            let visible = 0;
+            Array.from(rows).forEach(row => {
+              const text = row.textContent.toLowerCase();
+              if (text.includes(term)) { row.style.display = ''; visible++; } else { row.style.display = 'none'; }
+            });
+            const info = document.querySelector('.filter-info .badge');
+            if (info) info.textContent = visible + ' record(s) shown';
+          });
+        }
+      })();

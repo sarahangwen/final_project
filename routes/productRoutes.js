@@ -115,11 +115,13 @@ router.post('/productMaganjo', async (req, res) => {
   try {
     if (validationErrors.length > 0) {
       const products = await Product.find({ branchName: 'Maganjo' });
-      return res.status(400).render('productMaganjo', {
+      return res.status(400).render('productListMaganjo', {
         errorMessage: 'Please correct the highlighted errors before submitting.',
         validationErrors,
         formData,
-        products
+        products,
+        successMessage: '',
+        openAddProductModal: true
       });
     }
 
@@ -128,14 +130,14 @@ router.post('/productMaganjo', async (req, res) => {
     
     // Store success message in session
     req.session.successMessage = `✓ Stock record for "${formData.produceName}" added successfully!`;
-    res.redirect('/productMaganjo');
+    res.redirect('/productListMaganjo');
   } catch (error) {
     console.error('Error saving product:', error);
     const products = await Product.find({ branchName: 'Maganjo' });
     
     // Store error message in session
     req.session.errorMessage = 'There was an issue saving the stock. Please verify your entries and try again.';
-    res.redirect('/productMaganjo');
+    res.redirect('/productListMaganjo');
   }
 });
 
@@ -195,9 +197,20 @@ router.post('/addProduct', async (req, res) => {
 
 router.get('/productListMaganjo', async (req, res) => {
     try {
-        const items = await Product.find(); // Fetch all products from the database
+    const items = await Product.find({ branchName: 'Maganjo' });
+    const successMessage = req.session.successMessage || '';
+    const errorMessage = req.session.errorMessage || '';
+
+    delete req.session.successMessage;
+    delete req.session.errorMessage;
+
         res.render('productListMaganjo', {
-            products: items // Render the products list
+      products: items,
+      formData: {},
+      validationErrors: [],
+      successMessage,
+      errorMessage,
+      openAddProductModal: false
         });
     } catch (error) {
         console.error('Error fetching products:', error);

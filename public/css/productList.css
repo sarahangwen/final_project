@@ -96,12 +96,12 @@ body {
 
 /* List Header */
 .list-header {
-  padding: 32px 0;
+  padding: 12px 0;
   border-bottom: 2px solid var(--border);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
+  align-items: center;
+  gap: 16px;
 }
 
 .header-content {
@@ -137,6 +137,45 @@ body {
   letter-spacing: -0.5px;
 }
 
+/* Page top bar (title + actions) */
+.page-topbar {
+  position: fixed;
+  top: 0;
+  left: 280px; /* start after the sidebar */
+  right: 0;
+  z-index: 1100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+  box-shadow: 0 6px 18px rgba(19,37,58,0.06);
+  margin: 0;
+  border-radius: 0;
+  height: 64px;
+}
+
+.page-topbar .page-topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Ensure page content isn't hidden under the fixed topbar */
+.dashboard-container { padding-top: 12px; }
+
+@media (max-width: 1100px) {
+  .page-topbar { left: 200px; }
+}
+
+@media (max-width: 600px) {
+  .page-topbar { left: 0; }
+  .dashboard-container { padding-top: 140px; }
+}
+
+.topbar-title { margin: 0; font-size: 1.125rem; font-weight: 700; }
+.topbar-subtitle { margin: 2px 0 0; color: var(--text-muted); font-size: 0.9rem; }
+.topbar-actions .btn { margin-left: 8px; }
+
 .header-subtitle {
   margin: 8px 0 0 0;
   color: var(--text-muted);
@@ -147,6 +186,25 @@ body {
 .header-stats {
   display: flex;
   gap: 12px;
+}
+
+.header-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.add-product-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 170px;
+  box-shadow: 0 8px 18px rgba(31, 79, 143, 0.18);
+}
+
+.add-product-btn:hover {
+  transform: translateY(-1px);
 }
 
 .stat-item {
@@ -195,12 +253,12 @@ body {
 
 /* Search Filter Bar */
 .search-filter-bar {
-  padding: 20px 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .search-box {
@@ -253,7 +311,7 @@ body {
   overflow: hidden;
   background: var(--surface);
   border-radius: 12px;
-  margin-top: 20px;
+  margin-top: 8px;
   box-shadow: 0 4px 12px rgba(19, 37, 58, 0.08);
 }
 
@@ -530,11 +588,166 @@ body {
   margin-bottom: 24px;
 }
 
+/* Add Product Modal */
+.product-modal .modal-content {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(19, 37, 58, 0.22);
+}
+
+/* Constrain modal width more tightly */
+.product-modal .modal-dialog {
+  max-width: 880px;
+}
+
+/* Reduce modal sizes for record/add forms to keep them compact */
+#recordSaleModal .modal-dialog,
+#addProductModal .modal-dialog,
+#addCreditModal .modal-dialog {
+  max-width: 760px;
+}
+
+/* Ensure modal-lg variants for these specific modals don't exceed the desired width */
+#recordSaleModal .modal-dialog.modal-lg,
+#addProductModal .modal-dialog.modal-lg,
+#addCreditModal .modal-dialog.modal-lg {
+  max-width: 760px;
+}
+
+@media (max-width: 768px) {
+  #recordSaleModal .modal-dialog,
+  #addProductModal .modal-dialog,
+  #addCreditModal .modal-dialog {
+    max-width: 95%;
+    margin: 0 12px;
+  }
+}
+
+.product-modal .modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, #1f3d63 0%, #2a5a91 100%);
+  color: #fff;
+}
+
+.product-modal .modal-title,
+.product-modal .modal-subtitle {
+  color: #fff;
+}
+
+.product-modal .modal-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.product-modal .modal-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.product-modal .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+
+.modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.modal-icon i {
+  font-size: 1.35rem;
+}
+
+.product-modal .modal-body {
+  padding: 24px;
+  background: #f9fbff;
+}
+
+.modal-form-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.modal-form-section .section-header {
+  margin-bottom: 14px;
+}
+
+.modal-summary {
+  background: linear-gradient(135deg, var(--primary-soft) 0%, rgba(31, 79, 143, 0.05) 100%);
+  border: 1px solid rgba(31, 79, 143, 0.12);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-summary .summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modal-summary .summary-label {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.modal-summary .summary-value {
+  font-weight: 700;
+  color: var(--success);
+}
+
+.modal-summary .summary-text {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.validation-list {
+  margin: 10px 0 0 20px;
+  padding: 0;
+}
+
+.validation-list li {
+  margin-bottom: 4px;
+}
+
+.product-modal .form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.product-modal .btn-submit,
+.product-modal .btn-cancel {
+  min-width: 180px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .list-header {
     flex-direction: column;
     padding: 24px 0;
+  }
+
+  .header-aside {
+    width: 100%;
+    align-items: flex-start;
   }
 
   .header-stats {
@@ -543,6 +756,10 @@ body {
 
   .stat-item {
     flex: 1;
+  }
+
+  .add-product-btn {
+    width: 100%;
   }
 
   .search-box {
@@ -612,8 +829,17 @@ body {
     width: 100%;
   }
 
+  .header-aside {
+    width: 100%;
+    align-items: stretch;
+  }
+
   .stat-item {
     flex: 1;
+  }
+
+  .add-product-btn {
+    width: 100%;
   }
 
   .search-filter-bar {
@@ -697,6 +923,27 @@ body {
 
   .stat-value {
     font-size: 1.25rem;
+  }
+
+  .product-modal .modal-body,
+  .product-modal .modal-header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .modal-form-section {
+    padding: 16px;
+  }
+
+  .modal-summary .summary-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .product-modal .btn-submit,
+  .product-modal .btn-cancel {
+    width: 100%;
+    min-width: 0;
   }
 
   .professional-table thead th,

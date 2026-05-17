@@ -38,9 +38,9 @@ body {
   flex-direction: column;
   box-shadow: var(--shadow-md);
   overflow-y: auto;
-  position: fixed;
+  position: fixed !important;
   left: 0;
-  top: 0;
+  top: 0; /* full height from very top */
   height: 100vh;
   z-index: 1000;
 }
@@ -72,6 +72,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1; /* allow the list to grow so the logout button can be pushed to the bottom */
 }
 
 .sidebar a {
@@ -93,9 +94,9 @@ body {
 }
 
 .sidebar a.active {
-  background: #ffffff;
-  border-color: transparent;
-  color: #1f3d63;
+  background: var(--sidebar-hover);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
   font-weight: 700;
 }
 
@@ -106,6 +107,7 @@ body {
   overflow-x: hidden;
   margin-left: 280px;
   min-height: 100vh;
+  padding-top: 72px; /* align content below top nav */
 }
 
 .dashboard-container {
@@ -217,7 +219,7 @@ canvas#managerPieChart {
   .sidebar {
     width: 200px;
     padding: 16px 12px;
-    position: fixed;
+    position: fixed !important;
     left: 0;
     top: 0;
     height: 100vh;
@@ -227,6 +229,7 @@ canvas#managerPieChart {
   .main-content {
     margin-left: 200px;
     padding: 16px;
+    padding-top: 72px;
   }
 
   .sidebar a {
