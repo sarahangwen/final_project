@@ -42,6 +42,16 @@ html
                 button.btn.btn-primary(type='button' data-bs-toggle='modal' data-bs-target='#addCreditModal')
                   i.fas.fa-plus.me-2
                   | Record Credit Sale
+          .search-filter-bar.mt-3
+            .search-box
+              i.fas.fa-search
+              input#creditSearch.form-control.search-input(type='text' placeholder='Search by buyer, produce, agent...')
+
+            .filter-info
+              span.badge.bg-info
+                i.fas.fa-info-circle.me-1
+                | Showing #{credits && credits.length ? credits.length : 0} record(s)
+
           .record-count
             span.count-label Total Records
             span.count-value= credits && credits.length ? credits.length : 0
@@ -319,3 +329,23 @@ html
           form.classList.add('was-validated');
         });
       })();
+
+      script.
+        (function(){
+          const searchInput = document.getElementById('creditSearch');
+          const table = document.getElementById('procuredTable');
+          const rows = table ? table.getElementsByTagName('tbody')[0].getElementsByTagName('tr') : [];
+
+          if (searchInput) {
+            searchInput.addEventListener('keyup', function(){
+              const term = this.value.toLowerCase();
+              let visible = 0;
+              Array.from(rows).forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(term)) { row.style.display = ''; visible++; } else { row.style.display = 'none'; }
+              });
+              const info = document.querySelector('.filter-info .badge');
+              if (info) info.textContent = visible + ' record(s) shown';
+            });
+          }
+        })();
