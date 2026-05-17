@@ -4,23 +4,17 @@ const router = express.Router();
 const Product = require('../models/Product');
 
 const getMaganjoSidebarItems = () => [
-  { href: '/productMaganjo', label: 'Add Product' },
   { href: '/productListMaganjo', label: 'Product List' },
-  { href: '/addingSales', label: 'Record Sale' },
   { href: '/salesListMag', label: 'View Sales List' },
   { href: '/salesPerProductListMaganjo', label: 'Sales Per Product' },
-  { href: '/creditSaleMaganjo', label: 'Record Credit Sales' },
   { href: '/creditSalesListMaganjo', label: 'Credit Sales Management' },
   { href: '/logout', label: 'Logout', isLogout: true, class: 'logout-button' }
 ];
 
 const getMatuggaSidebarItems = () => [
-  { href: '/productMatugga', label: 'Add Product' },
   { href: '/productListMatugga', label: 'Product List' },
-  { href: '/addingSales', label: 'Record Sale' },
   { href: '/salesListMatugga', label: 'View Sales List' },
   { href: '/salesPerProductListMatugga', label: 'Sales Per Product' },
-  { href: '/creditSalesAgentMatuggaDash', label: 'Record Credit Sales' },
   { href: '/creditSalesAgentMatuggaDash', label: 'Credit Sales Management' },
   { href: '/logout', label: 'Logout', isLogout: true, class: 'logout-button' }
 ];
